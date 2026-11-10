@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+<title>GarangoDaaki - Le marché de Garango et de ses environs</title>
+
+<meta name="description" content="GarangoDaaki est la marketplace de Garango, Boussouma, Béguédo, Komtoèga, Niaogho et des villages environnants. Achetez et vendez facilement.">
+
+<meta name="keywords" content="Garango, Burkina Faso, Marketplace, Acheter, Vendre, Agriculture, Bétail, Immobilier, Téléphone, Moto, Véhicule">
+
+<meta name="theme-color" content="#0B7A3E">
+
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="GarangoDaaki">
+
+<meta property="og:title" content="GarangoDaaki">
+<meta property="og:description" content="Le marché de Garango et de ses environs.">
+<meta property="og:type" content="website">
+
+<link rel="manifest" href="manifest.json">
+
+<link rel="icon" href="assets/icons/icon-192.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<div id="offlineNotice" class="offline-notice">
+📶 Vous êtes hors connexion.
+</div>
+
+<header class="header">
+
+<div class="logo">
+
+<img src="assets/logo/logo.webp"
+alt="GarangoDaaki"
+width="48"
+height="48">
+
+<div>
+
+<h1>GarangoDaaki</h1>
+
+<p>Le marché de Garango et de ses environs</p>
+
+</div>
+
+</div>
+
+<nav class="top-menu">
+
+<button id="btnLogin">
+Connexion
+</button>
+
+<button id="btnRegister">
+Inscription
+</button>
+
+<button id="btnPublish" class="publish-btn">
+Publier
+</button>
+
+</nav>
+
+</header>
+
+<section class="hero">
+
+<h2>
+Achetez et vendez près de chez vous
+</h2>
+
+<p>
+Produits • Services • Immobilier • Agriculture • Bétail • Véhicules
+</p>
+
+<div class="search-box">
+
+<input
+type="search"
+id="searchInput"
+placeholder="Que recherchez-vous ?">
+
+<select id="commune">
+
+<option value="">
+Commune
+</option>
+
+<option>
+Garango
+</option>
+
+<option>
+Boussouma
+</option>
+
+<option>
+Béguédo
+</option>
+
+<option>
+Komtoèga
+</option>
+
+<option>
+Niaogho
+</option>
+
+</select>
+
+<button id="searchBtn">
+Rechercher
+</button>
+
+</div>
+
+</section>
+<!-- =========================
+CATÉGORIES
+========================= -->
+
+<section class="categories">
+
+<div class="section-title">
+<h2>Catégories</h2>
+<a href="#">Voir tout</a>
+</div>
+
+<div class="category-grid">
+
+<div class="category-card">
+<img src="assets/categories/agriculture.webp" alt="Agriculture" loading="lazy" width="120" height="90">
+<span>Agriculture</span>
+</div>
+
+<div class="category-card">
+<img src="assets/categories/elevage.webp" alt="Élevage" loading="lazy" width="120" height="90">
+<span>Élevage</span>
+</div>
+
+<div class="category-card">
+<img src="assets/categories/immobilier.webp" alt="Immobilier" loading="lazy" width="120" height="90">
+<span>Immobilier</span>
+</div>
+
+<div class="category-card">
+<img src="assets/categories/vehicules.webp" alt="Véhicules" loading="lazy" width="120" height="90">
+<span>Véhicules</span>
+</div>
+
+<div class="category-card">
+<img src="assets/categories/motos.webp" alt="Motos" loading="lazy" width="120" height="90">
+<span>Motos</span>
+</div>
+
+<div class="category-card">
+<img src="assets/categories/telephones.webp" alt="Téléphones" loading="lazy" width="120" height="90">
+<span>Téléphones</span>
+</div>
+
+<div class="category-card">
+<img src="assets/categories/mode.webp" alt="Mode" loading="lazy" width="120" height="90">
+<span>Mode</span>
+</div>
+
+<div class="category-card">
+<img src="assets/categories/services.webp" alt="Services" loading="lazy" width="120" height="90">
+<span>Services</span>
+</div>
+
+<div class="category-card">
+<img src="assets/categories/emploi.webp" alt="Emploi" loading="lazy" width="120" height="90">
+<span>Emploi</span>
+</div>
+
+<div class="category-card">
+<img src="assets/categories/construction.webp" alt="Construction" loading="lazy" width="120" height="90">
+<span>Construction</span>
+</div>
+
+<div class="category-card">
+<img src="assets/categories/alimentation.webp" alt="Alimentation" loading="lazy" width="120" height="90">
+<span>Alimentation</span>
+</div>
+
+<div class="category-card">
+<img src="assets/categories/autres.webp" alt="Autres" loading="lazy" width="120" height="90">
+<span>Autres</span>
+</div>
+
+</div>
+
+</section>
+<!-- =========================
+ANNONCES RÉCENTES
+========================= -->
+
+<section class="recent-ads">
+
+<div class="section-title">
+<h2>Annonces récentes</h2>
+<a href="#">Voir tout</a>
+</div>
+
+<div class="ads-grid">
+
+<article class="ad-card featured">
+
+<span class="featured-badge">
+Sponsorisée
+</span>
+
+<img src="assets/products/maison1.webp"
+alt="Maison moderne"
+loading="lazy"
+width="400"
+height="300">
+
+<div class="ad-content">
+
+<h3>Maison moderne à Garango</h3>
+
+<p class="price">
+18 500 000 FCFA
+</p>
+
+<p class="location">
+📍 Garango • Centre-ville
+</p>
+
+<div class="ad-info">
+
+<span>👁 245 vues</span>
+
+<span>❤️ 32</span>
+
+</div>
+
+<div class="ad-actions">
+
+<button class="call-btn">
+📞 Appeler
+</button>
+
+<button class="message-btn">
+💬 Message
+</button>
+
+<button class="whatsapp-btn">
+WhatsApp
+</button>
+
+</div>
+
+</div>
+
+</article>
+
+</div>
+
+</section>
+
+<!-- =========================
+BOUTIQUES PROFESSIONNELLES
+========================= -->
+
+<section class="shops">
+
+<div class="section-title">
+
+<h2>Boutiques professionnelles</h2>
+
+<a href="#">
+Voir tout
+</a>
+
+</div>
+
+<div class="shop-card">
+
+<img src="assets/logo/default-shop.webp"
+alt="Boutique">
+
+<div>
+
+<h3>Exemple Boutique</h3>
+
+<p>⭐ Vendeur vérifié</p>
+
+<p>125 produits</p>
+
+</div>
+
+<button>
+Visiter
+</button>
+
+</div>
+
+</section>
+
+<footer>
+
+<p>
+© 2026 GarangoDaaki • Le marché de Garango et de ses environs.
+</p>
+
+</footer>
+
+<script src="app.js"></script>
+
+</body>
+</html>
