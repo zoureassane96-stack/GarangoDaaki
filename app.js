@@ -2,6 +2,11 @@
    GARANGODAAKI APP
    Version 1.0
 ========================================== */
+import { db } from "./firebase.js";
+import {
+  collection,
+  getDocs
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 "use strict";
 
@@ -118,3 +123,28 @@ document.body.classList.add("dark");
 }
 
 console.log(APP_NAME+" démarré");
+/* -----------------------------
+Chargement des produits Firebase
+------------------------------*/
+
+async function loadProducts(){
+
+try {
+
+const snapshot = await getDocs(collection(db,"products"));
+
+snapshot.forEach((doc)=>{
+
+console.log("Produit Firebase :", doc.data());
+
+});
+
+} catch(error){
+
+console.error("Erreur Firebase :", error);
+
+}
+
+}
+
+loadProducts();
