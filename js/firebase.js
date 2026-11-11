@@ -1,70 +1,27 @@
-zoureassane96-stack
-GarangoDaaki
-Repository navigation
-Code
-Issues
-Pull requests
-Actions
-Projects
-Wiki
-Security and quality
-Insights
-Settings
-zoureassane96-stack
-GarangoDaaki
-Public
-zoureassane96-stack
-zoureassane96-stack
-Create firebase.js
-0cf042c
- · 
-25 minutes ago
-Name		
-css
-Create style.css
-32 minutes ago
-js
-Create firebase.js
-25 minutes ago
-app.js
-Create app.js
-1 hour ago
-index.html
-Update index.html
-35 minutes ago
-manifest.json
-Create manifest.json
-1 hour ago
-style.css
-Create style.css
-1 hour ago
-sw.js
-Create sw.js
-1 hour ago
-Repository files navigation
-README
-Add a README
-Help people interested in this repository understand your project.
+// Firebase SDK
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics.js";
+import { getAuth } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { getFirestore } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-About
+// Configuration Firebase GarangoDaaki
+const firebaseConfig = {
+  apiKey: "AIzaSyClNrETTY05Qy87ACnIAISXV7G3GyOjmrM",
+  authDomain: "garangodaaki.firebaseapp.com",
+  projectId: "garangodaaki",
+  storageBucket: "garangodaaki.firebasestorage.app",
+  messagingSenderId: "1093611193994",
+  appId: "1:1093611193994:web:8a310acb4599447c478f73",
+  measurementId: "G-6C0QD9B9M2"
+};
 
-Marketplace de Garango et des communes environnantes
+// Initialisation Firebase
+const app = initializeApp(firebaseConfig);
 
-Activity
-Stars
-0 stars
-Watchers
-0 watching
-Forks
-0 forks
-Releases
-No releases published
-Create a new release
-Packages
-No packages published
-Publish your first package
-Contributors
-1
- (1)
-@zoureassane96-stack
-zoureassane96-stack
+// Services
+const analytics = getAnalytics(app);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+// Export pour l'application
+export { app, analytics, auth, db };
