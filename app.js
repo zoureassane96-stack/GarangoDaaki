@@ -127,23 +127,26 @@ console.log(APP_NAME+" démarré");
 Chargement des produits Firebase
 ------------------------------*/
 
-async function loadProducts(){
+async function loadProducts() {
 
-try {
+  try {
 
-const snapshot = await getDocs(collection(db,"products"));
+    alert("Connexion à Firestore réussie");
 
-snapshot.forEach((doc)=>{
+    const snapshot = await getDocs(collection(db, "products"));
 
-console.log("Produit Firebase :", doc.data());
+    alert("Nombre de produits : " + snapshot.size);
 
-});
+    snapshot.forEach((doc) => {
+      console.log("Produit Firebase :", doc.data());
+    });
 
-} catch(error){
+  } catch (error) {
 
-console.error("Erreur Firebase :", error);
+    alert("Erreur Firebase : " + error.message);
+    console.error("Erreur Firebase :", error);
 
-}
+  }
 
 }
 
