@@ -1,381 +1,230 @@
-/* =====================================
-   GARANGODAAKI V2.0
-   APPLICATION PRINCIPALE
-===================================== */
+/* ==========================================
+   GARANGODAAKI APP
+   Version 2.0
+========================================== */
 
-"use strict";
+// Firebase
 import { db } from "./firebase.js";
 
 import {
   collection,
-  getDocs
+  getDocs,
+  addDoc
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-/* =====================================
-   CONFIGURATION
-===================================== */
+/* -----------------------------
+Configuration
+------------------------------*/
 
+const APP_NAME = "GarangoDaaki";
+const APP_VERSION = "2.0.0";
+const DEFAULT_LANGUAGE = "fr";
 
-const GARANGO = {
+/* -----------------------------
+Etat de l'application
+------------------------------*/
 
-name:"GarangoDaaki",
-
-version:"2.0",
-
-language:"fr",
-
+const APP = {
+  language: DEFAULT_LANGUAGE,
+  favorites: [],
+  user: null,
+  online: navigator.onLine
 };
 
-
-/* =====================================
-   RECHERCHE
-===================================== */
-
+/* -----------------------------
+Sélecteurs
+------------------------------*/
 
 const searchInput = document.getElementById("mainSearch");
+const searchBtn = document.getElementById("searchButton");
+const offlineNotice = document.getElementById("offlineNotice");
+const productsContainer = document.getElementById("productsContainer");
+const publishSection = document.getElementById("publishSection");
+const openPublish = document.getElementById("openPublish");
 
-const searchButton = document.getElementById("searchButton");
+/* -----------------------------
+Connexion Internet
+------------------------------*/
 
+function updateConnection() {
 
+  APP.online = navigator.onLine;
 
-function searchProducts(){
-
-
-const text = searchInput.value.trim();
-
-
-if(text === ""){
-
-alert("Veuillez saisir une recherche.");
-
-return;
-
-}
-
-
-console.log(
-"Recherche GarangoDaaki :",
-text
-);
-
-
-/*
-Plus tard :
-Connexion Firebase
-Recherche dans la base produits
-*/
-
+  if (offlineNotice) {
+    offlineNotice.style.display = APP.online ? "none" : "block";
+  }
 
 }
 
+window.addEventListener("online", updateConnection);
+window.addEventListener("offline", updateConnection);
 
+updateConnection();
 
-if(searchButton){
+/* -----------------------------
+Recherche
+------------------------------*/
 
-searchButton.addEventListener(
-"click",
-searchProducts
-);
+function searchProducts() {
 
-}
+  if (!searchInput) return;
 
+  const value = searchInput.value.trim().toLowerCase();
 
-
-/* =====================================
-   FAVORIS
-===================================== */
-
-
-let favorites =
-JSON.parse(
-localStorage.getItem("garango_favorites")
-)
-|| [];
-
-
-
-function addFavorite(id){
-
-
-if(!favorites.includes(id)){
-
-favorites.push(id);
-
-
-localStorage.setItem(
-"garango_favorites",
-JSON.stringify(favorites)
-);
-
-
-console.log(
-"Ajouté aux favoris",
-id
-);
-
+  console.log("Recherche :", value);
 
 }
 
+if (searchBtn) {
+  searchBtn.addEventListener("click", searchProducts);
+}
+
+/* -----------------------------
+Mode sombre
+------------------------------*/
+
+function toggleDarkMode() {
+
+  document.body.classList.toggle("dark");
+
+  localStorage.setItem(
+    "garango_dark",
+    document.body.classList.contains("dark")
+  );
 
 }
 
-
-
-/* =====================================
-   MODE SOMBRE
-===================================== */
-
-
-function enableDarkMode(){
-
-
-document.body.classList.toggle(
-"dark"
-);
-
-
-localStorage.setItem(
-"garango_dark",
-document.body.classList.contains("dark")
-);
-
-
+if (localStorage.getItem("garango_dark") === "true") {
+  document.body.classList.add("dark");
 }
 
+console.log(`${APP_NAME} ${APP_VERSION} démarré`);
 
+/* -----------------------------
+Ouverture du formulaire
+------------------------------*/
 
-if(
-localStorage.getItem("garango_dark")
-==="true"
-){
+if (openPublish && publishSection) {
 
-document.body.classList.add("dark");
+  openPublish.addEventListener("click", () => {
 
-}
+    publishSection.style.display = "block";
 
+    publishSection.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
 
-
-console.log(
-GARANGO.name+" démarré"
-);
-/* =====================================
-   CONNEXION INTERNET
-===================================== */
-
-
-function checkConnection(){
-
-
-if(navigator.onLine){
-
-
-console.log(
-"GarangoDaaki : En ligne"
-);
-
-
-}else{
-
-
-console.log(
-"GarangoDaaki : Hors connexion"
-);
-
+  });
 
 }
-
-
-
-}
-
-
-
-window.addEventListener(
-"online",
-checkConnection
-);
-
-
-window.addEventListener(
-"offline",
-checkConnection
-);
-
-
-checkConnection();
-
-
-
-/* =====================================
-   INSTALLATION PWA
-===================================== */
-
-
-let installPrompt;
-
-
-
-window.addEventListener(
-"beforeinstallprompt",
-(event)=>{
-
-
-event.preventDefault();
-
-
-installPrompt = event;
-
-
-console.log(
-"PWA prête à être installée"
-);
-
-
-}
-);
-
-
-
-async function installApp(){
-
-
-if(!installPrompt){
-
-
-console.log(
-"Installation non disponible pour le moment"
-);
-
-
-return;
-
-
-}
-
-
-
-installPrompt.prompt();
-
-
-const result =
-await installPrompt.userChoice;
-
-
-
-console.log(
-"Installation :",
-result.outcome
-);
-
-
-installPrompt = null;
-
-
-}
-
-
-
-
-/* =====================================
-   NOTIFICATIONS
-===================================== */
-
-
-function requestNotification(){
-
-
-if(
-"Notification" in window
-){
-
-
-Notification.requestPermission()
-.then(permission=>{
-
-
-console.log(
-"Notification :",
-permission
-);
-
-
-});
-
-
-}
-
-
-}
-
-
-
-/* =====================================
-   INITIALISATION
-===================================== */
-
-
-document.addEventListener(
-"DOMContentLoaded",
-()=>{
-
-
-console.log(
-"GarangoDaaki V2 chargé avec succès"
-);
-
-
-}
-);
-/* =====================================
-   PRODUITS FIREBASE
-===================================== */
+/* -----------------------------
+Chargement des produits Firebase
+------------------------------*/
 
 async function loadProducts() {
 
-  const container = document.getElementById("productsContainer");
+  if (!productsContainer) return;
 
-  if (!container) return;
+  productsContainer.innerHTML = "<p>Chargement des annonces...</p>";
 
   try {
 
     const snapshot = await getDocs(collection(db, "products"));
 
-    container.innerHTML = "";
+    productsContainer.innerHTML = "";
 
     if (snapshot.empty) {
-
-      container.innerHTML =
-      "<p>Aucune annonce disponible.</p>";
-
+      productsContainer.innerHTML = `
+        <div class="empty-state">
+          <p>Aucune annonce disponible.</p>
+        </div>
+      `;
       return;
-
     }
 
     snapshot.forEach((doc) => {
 
       const product = doc.data();
 
-      container.innerHTML += `
-      <div class="product-card">
-<img src="${product.imageUrl || 'images/no-image.png'}" alt="${product.title}">
-
-        <h3>${product.title}</h3>
-
-        <p>${product.price || ""}</p>
-
-        <p>${product.city || ""}</p>
-
-      </div>
+      productsContainer.innerHTML += `
+        <div class="product-card">
+          <img src="${product.imageUrl || "images/no-image.png"}">
+          <h3>${product.title || "Sans titre"}</h3>
+          <p><strong>${product.price || 0} FCFA</strong></p>
+          <p>${product.city || ""}</p>
+        </div>
       `;
 
     });
 
   } catch (error) {
 
-    console.error(error);
+    console.error("Erreur Firestore :", error);
 
   }
 
 }
+/* -----------------------------
+Publication d'une annonce
+------------------------------*/
 
-document.addEventListener("DOMContentLoaded", loadProducts);
+const publishForm = document.getElementById("publishForm");
+
+if (publishForm) {
+
+  publishForm.addEventListener("submit", async (e) => {
+
+    e.preventDefault();
+
+    const title = document.getElementById("title").value.trim();
+    const price = document.getElementById("price").value.trim();
+    const city = document.getElementById("city").value.trim();
+    const category = document.getElementById("category").value;
+    const imageUrl = document.getElementById("imageUrl").value.trim();
+    const description = document.getElementById("description").value.trim();
+
+    if (!title || !price || !city || !category) {
+      alert("Veuillez remplir tous les champs obligatoires.");
+      return;
+    }
+
+    try {
+
+      await addDoc(collection(db, "products"), {
+        title,
+        price,
+        city,
+        category,
+        imageUrl,
+        description,
+        createdAt: Date.now()
+      });
+
+      alert("Annonce publiée avec succès !");
+
+      publishForm.reset();
+
+   loadProducts();
+
+    } catch (error) {
+
+      console.error(error);
+      alert("Erreur : " + error.message);
+
+    }
+
+  });
+
+}
+/* -----------------------------
+Initialisation
+------------------------------*/
+
+document.addEventListener("DOMContentLoaded", () => {
+
+  console.log("GarangoDaaki prêt.");
+
+  loadProducts();
+
+});
