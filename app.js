@@ -169,3 +169,23 @@ async function loadProducts() {
 }
 
 loadProducts();
+/* -----------------------------
+Ouverture du formulaire
+------------------------------*/
+
+const openPublish = document.getElementById("openPublish");
+const publishSection = document.getElementById("publishSection");
+
+if (openPublish && publishSection) {
+
+  openPublish.addEventListener("click", () => {
+
+    publishSection.style.display = "block";
+
+    publishSection.scrollIntoView({
+      behavior: "smooth"
+    });
+
+  });
+
+}
