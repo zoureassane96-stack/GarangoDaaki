@@ -173,19 +173,24 @@ loadProducts();
 Ouverture du formulaire
 ------------------------------*/
 
-const openPublish = document.getElementById("openPublish");
-const publishSection = document.getElementById("publishSection");
+document.addEventListener("DOMContentLoaded", () => {
 
-if (openPublish && publishSection) {
+  const openPublish = document.getElementById("openPublish");
+  const publishSection = document.getElementById("publishSection");
 
-  openPublish.addEventListener("click", () => {
+  if (openPublish && publishSection) {
 
-    publishSection.style.display = "block";
+    openPublish.addEventListener("click", () => {
 
-    publishSection.scrollIntoView({
-      behavior: "smooth"
+      alert("Bouton Publier cliqué !");
+publishSection.style.display = "block";
+
+      publishSection.scrollIntoView({
+        behavior: "smooth"
+      });
+
     });
 
-  });
+  }
 
-}
+});
