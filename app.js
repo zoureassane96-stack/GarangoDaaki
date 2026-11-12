@@ -1,7 +1,9 @@
 /* ==========================================
    GARANGODAAKI APP
-   Version 1.0
+   Version 2.0
 ========================================== */
+
+// Firebase
 import { db } from "./firebase.js";
 
 import {
@@ -15,60 +17,47 @@ Configuration
 ------------------------------*/
 
 const APP_NAME = "GarangoDaaki";
-
+const APP_VERSION = "2.0.0";
 const DEFAULT_LANGUAGE = "fr";
-
-const APP_VERSION = "1.0.0";
 
 /* -----------------------------
 Etat de l'application
 ------------------------------*/
 
 const APP = {
-
-language: DEFAULT_LANGUAGE,
-
-favorites: [],
-
-user: null,
-
-online: navigator.onLine
-
+  language: DEFAULT_LANGUAGE,
+  favorites: [],
+  user: null,
+  online: navigator.onLine
 };
 
 /* -----------------------------
 Sélecteurs
 ------------------------------*/
 
-const searchInput = document.getElementById("searchInput");
-
-const searchBtn = document.getElementById("searchBtn");
-
+const searchInput = document.getElementById("mainSearch");
+const searchBtn = document.getElementById("searchButton");
 const offlineNotice = document.getElementById("offlineNotice");
+const productsContainer = document.getElementById("productsContainer");
+const publishSection = document.getElementById("publishSection");
+const openPublish = document.getElementById("openPublish");
 
 /* -----------------------------
-Connexion internet
+Connexion Internet
 ------------------------------*/
 
-function updateConnection(){
+function updateConnection() {
 
-APP.online = navigator.onLine;
+  APP.online = navigator.onLine;
 
-if(APP.online){
-
-offlineNotice.style.display="none";
-
-}else{
-
-offlineNotice.style.display="block";
+  if (offlineNotice) {
+    offlineNotice.style.display = APP.online ? "none" : "block";
+  }
 
 }
 
-}
-
-window.addEventListener("online",updateConnection);
-
-window.addEventListener("offline",updateConnection);
+window.addEventListener("online", updateConnection);
+window.addEventListener("offline", updateConnection);
 
 updateConnection();
 
@@ -76,71 +65,62 @@ updateConnection();
 Recherche
 ------------------------------*/
 
-function searchProducts(){
+function searchProducts() {
 
-const value = searchInput.value.trim();
+  if (!searchInput) return;
 
-if(value===""){
+  const value = searchInput.value.trim().toLowerCase();
 
-alert("Saisissez un produit à rechercher.");
-
-return;
+  console.log("Recherche :", value);
 
 }
 
-console.log("Recherche :",value);
-
-}
-
-if(searchBtn){
-
-searchBtn.addEventListener("click",searchProducts);
-
+if (searchBtn) {
+  searchBtn.addEventListener("click", searchProducts);
 }
 
 /* -----------------------------
 Mode sombre
 ------------------------------*/
 
-function toggleDarkMode(){
+function toggleDarkMode() {
 
-document.body.classList.toggle("dark");
+  document.body.classList.toggle("dark");
 
-localStorage.setItem(
-
-"garango_dark",
-
-document.body.classList.contains("dark")
-
-);
+  localStorage.setItem(
+    "garango_dark",
+    document.body.classList.contains("dark")
+  );
 
 }
 
-if(localStorage.getItem("garango_dark")==="true"){
-
-document.body.classList.add("dark");
-
+if (localStorage.getItem("garango_dark") === "true") {
+  document.body.classList.add("dark");
 }
 
-console.log(APP_NAME+" démarré");
+console.log(`${APP_NAME} ${APP_VERSION} démarré`);
 /* -----------------------------
 Chargement des produits Firebase
 ------------------------------*/
 
 async function loadProducts() {
 
-  const container = document.getElementById("productsContainer");
+  if (!productsContainer) return;
 
-  if (!container) return;
+  productsContainer.innerHTML = "<p>Chargement des annonces...</p>";
 
   try {
 
     const snapshot = await getDocs(collection(db, "products"));
 
-    container.innerHTML = "";
+    productsContainer.innerHTML = "";
 
     if (snapshot.empty) {
-      container.innerHTML = "<p>Aucune annonce disponible.</p>";
+      productsContainer.innerHTML = `
+        <div class="empty-state">
+          <p>Aucune annonce disponible.</p>
+        </div>
+      `;
       return;
     }
 
@@ -148,12 +128,17 @@ async function loadProducts() {
 
       const product = doc.data();
 
-      container.innerHTML += `
+      const image = product.imageUrl || "images/no-image.png";
+      const title = product.title || "Sans titre";
+      const price = product.price || "0";
+      const city = product.city || "";
+
+      productsContainer.innerHTML += `
         <div class="product-card">
-          <img src="${product.imageUrl || 'images/no-image.png'}" alt="${product.title}">
-          <h3>${product.title}</h3>
-          <p><strong>${product.price} FCFA</strong></p>
-          <p>${product.city}</p>
+          <img src="${image}" alt="${title}">
+          <h3>${title}</h3>
+          <p><strong>${price} FCFA</strong></p>
+          <p>${city}</p>
         </div>
       `;
 
@@ -161,31 +146,13 @@ async function loadProducts() {
 
   } catch (error) {
 
-    console.error(error);
-    alert("Erreur : " + error.message);
+    console.error("Erreur Firestore :", error);
 
-  }
-
-}
-
-loadProducts();
-/* -----------------------------
-Ouverture du formulaire
-------------------------------*/
-class="product-card">
-          <img src="${product.imageUrl || 'images/no-image.png'}" alt="${product.title}">
-          <h3>${product.title}</h3>
-          <p><strong>${product.price} FCFA</strong></p>
-          <p>${product.city}</p>
-        </div>
-      `;
-
-    });
-
-  } catch (error) {
-
-    console.error(error);
-    alert("Erreur : " + error.message);
+    productsContainer.innerHTML = `
+      <div class="empty-state">
+        <p>Impossible de charger les annonces.</p>
+      </div>
+    `;
 
   }
 
@@ -196,33 +163,66 @@ loadProducts();
 Ouverture du formulaire
 ------------------------------*/
 
-document.addEventListener("DOMContentLoaded", () => {
+if (openPublish && publishSection) {
 
-  const openPublish = document.getElementById("openPublish");
-  const publishSection = document.getElementById("publishSection");
+  openPublish.addEventListener("click", () => {
 
-  if (openPublish && publishSection) {
+    publishSection.style.display = "block";
 
-    openPublish.addEventListener("click", () => {
+    publishSection.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
 
-      alert("Bouton Publier cliqué !");
-publishSection.style.display = "block";
+  });
 
-      publishSection.scrollIntoView({
-        behavior: "smooth"
+}
+
+/* -----------------------------
+Publication d'une annonce
+------------------------------*/
+
+const publishForm = document.getElementById("publishForm");
+
+if (publishForm) {
+
+  publishForm.addEventListener("submit", async (e) => {
+
+    e.preventDefault();
+
+    const title = document.getElementById("title")?.value.trim();
+    const price = document.getElementById("price")?.value.trim();
+    const city = document.getElementById("city")?.value.trim();
+    const imageUrl = document.getElementById("imageUrl")?.value.trim();
+
+    if (!title || !price) {
+      alert("Veuillez remplir au moins le titre et le prix.");
+      return;
+    }
+
+    try {
+
+      await addDoc(collection(db, "products"), {
+        title,
+        price,
+        city,
+        imageUrl,
+        createdAt: Date.now()
       });
 
-    });
+      alert("Annonce publiée avec succès !");
 
-  }
+      publishForm.reset();
 
-});
-const btn = document.getElementById("openPublish");
+      loadProducts();
 
-if (btn) {
-  btn.onclick = function () {
-    alert("Le bouton fonctionne !");
-  };
-} else {
-  alert("Bouton openPublish introuvable");
+    } catch (error) {
+
+      console.error(error);
+      alert("Erreur lors de la publication : " + error.message);
+
+    }
+
+  });
+
 }
