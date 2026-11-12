@@ -110,10 +110,10 @@ if (openPublish && publishSection) {
 
     publishSection.style.display = "block";
 
-    publishSection.scrollIntoView({
-      behavior: "smooth",
-      block: "start"
-    });
+publishSection.scrollIntoView({
+  behavior: "smooth",
+  block: "center"
+});
 
   });
 
