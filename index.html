@@ -410,7 +410,62 @@ Profil
 
 </nav>
 
+<!-- ==========================
+FORMULAIRE DE PUBLICATION
+========================== -->
 
+<section id="publishSection" style="display:none;">
+
+<h2>Publier une annonce</h2>
+
+<form id="publishForm">
+
+<input
+type="text"
+id="title"
+placeholder="Titre de l'annonce"
+required>
+
+<input
+type="number"
+id="price"
+placeholder="Prix (FCFA)"
+required>
+
+<input
+type="text"
+id="city"
+placeholder="Ville"
+required>
+
+<select id="category" required>
+<option value="">Choisir une catégorie</option>
+<option>Agriculture</option>
+<option>Élevage</option>
+<option>Immobilier</option>
+<option>Véhicules</option>
+<option>Téléphones</option>
+<option>Mode</option>
+<option>Services</option>
+<option>Construction</option>
+</select>
+
+<input
+type="url"
+id="imageUrl"
+placeholder="Lien de l'image">
+
+<textarea
+id="description"
+placeholder="Description"></textarea>
+
+<button type="submit">
+Publier
+</button>
+
+</form>
+
+</section>
 
 <!-- ==========================
 FOOTER
