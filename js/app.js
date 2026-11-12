@@ -357,8 +357,7 @@ async function loadProducts() {
 
       container.innerHTML += `
       <div class="product-card">
-
-        <img src="${product.image || 'images/no-image.png'}" alt="${product.title}">
+<img src="${product.imageUrl || 'images/no-image.png'}" alt="${product.title}">
 
         <h3>${product.title}</h3>
 
