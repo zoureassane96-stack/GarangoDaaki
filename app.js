@@ -100,6 +100,7 @@ if (localStorage.getItem("garango_dark") === "true") {
 
 console.log(`${APP_NAME} ${APP_VERSION} démarré`);
 
+
 /* -----------------------------
 Ouverture du formulaire
 ------------------------------*/
@@ -110,7 +111,7 @@ if (openPublish && publishSection) {
 
     publishSection.style.display = "block";
 
-publishSection.scrollIntoView({
+    publishSection.scrollIntoView({
   behavior: "smooth",
   block: "center"
 });
@@ -118,6 +119,7 @@ publishSection.scrollIntoView({
   });
 
 }
+
 /* -----------------------------
 Chargement des produits Firebase
 ------------------------------*/
@@ -205,7 +207,11 @@ if (publishForm) {
 
       publishForm.reset();
 
-   loadProducts();
+if (publishSection) {
+  publishSection.style.display = "none";
+}
+
+loadProducts();
 
     } catch (error) {
 
