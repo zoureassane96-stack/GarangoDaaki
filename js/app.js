@@ -4,7 +4,12 @@
 ===================================== */
 
 "use strict";
+import { db } from "./firebase.js";
 
+import {
+  collection,
+  getDocs
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 /* =====================================
    CONFIGURATION
@@ -321,3 +326,57 @@ console.log(
 
 }
 );
+/* =====================================
+   PRODUITS FIREBASE
+===================================== */
+
+async function loadProducts() {
+
+  const container = document.getElementById("productsContainer");
+
+  if (!container) return;
+
+  try {
+
+    const snapshot = await getDocs(collection(db, "products"));
+
+    container.innerHTML = "";
+
+    if (snapshot.empty) {
+
+      container.innerHTML =
+      "<p>Aucune annonce disponible.</p>";
+
+      return;
+
+    }
+
+    snapshot.forEach((doc) => {
+
+      const product = doc.data();
+
+      container.innerHTML += `
+      <div class="product-card">
+
+        <img src="${product.image || 'images/no-image.png'}" alt="${product.title}">
+
+        <h3>${product.title}</h3>
+
+        <p>${product.price || ""}</p>
+
+        <p>${product.city || ""}</p>
+
+      </div>
+      `;
+
+    });
+
+  } catch (error) {
+
+    console.error(error);
+
+  }
+
+}
+
+document.addEventListener("DOMContentLoaded", loadProducts);
