@@ -99,6 +99,25 @@ if (localStorage.getItem("garango_dark") === "true") {
 }
 
 console.log(`${APP_NAME} ${APP_VERSION} démarré`);
+
+/* -----------------------------
+Ouverture du formulaire
+------------------------------*/
+
+if (openPublish && publishSection) {
+
+  openPublish.addEventListener("click", () => {
+
+    publishSection.style.display = "block";
+
+    publishSection.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+
+  });
+
+}
 /* -----------------------------
 Chargement des produits Firebase
 ------------------------------*/
@@ -128,17 +147,12 @@ async function loadProducts() {
 
       const product = doc.data();
 
-      const image = product.imageUrl || "images/no-image.png";
-      const title = product.title || "Sans titre";
-      const price = product.price || "0";
-      const city = product.city || "";
-
       productsContainer.innerHTML += `
         <div class="product-card">
-          <img src="${image}" alt="${title}">
-          <h3>${title}</h3>
-          <p><strong>${price} FCFA</strong></p>
-          <p>${city}</p>
+          <img src="${product.imageUrl || "images/no-image.png"}">
+          <h3>${product.title || "Sans titre"}</h3>
+          <p><strong>${product.price || 0} FCFA</strong></p>
+          <p>${product.city || ""}</p>
         </div>
       `;
 
@@ -148,36 +162,9 @@ async function loadProducts() {
 
     console.error("Erreur Firestore :", error);
 
-    productsContainer.innerHTML = `
-      <div class="empty-state">
-        <p>Impossible de charger les annonces.</p>
-      </div>
-    `;
-
   }
 
 }
-
-loadProducts();
-/* -----------------------------
-Ouverture du formulaire
-------------------------------*/
-
-if (openPublish && publishSection) {
-
-  openPublish.addEventListener("click", () => {
-
-    publishSection.style.display = "block";
-
-    publishSection.scrollIntoView({
-      behavior: "smooth",
-      block: "start"
-    });
-
-  });
-
-}
-
 /* -----------------------------
 Publication d'une annonce
 ------------------------------*/
@@ -190,13 +177,15 @@ if (publishForm) {
 
     e.preventDefault();
 
-    const title = document.getElementById("title")?.value.trim();
-    const price = document.getElementById("price")?.value.trim();
-    const city = document.getElementById("city")?.value.trim();
-    const imageUrl = document.getElementById("imageUrl")?.value.trim();
+    const title = document.getElementById("title").value.trim();
+    const price = document.getElementById("price").value.trim();
+    const city = document.getElementById("city").value.trim();
+    const category = document.getElementById("category").value;
+    const imageUrl = document.getElementById("imageUrl").value.trim();
+    const description = document.getElementById("description").value.trim();
 
-    if (!title || !price) {
-      alert("Veuillez remplir au moins le titre et le prix.");
+    if (!title || !price || !city || !category) {
+      alert("Veuillez remplir tous les champs obligatoires.");
       return;
     }
 
@@ -206,7 +195,9 @@ if (publishForm) {
         title,
         price,
         city,
+        category,
         imageUrl,
+        description,
         createdAt: Date.now()
       });
 
@@ -214,15 +205,26 @@ if (publishForm) {
 
       publishForm.reset();
 
-      loadProducts();
+   loadProducts();
 
     } catch (error) {
 
       console.error(error);
-      alert("Erreur lors de la publication : " + error.message);
+      alert("Erreur : " + error.message);
 
     }
 
   });
 
 }
+/* -----------------------------
+Initialisation
+------------------------------*/
+
+document.addEventListener("DOMContentLoaded", () => {
+
+  console.log("GarangoDaaki prêt.");
+
+  loadProducts();
+
+});
