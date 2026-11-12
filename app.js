@@ -172,6 +172,29 @@ loadProducts();
 /* -----------------------------
 Ouverture du formulaire
 ------------------------------*/
+class="product-card">
+          <img src="${product.imageUrl || 'images/no-image.png'}" alt="${product.title}">
+          <h3>${product.title}</h3>
+          <p><strong>${product.price} FCFA</strong></p>
+          <p>${product.city}</p>
+        </div>
+      `;
+
+    });
+
+  } catch (error) {
+
+    console.error(error);
+    alert("Erreur : " + error.message);
+
+  }
+
+}
+
+loadProducts();
+/* -----------------------------
+Ouverture du formulaire
+------------------------------*/
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -194,3 +217,12 @@ publishSection.style.display = "block";
   }
 
 });
+const btn = document.getElementById("openPublish");
+
+if (btn) {
+  btn.onclick = function () {
+    alert("Le bouton fonctionne !");
+  };
+} else {
+  alert("Bouton openPublish introuvable");
+}
