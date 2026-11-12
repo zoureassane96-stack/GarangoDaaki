@@ -3,12 +3,12 @@
    Version 1.0
 ========================================== */
 import { db } from "./firebase.js";
+
 import {
   collection,
-  getDocs
+  getDocs,
+  addDoc
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-
-"use strict";
 
 /* -----------------------------
 Configuration
@@ -129,22 +129,40 @@ Chargement des produits Firebase
 
 async function loadProducts() {
 
-  try {
+  const container = document.getElementById("productsContainer");
 
-    alert("Connexion à Firestore réussie");
+  if (!container) return;
+
+  try {
 
     const snapshot = await getDocs(collection(db, "products"));
 
-    alert("Nombre de produits : " + snapshot.size);
+    container.innerHTML = "";
+
+    if (snapshot.empty) {
+      container.innerHTML = "<p>Aucune annonce disponible.</p>";
+      return;
+    }
 
     snapshot.forEach((doc) => {
-      console.log("Produit Firebase :", doc.data());
+
+      const product = doc.data();
+
+      container.innerHTML += `
+        <div class="product-card">
+          <img src="${product.imageUrl || 'images/no-image.png'}" alt="${product.title}">
+          <h3>${product.title}</h3>
+          <p><strong>${product.price} FCFA</strong></p>
+          <p>${product.city}</p>
+        </div>
+      `;
+
     });
 
   } catch (error) {
 
-    alert("Erreur Firebase : " + error.message);
-    console.error("Erreur Firebase :", error);
+    console.error(error);
+    alert("Erreur : " + error.message);
 
   }
 
