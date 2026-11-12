@@ -776,3 +776,38 @@ margin:auto;
 
 
 }
+/* Correction formulaire publication mobile */
+
+#publishSection {
+  margin-top: 20px;
+  margin-bottom: 100px;
+  padding: 20px;
+  background: white;
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+}
+
+#publishSection h2 {
+  margin-bottom: 20px;
+  color: var(--green);
+}
+
+#publishForm input,
+#publishForm select,
+#publishForm textarea {
+  width: 100%;
+  margin-bottom: 15px;
+  padding: 14px;
+  border-radius: 12px;
+  border: 1px solid #ddd;
+  font-size: 16px;
+}
+
+#publishForm button {
+  width: 100%;
+  background: var(--green);
+  color: white;
+  padding: 14px;
+  border-radius: 12px;
+  font-weight: bold;
+}
