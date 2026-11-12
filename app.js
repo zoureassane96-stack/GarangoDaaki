@@ -205,14 +205,18 @@ if (publishForm) {
 
       alert("Annonce publiée avec succès !");
 
-      publishForm.reset();
+ publishForm.reset();
 
 if (publishSection) {
   publishSection.style.display = "none";
 }
 
-loadProducts();
+window.scrollTo({
+  top: 0,
+  behavior: "smooth"
+});
 
+await loadProducts();
     } catch (error) {
 
       console.error(error);
