@@ -593,3 +593,65 @@ error
 
 
 }
+// ==========================
+// NAVIGATION MOBILE
+// ==========================
+
+const mobilePublishBtn = document.getElementById("openPublishMobile");
+
+if(mobilePublishBtn){
+
+mobilePublishBtn.onclick = function(e){
+
+e.preventDefault();
+
+if(!currentUser){
+
+alert("Connectez-vous avant de publier.");
+
+}else{
+
+publishSection.style.display = "block";
+
+publishSection.scrollIntoView({
+behavior:"smooth"
+});
+
+}
+
+};
+
+}
+
+
+// ==========================
+// BOUTON PROFIL MOBILE
+// ==========================
+
+const profileBtn = document.querySelector(
+'.mobile-nav a[href="#profileSection"]'
+);
+
+
+if(profileBtn){
+
+profileBtn.onclick = function(e){
+
+e.preventDefault();
+
+
+if(!currentUser){
+
+alert("Veuillez vous connecter pour accéder à votre profil.");
+
+}else{
+
+profileSection.scrollIntoView({
+behavior:"smooth"
+});
+
+}
+
+};
+
+}
