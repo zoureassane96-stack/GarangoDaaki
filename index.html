@@ -9,79 +9,98 @@
 
 <title>GarangoDaaki - Marketplace locale</title>
 
-<meta name="description" content="Achetez, vendez et trouvez des services à Garango.">
+<meta name="description" content="GarangoDaaki, achetez, vendez et trouvez des services près de chez vous.">
 
 <meta name="theme-color" content="#0B7A3E">
 
 <link rel="manifest" href="manifest.json">
 
-<link rel="icon" href="assets/logo.png">
+<link rel="icon" href="logo.png">
 
-<link rel="apple-touch-icon" href="assets/logo.png">
+<link rel="apple-touch-icon" href="logo.png">
 
 <link rel="stylesheet" href="css/style.css">
 
 </head>
 
+
 <body>
-  <!-- ==========================
+
+<!-- ==========================
 HEADER
 ========================== -->
 
 <header class="main-header">
 
-  <div class="brand">
+<div class="brand">
 
-<img src="file_000000009964821182652bb3efaf3af8.png" alt="GarangoDaaki">
+<img src="logo.png" alt="GarangoDaaki">
 
-    <div>
-      <h1>GarangoDaaki</h1>
-      <p>Le marché près de chez vous</p>
-    </div>
+<div>
+<h1>GarangoDaaki</h1>
+<p>Le marché près de chez vous</p>
+</div>
 
-  </div>
+</div>
 
-  <button class="publish-btn" id="publishBtn">
-    + Publier
-  </button>
+
+<div class="header-actions">
+
+<button id="loginBtn">
+Connexion
+</button>
+
+<button id="logoutBtn" style="display:none;">
+Déconnexion
+</button>
+
+<button id="openPublish">
++ Publier
+</button>
+
+</div>
 
 </header>
+
+
+
+<!-- ==========================
+OFFLINE
+========================== -->
+
+<div id="offlineNotice" style="display:none;">
+⚠️ Vous êtes hors connexion.
+</div>
+
+
+
 <!-- ==========================
 HERO
 ========================== -->
 
 <section class="hero">
 
-  <h2>Achetez et vendez facilement</h2>
+<h2>Achetez et vendez facilement</h2>
 
-  <p>
-    Produits • Services • Immobilier • Agriculture • Emploi
-  </p>
+<p>
+Produits • Services • Immobilier • Agriculture • Emploi
+</p>
 
-  <div class="search-container">
 
-    <input
-      type="text"
-      id="searchInput"
-      placeholder="Que recherchez-vous ?">
+<div class="search-container">
 
-    <select id="categoryFilter">
-      <option value="">Toutes les catégories</option>
-      <option>Agriculture</option>
-      <option>Élevage</option>
-      <option>Immobilier</option>
-      <option>Véhicules</option>
-      <option>Téléphones</option>
-      <option>Mode</option>
-      <option>Services</option>
-      <option>Construction</option>
-    </select>
+<input
+id="mainSearch"
+type="search"
+placeholder="Que recherchez-vous ?">
 
-    <button id="searchBtn">
-      Rechercher
-    </button>
 
-  </div>
+<button id="searchButton">
+Rechercher
+</button>
+
+
+</div>
 
 </section>
 <!-- ==========================
@@ -90,207 +109,277 @@ CATÉGORIES
 
 <section class="categories-section">
 
-  <div class="section-header">
-    <h2>Catégories</h2>
-    <a href="#">Voir tout</a>
-  </div>
+<div class="section-header">
 
-  <div class="categories-grid">
+<h2>Catégories</h2>
 
-    <div class="category-item">
-      <img src="file_000000009964821182652bb3efaf3af8.png" alt="Agriculture">
-      <h3>🌾 Agriculture</h3>
-    </div>
+<a href="#">
+Voir tout
+</a>
 
-    <div class="category-item">
-      <img src="file_000000009964821182652bb3efaf3af8.png" alt="Élevage">
-      <h3>🐄 Élevage</h3>
-    </div>
-
-    <div class="category-item">
-      <img src="file_000000009964821182652bb3efaf3af8.png" alt="Immobilier">
-      <h3>🏠 Immobilier</h3>
-    </div>
-
-    <div class="category-item">
-      <img src="file_000000009964821182652bb3efaf3af8.png" alt="Véhicules">
-      <h3>🚗 Véhicules</h3>
-    </div>
-
-    <div class="category-item">
-      <img src="file_000000009964821182652bb3efaf3af8.png" alt="Téléphones">
-      <h3>📱 Téléphones</h3>
-    </div>
-
-    <div class="category-item">
-      <img src="file_000000009964821182652bb3efaf3af8.png" alt="Mode">
-      <h3>👕 Mode</h3>
-    </div>
-
-    <div class="category-item">
-      <img src="file_000000009964821182652bb3efaf3af8.png" alt="Services">
-      <h3>🛠️ Services</h3>
-    </div>
-
-    <div class="category-item">
-      <img src="file_000000009964821182652bb3efaf3af8.png" alt="Construction">
-      <h3>🧱 Construction</h3>
-    </div>
-
-  </div>
-
-</section>
-<!-- ==========================
-BARRE D'ACTIONS
-========================== -->
-
-<section class="actions-bar">
-
-  <button id="loginBtn" class="publish-btn">
-    Se connecter
-  </button>
-
-  <button id="logoutBtn" class="publish-btn" style="display:none;">
-    Se déconnecter
-  </button>
-
-  <button class="publish-btn">
-  + Publier une annonce
-</button>
-  </button>
-
-</section>
-
-<!-- ==========================
-MODE HORS LIGNE
-========================== -->
-
-<div id="offlineNotice" style="display:none;">
-  ⚠️ Vous êtes actuellement hors connexion.
 </div>
-<!-- ==========================
-FORMULAIRE DE PUBLICATION
-========================== -->
 
-<section id="publishSection" style="display:none;">
 
-  <h2>Publier une annonce</h2>
+<div class="categories-grid">
 
-  <form id="publishForm">
 
-    <input
-      type="text"
-      id="title"
-      placeholder="Titre de l'annonce"
-      required>
+<div class="category-item">
+<img src="categories/agriculture.webp" alt="Agriculture">
+<h3>Agriculture</h3>
+</div>
 
-    <input
-      type="number"
-      id="price"
-      placeholder="Prix (FCFA)"
-      required>
 
-    <input
-      type="text"
-      id="city"
-      placeholder="Ville ou commune"
-      required>
+<div class="category-item">
+<img src="categories/elevage.webp" alt="Élevage">
+<h3>Élevage</h3>
+</div>
 
-    <select id="category" required>
-      <option value="">Choisir une catégorie</option>
-      <option>Agriculture</option>
-      <option>Élevage</option>
-      <option>Immobilier</option>
-      <option>Véhicules</option>
-      <option>Téléphones</option>
-      <option>Mode</option>
-      <option>Services</option>
-      <option>Construction</option>
-    </select>
 
-    <input
-      type="url"
-      id="imageUrl"
-      placeholder="Lien de l'image (facultatif)">
+<div class="category-item">
+<img src="categories/immobilier.webp" alt="Immobilier">
+<h3>Immobilier</h3>
+</div>
 
-    <textarea
-      id="description"
-      placeholder="Décrivez votre annonce..."></textarea>
 
-    <button type="submit">
-      Publier l'annonce
-    </button>
+<div class="category-item">
+<img src="categories/vehicules.webp" alt="Véhicules">
+<h3>Véhicules</h3>
+</div>
 
-  </form>
+
+<div class="category-item">
+<img src="categories/telephones.webp" alt="Téléphones">
+<h3>Téléphones</h3>
+</div>
+
+
+<div class="category-item">
+<img src="categories/mode.webp" alt="Mode">
+<h3>Mode</h3>
+</div>
+
+
+<div class="category-item">
+<img src="categories/services.webp" alt="Services">
+<h3>Services</h3>
+</div>
+
+
+<div class="category-item">
+<img src="categories/construction.webp" alt="Construction">
+<h3>Construction</h3>
+</div>
+
+
+</div>
 
 </section>
+
+
+
+<!-- ==========================
+FORMULAIRE PUBLICATION
+========================== -->
+
+
+<section id="publishSection">
+
+
+<h2>Publier une annonce</h2>
+
+
+<form id="publishForm">
+
+
+<input
+id="title"
+type="text"
+placeholder="Titre de l'annonce"
+required>
+
+
+<input
+id="price"
+type="number"
+placeholder="Prix FCFA"
+required>
+
+
+<input
+id="city"
+type="text"
+placeholder="Ville ou commune"
+required>
+
+
+
+<select id="category" required>
+
+<option value="">
+Choisir une catégorie
+</option>
+
+<option>Agriculture</option>
+<option>Élevage</option>
+<option>Immobilier</option>
+<option>Véhicules</option>
+<option>Téléphones</option>
+<option>Mode</option>
+<option>Services</option>
+<option>Construction</option>
+
+</select>
+
+
+
+<input
+id="imageUrl"
+type="url"
+placeholder="Lien image">
+
+
+<textarea
+id="description"
+placeholder="Description de l'annonce">
+</textarea>
+
+
+
+<button type="submit">
+Publier
+</button>
+
+
+</form>
+
+
+</section>
+
+
+
 <!-- ==========================
 ANNONCES
 ========================== -->
 
+
 <section class="products-section">
 
-  <div class="section-header">
-    <h2>Annonces récentes</h2>
-  </div>
 
-  <div id="productsContainer" class="products-grid">
+<div class="section-header">
 
-    <div class="empty-state">
-      <p>Chargement des annonces...</p>
-    </div>
+<h2>Annonces récentes</h2>
 
-  </div>
+</div>
+
+
+<div id="productsContainer" class="products-grid">
+
+
+<div class="empty-state">
+
+<p>
+Chargement des annonces...
+</p>
+
+</div>
+
+
+</div>
+
 
 </section>
+<!-- ==========================
+PROFIL
+========================== -->
+
+<section id="profileSection" class="profile-section">
+
+<h2>Mon profil</h2>
+
+<p id="userInfo">
+Connectez-vous pour accéder à votre profil.
+</p>
+
+<button id="favoriteBtn">
+❤️ Mes favoris
+</button>
+
+</section>
+
+
+
 <!-- ==========================
 FOOTER
 ========================== -->
 
 <footer class="main-footer">
 
-  <h3>GarangoDaaki</h3>
+<h3>GarangoDaaki</h3>
 
-  <p>Le marché près de chez vous.</p>
+<p>
+Le marché près de chez vous.
+</p>
 
-  <p>
-    Achetez, vendez et trouvez des services à Garango et dans les communes environnantes.
-  </p>
+<p>
+Achetez, vendez et trouvez des services à Garango.
+</p>
 
-  <p>
-    © 2026 GarangoDaaki - Tous droits réservés.
-  </p>
+<p>
+© 2026 GarangoDaaki
+</p>
 
 </footer>
+
+
 
 <!-- ==========================
 NAVIGATION MOBILE
 ========================== -->
 
+
 <nav class="mobile-nav">
 
-  <a href="#">
-    <span>🏠</span>
-    <small>Accueil</small>
-  </a>
-
-  <a href="#productsContainer">
-    <span>🛒</span>
-    <small>Annonces</small>
-  </a>
 
 <a href="#">
-    <span>➕</span>
-    <small>Publier</small>
-  </a>
+<span>🏠</span>
+<small>Accueil</small>
+</a>
 
-  <a href="#">
-   <!-- ==========================
+
+<a href="#productsContainer">
+<span>🛒</span>
+<small>Annonces</small>
+</a>
+
+
+<a href="#" id="openPublishMobile">
+<span>➕</span>
+<small>Publier</small>
+</a>
+
+
+<a href="#profileSection">
+<span>👤</span>
+<small>Profil</small>
+</a>
+
+
+</nav>
+
+
+
+
+<!-- ==========================
 SCRIPTS
 ========================== -->
 
+
 <script type="module" src="firebase.js"></script>
+
 <script type="module" src="app.js"></script>
 
+
+
 </body>
+
 </html>
