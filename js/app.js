@@ -4,7 +4,7 @@
 ========================================== */
 
 // Firebase
-import { db } from "./firebase.js";
+import { db, auth } from "./firebase.js";
 
 import {
   collection,
@@ -12,6 +12,10 @@ import {
   addDoc
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
+import {
+  onAuthStateChanged,
+  signOut
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 /* -----------------------------
 Configuration
 ------------------------------*/
@@ -41,7 +45,21 @@ const offlineNotice = document.getElementById("offlineNotice");
 const productsContainer = document.getElementById("productsContainer");
 const publishSection = document.getElementById("publishSection");
 const openPublish = document.getElementById("openPublish");
+/* -----------------------------
+Authentification
+------------------------------*/
 
+onAuthStateChanged(auth, (user) => {
+
+  APP.user = user;
+
+  if (user) {
+    console.log("Connecté :", user.email);
+  } else {
+    console.log("Aucun utilisateur connecté");
+  }
+
+});
 /* -----------------------------
 Connexion Internet
 ------------------------------*/
@@ -107,6 +125,11 @@ Ouverture du formulaire
 if (openPublish && publishSection) {
 
   openPublish.addEventListener("click", () => {
+
+    if (!APP.user) {
+      alert("Veuillez vous connecter avant de publier une annonce.");
+      return;
+    }
 
     publishSection.style.display = "block";
 
