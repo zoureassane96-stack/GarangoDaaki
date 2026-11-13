@@ -344,11 +344,14 @@ async function loadProducts() {
 
     snapshot.forEach((doc) => {
 
-      const product = doc.data();
+const product = {
+  id: doc.id,
+  ...doc.data()
+};
 
       productsContainer.innerHTML += `
-        <div class="product-card">
-
+        
+      <div class="product-card" data-id="${product.id}">
           <img
             src="${product.imageUrl || "assets/logo/default.webp"}"
             alt="${product.title || "Annonce"}"
