@@ -778,3 +778,16 @@ alert(
 });
 
 }
+const testProfile = document.getElementById("profileBtn");
+
+if(testProfile){
+
+testProfile.addEventListener("click", function(e){
+
+e.preventDefault();
+
+alert("Bouton Profil détecté !");
+
+});
+
+}
