@@ -276,17 +276,22 @@ if (publishForm) {
 
     try {
 
-      await addDoc(collection(db, "products"), {
-        title,
-        price,
-        city,
-        category,
-        imageUrl,
-        description,
-        userId: APP.user.uid,
-        userEmail: APP.user.email,
-        createdAt: Date.now()
-      });
+      if (!APP.user) {
+  alert("Veuillez vous connecter.");
+  return;
+}
+
+await addDoc(collection(db, "products"), {
+  title,
+  price,
+  city,
+  category,
+  imageUrl,
+  description,
+  userId: APP.user.uid,
+  userEmail: APP.user.email,
+  createdAt: Date.now()
+});
 
       alert("Annonce publiée avec succès !");
 
@@ -299,7 +304,7 @@ if (publishForm) {
         behavior: "smooth"
       });
 
-      loadProducts();
+     await loadProducts(); 
 
     } catch (error) {
 
@@ -347,10 +352,9 @@ async function loadProducts() {
         <div class="product-card">
 
           <img
-            src="${product.imageUrl || "images/no-image.png"}"
-            alt="${product.title || "Annonce"}"
-          >
-
+  src="${product.imageUrl || "assets/logo/default.webp"}"
+  alt="${product.title || "Annonce"}"
+>
           <h3>${product.title || "Sans titre"}</h3>
 
           <p><strong>${product.price || 0} FCFA</strong></p>
