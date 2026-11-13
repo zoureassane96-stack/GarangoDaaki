@@ -353,7 +353,7 @@ const product = {
         
       <div class="product-card" data-id="${product.id}">
           <img
-            src="${product.imageUrl || "assets/logo/default.webp"}"
+            src="${product.imageUrl || "file_000000009964821182652bb3efaf3af8.png"}"
             alt="${product.title || "Annonce"}"
           >
 
