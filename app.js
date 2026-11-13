@@ -359,7 +359,7 @@ const product = {
 
           <h3>${product.title || "Sans titre"}</h3>
 
-          <p><strong>${product.price || 0} FCFA</strong></p>
+ <p><strong>${Number(product.price || 0).toLocaleString("fr-FR")} FCFA</strong></p>
 
           <p>📍 ${product.city || ""}</p>
 
