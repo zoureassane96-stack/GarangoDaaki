@@ -352,16 +352,22 @@ async function loadProducts() {
         <div class="product-card">
 
           <img
-  src="${product.imageUrl || "assets/logo/default.webp"}"
-  alt="${product.title || "Annonce"}"
->
+            src="${product.imageUrl || "assets/logo/default.webp"}"
+            alt="${product.title || "Annonce"}"
+          >
+
           <h3>${product.title || "Sans titre"}</h3>
 
           <p><strong>${product.price || 0} FCFA</strong></p>
 
-          <p>${product.city || ""}</p>
+          <p>📍 ${product.city || ""}</p>
 
-          <p>${product.category || ""}</p>
+          <p>📂 ${product.category || ""}</p>
+
+          <p>
+            ${(product.description || "").substring(0, 100)}
+            ${product.description && product.description.length > 100 ? "..." : ""}
+          </p>
 
         </div>
       `;
@@ -378,7 +384,6 @@ async function loadProducts() {
   }
 
 }
-
 /* -----------------------------
 Initialisation
 ------------------------------*/
