@@ -116,16 +116,8 @@ logoutBtn.addEventListener("click", async()=>{
 // ==========================
 
 
+
 function openPublication(){
-
-  if(!currentUser){
-
-    alert("Veuillez vous connecter avant de publier une annonce.");
-
-    return;
-
-  }
-
 
   if(publishSection){
 
@@ -138,9 +130,6 @@ function openPublication(){
   }
 
 }
-
-
-
 if(openPublish){
 
 openPublish.addEventListener(
