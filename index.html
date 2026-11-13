@@ -140,3 +140,156 @@ CATÉGORIES
   </div>
 
 </section>
+<!-- ==========================
+BARRE D'ACTIONS
+========================== -->
+
+<section class="actions-bar">
+
+  <button id="loginBtn" class="publish-btn">
+    Se connecter
+  </button>
+
+  <button id="logoutBtn" class="publish-btn" style="display:none;">
+    Se déconnecter
+  </button>
+
+  <button id="openPublish" class="publish-btn">
+    + Publier une annonce
+  </button>
+
+</section>
+
+<!-- ==========================
+MODE HORS LIGNE
+========================== -->
+
+<div id="offlineNotice" style="display:none;">
+  ⚠️ Vous êtes actuellement hors connexion.
+</div>
+<!-- ==========================
+FORMULAIRE DE PUBLICATION
+========================== -->
+
+<section id="publishSection" style="display:none;">
+
+  <h2>Publier une annonce</h2>
+
+  <form id="publishForm">
+
+    <input
+      type="text"
+      id="title"
+      placeholder="Titre de l'annonce"
+      required>
+
+    <input
+      type="number"
+      id="price"
+      placeholder="Prix (FCFA)"
+      required>
+
+    <input
+      type="text"
+      id="city"
+      placeholder="Ville ou commune"
+      required>
+
+    <select id="category" required>
+      <option value="">Choisir une catégorie</option>
+      <option>Agriculture</option>
+      <option>Élevage</option>
+      <option>Immobilier</option>
+      <option>Véhicules</option>
+      <option>Téléphones</option>
+      <option>Mode</option>
+      <option>Services</option>
+      <option>Construction</option>
+    </select>
+
+    <input
+      type="url"
+      id="imageUrl"
+      placeholder="Lien de l'image (facultatif)">
+
+    <textarea
+      id="description"
+      placeholder="Décrivez votre annonce..."></textarea>
+
+    <button type="submit">
+      Publier l'annonce
+    </button>
+
+  </form>
+
+</section>
+<!-- ==========================
+ANNONCES
+========================== -->
+
+<section class="products-section">
+
+  <div class="section-header">
+    <h2>Annonces récentes</h2>
+  </div>
+
+  <div id="productsContainer" class="products-grid">
+
+    <div class="empty-state">
+      <p>Chargement des annonces...</p>
+    </div>
+
+  </div>
+
+</section>
+<!-- ==========================
+FOOTER
+========================== -->
+
+<footer class="main-footer">
+
+  <h3>GarangoDaaki</h3>
+
+  <p>Le marché près de chez vous.</p>
+
+  <p>
+    Achetez, vendez et trouvez des services à Garango et dans les communes environnantes.
+  </p>
+
+  <p>
+    © 2026 GarangoDaaki - Tous droits réservés.
+  </p>
+
+</footer>
+
+<!-- ==========================
+NAVIGATION MOBILE
+========================== -->
+
+<nav class="mobile-nav">
+
+  <a href="#">
+    <span>🏠</span>
+    <small>Accueil</small>
+  </a>
+
+  <a href="#productsContainer">
+    <span>🛒</span>
+    <small>Annonces</small>
+  </a>
+
+<a href="#">
+    <span>➕</span>
+    <small>Publier</small>
+  </a>
+
+  <a href="#">
+   <!-- ==========================
+SCRIPTS
+========================== -->
+
+<script type="module" src="firebase.js"></script>
+<script type="module" src="app.js"></script>
+
+</body>
+</html>
