@@ -1,10 +1,10 @@
 /* ==========================================
    GARANGODAAKI APP
-   Version 2.0
+   Version 3.0
 ========================================== */
 
 // Firebase
-import { db } from "./firebase.js";
+import { db, auth } from "./firebase.js";
 
 import {
   collection,
@@ -12,16 +12,23 @@ import {
   addDoc
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
+import {
+  onAuthStateChanged,
+  signOut,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
 /* -----------------------------
 Configuration
 ------------------------------*/
 
 const APP_NAME = "GarangoDaaki";
-const APP_VERSION = "2.0.0";
+const APP_VERSION = "3.0.0";
 const DEFAULT_LANGUAGE = "fr";
 
 /* -----------------------------
-Etat de l'application
+État de l'application
 ------------------------------*/
 
 const APP = {
@@ -37,11 +44,121 @@ Sélecteurs
 
 const searchInput = document.getElementById("mainSearch");
 const searchBtn = document.getElementById("searchButton");
+
 const offlineNotice = document.getElementById("offlineNotice");
+
 const productsContainer = document.getElementById("productsContainer");
+
 const publishSection = document.getElementById("publishSection");
+const publishForm = document.getElementById("publishForm");
+
 const openPublish = document.getElementById("openPublish");
 
+const loginBtn = document.getElementById("loginBtn");
+const logoutBtn = document.getElementById("logoutBtn");
+
+console.log(`${APP_NAME} ${APP_VERSION} démarré`);
+/* -----------------------------
+Authentification Firebase
+------------------------------*/
+
+onAuthStateChanged(auth, (user) => {
+
+  APP.user = user;
+
+  if (user) {
+
+    console.log("Utilisateur connecté :", user.email);
+
+    if (loginBtn) loginBtn.style.display = "none";
+    if (logoutBtn) logoutBtn.style.display = "inline-block";
+
+  } else {
+
+    console.log("Aucun utilisateur connecté");
+
+    if (loginBtn) loginBtn.style.display = "inline-block";
+    if (logoutBtn) logoutBtn.style.display = "none";
+
+  }
+
+});
+
+/* -----------------------------
+Connexion
+------------------------------*/
+
+if (loginBtn) {
+
+  loginBtn.addEventListener("click", async () => {
+
+    const email = prompt("Votre adresse e-mail :");
+
+    if (!email) return;
+
+    const password = prompt("Votre mot de passe :");
+
+    if (!password) return;
+
+    try {
+
+      await signInWithEmailAndPassword(auth, email, password);
+
+      alert("Connexion réussie !");
+
+    } catch (error) {
+
+      if (error.code === "auth/user-not-found") {
+
+        const creer = confirm(
+          "Ce compte n'existe pas.\nVoulez-vous le créer ?"
+        );
+
+        if (!creer) return;
+
+        try {
+
+          await createUserWithEmailAndPassword(
+            auth,
+            email,
+            password
+          );
+
+          alert("Compte créé avec succès !");
+
+        } catch (e) {
+
+          alert(e.message);
+
+        }
+
+      } else {
+
+        alert(error.message);
+
+      }
+
+    }
+
+  });
+
+}
+
+/* -----------------------------
+Déconnexion
+------------------------------*/
+
+if (logoutBtn) {
+
+  logoutBtn.addEventListener("click", async () => {
+
+    await signOut(auth);
+
+    alert("Vous êtes déconnecté.");
+
+  });
+
+}
 /* -----------------------------
 Connexion Internet
 ------------------------------*/
@@ -73,10 +190,24 @@ function searchProducts() {
 
   console.log("Recherche :", value);
 
+  const cards = document.querySelectorAll(".product-card");
+
+  cards.forEach(card => {
+
+    const text = card.textContent.toLowerCase();
+
+    card.style.display = text.includes(value) ? "block" : "none";
+
+  });
+
 }
 
 if (searchBtn) {
   searchBtn.addEventListener("click", searchProducts);
+}
+
+if (searchInput) {
+  searchInput.addEventListener("keyup", searchProducts);
 }
 
 /* -----------------------------
@@ -97,10 +228,6 @@ function toggleDarkMode() {
 if (localStorage.getItem("garango_dark") === "true") {
   document.body.classList.add("dark");
 }
-
-console.log(`${APP_NAME} ${APP_VERSION} démarré`);
-
-
 /* -----------------------------
 Ouverture du formulaire
 ------------------------------*/
@@ -109,69 +236,25 @@ if (openPublish && publishSection) {
 
   openPublish.addEventListener("click", () => {
 
+    if (!APP.user) {
+      alert("Veuillez vous connecter avant de publier une annonce.");
+      return;
+    }
+
     publishSection.style.display = "block";
 
     publishSection.scrollIntoView({
-  behavior: "smooth",
-  block: "center"
-});
+      behavior: "smooth",
+      block: "start"
+    });
 
   });
 
 }
 
 /* -----------------------------
-Chargement des produits Firebase
-------------------------------*/
-
-async function loadProducts() {
-
-  if (!productsContainer) return;
-
-  productsContainer.innerHTML = "<p>Chargement des annonces...</p>";
-
-  try {
-
-    const snapshot = await getDocs(collection(db, "products"));
-
-    productsContainer.innerHTML = "";
-
-    if (snapshot.empty) {
-      productsContainer.innerHTML = `
-        <div class="empty-state">
-          <p>Aucune annonce disponible.</p>
-        </div>
-      `;
-      return;
-    }
-
-    snapshot.forEach((doc) => {
-
-      const product = doc.data();
-
-      productsContainer.innerHTML += `
-        <div class="product-card">
-          <img src="${product.imageUrl || "images/no-image.png"}">
-          <h3>${product.title || "Sans titre"}</h3>
-          <p><strong>${product.price || 0} FCFA</strong></p>
-          <p>${product.city || ""}</p>
-        </div>
-      `;
-
-    });
-
-  } catch (error) {
-
-    console.error("Erreur Firestore :", error);
-
-  }
-
-}
-/* -----------------------------
 Publication d'une annonce
 ------------------------------*/
-
-const publishForm = document.getElementById("publishForm");
 
 if (publishForm) {
 
@@ -200,23 +283,24 @@ if (publishForm) {
         category,
         imageUrl,
         description,
+        userId: APP.user.uid,
+        userEmail: APP.user.email,
         createdAt: Date.now()
       });
 
       alert("Annonce publiée avec succès !");
 
- publishForm.reset();
+      publishForm.reset();
 
-if (publishSection) {
-  publishSection.style.display = "none";
-}
+      publishSection.style.display = "none";
 
-window.scrollTo({
-  top: 0,
-  behavior: "smooth"
-});
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
 
-await loadProducts();
+      loadProducts();
+
     } catch (error) {
 
       console.error(error);
@@ -228,12 +312,78 @@ await loadProducts();
 
 }
 /* -----------------------------
+Chargement des produits Firebase
+------------------------------*/
+
+async function loadProducts() {
+
+  if (!productsContainer) return;
+
+  productsContainer.innerHTML = "<p>Chargement des annonces...</p>";
+
+  try {
+
+    const snapshot = await getDocs(collection(db, "products"));
+
+    productsContainer.innerHTML = "";
+
+    if (snapshot.empty) {
+
+      productsContainer.innerHTML = `
+        <div class="empty-state">
+          <p>Aucune annonce disponible.</p>
+        </div>
+      `;
+
+      return;
+
+    }
+
+    snapshot.forEach((doc) => {
+
+      const product = doc.data();
+
+      productsContainer.innerHTML += `
+        <div class="product-card">
+
+          <img
+            src="${product.imageUrl || "images/no-image.png"}"
+            alt="${product.title || "Annonce"}"
+          >
+
+          <h3>${product.title || "Sans titre"}</h3>
+
+          <p><strong>${product.price || 0} FCFA</strong></p>
+
+          <p>${product.city || ""}</p>
+
+          <p>${product.category || ""}</p>
+
+        </div>
+      `;
+
+    });
+
+  } catch (error) {
+
+    console.error("Erreur Firestore :", error);
+
+    productsContainer.innerHTML =
+      "<p>Impossible de charger les annonces.</p>";
+
+  }
+
+}
+
+/* -----------------------------
 Initialisation
 ------------------------------*/
 
 document.addEventListener("DOMContentLoaded", () => {
 
-  console.log("GarangoDaaki prêt.");
+  console.log(APP_NAME + " prêt.");
+
+  updateConnection();
 
   loadProducts();
 
