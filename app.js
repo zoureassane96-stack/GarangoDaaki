@@ -93,11 +93,9 @@ if (loginBtn) {
   loginBtn.addEventListener("click", async () => {
 
     const email = prompt("Votre adresse e-mail :");
-
     if (!email) return;
 
     const password = prompt("Votre mot de passe :");
-
     if (!password) return;
 
     try {
@@ -108,21 +106,20 @@ if (loginBtn) {
 
     } catch (error) {
 
-      if (error.code === "auth/user-not-found") {
+      if (
+        error.code === "auth/user-not-found" ||
+        error.code === "auth/invalid-credential"
+      ) {
 
         const creer = confirm(
-          "Ce compte n'existe pas.\nVoulez-vous le créer ?"
+          "Compte introuvable.\nVoulez-vous créer un nouveau compte ?"
         );
 
         if (!creer) return;
 
         try {
 
-          await createUserWithEmailAndPassword(
-            auth,
-            email,
-            password
-          );
+          await createUserWithEmailAndPassword(auth, email, password);
 
           alert("Compte créé avec succès !");
 
@@ -143,6 +140,7 @@ if (loginBtn) {
   });
 
 }
+      
 
 /* -----------------------------
 Déconnexion
