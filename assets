@@ -1,0 +1,14 @@
+assets/
+├── logo/
+│   ├── logo.webp
+│   ├── default.webp
+│   └── default-shop.webp
+└── categories/
+    ├── agriculture.webp
+    ├── elevage.webp
+    ├── immobilier.webp
+    ├── vehicule.webp
+    ├── telephone.webp
+    ├── mode.webp
+    ├── service.webp
+    └── construction.webp
