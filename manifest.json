@@ -1,0 +1,10 @@
+{
+  "name": "GarangoDaaki",
+  "short_name": "GarangoDaaki",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f7faf8",
+  "theme_color": "#064b35",
+  "description": "La marketplace du Centre-Est du Burkina Faso",
+  "icons": []
+}
