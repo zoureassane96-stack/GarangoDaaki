@@ -639,11 +639,6 @@ behavior:"smooth"
 // CONNEXION / INSCRIPTION
 // ==========================
 
-import {
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword
-} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-
 
 
 const profileBtn = document.getElementById("profileBtn");
