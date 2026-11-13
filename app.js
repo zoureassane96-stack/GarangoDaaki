@@ -628,29 +628,19 @@ behavior:"smooth"
 // BOUTON PROFIL MOBILE
 // ==========================
 
-const profileBtn = document.querySelector(
-'.mobile-nav a[href="#profileSection"]'
-);
+const mobilePublishBtn = document.getElementById("openPublishMobile");
 
+if(mobilePublishBtn){
 
-if(profileBtn){
-
-profileBtn.onclick = function(e){
+mobilePublishBtn.onclick = function(e){
 
 e.preventDefault();
 
+publishSection.style.display = "block";
 
-if(!currentUser){
-
-alert("Veuillez vous connecter pour accéder à votre profil.");
-
-}else{
-
-profileSection.scrollIntoView({
+publishSection.scrollIntoView({
 behavior:"smooth"
 });
-
-}
 
 };
 
