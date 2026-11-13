@@ -7,9 +7,10 @@ import { db, auth } from "./firebase.js";
 
 import {
   onAuthStateChanged,
-  signOut
+  signOut,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-
 
 import {
   collection,
@@ -632,5 +633,161 @@ behavior:"smooth"
 });
 
 };
+
+}
+// ==========================
+// CONNEXION / INSCRIPTION
+// ==========================
+
+
+
+const profileBtn = document.getElementById("profileBtn");
+
+const authSection = document.getElementById("authSection");
+
+const loginForm = document.getElementById("loginForm");
+
+const registerBtn = document.getElementById("registerBtn");
+
+
+
+// Ouvrir connexion avec Profil
+
+if(profileBtn){
+
+profileBtn.addEventListener("click",(e)=>{
+
+e.preventDefault();
+
+
+if(authSection){
+
+authSection.style.display="block";
+
+authSection.scrollIntoView({
+behavior:"smooth"
+});
+
+}
+
+
+});
+
+}
+
+
+
+// Connexion
+
+if(loginForm){
+
+loginForm.addEventListener("submit", async(e)=>{
+
+e.preventDefault();
+
+
+const email =
+document.getElementById("email").value;
+
+
+const password =
+document.getElementById("password").value;
+
+
+
+try{
+
+
+await signInWithEmailAndPassword(
+auth,
+email,
+password
+);
+
+
+alert("Connexion réussie !");
+
+
+authSection.style.display="none";
+
+
+}catch(error){
+
+
+console.error(error);
+
+alert(
+"Erreur de connexion : " + error.message
+);
+
+
+}
+
+
+});
+
+
+}
+
+
+
+// Création compte
+
+if(registerBtn){
+
+registerBtn.addEventListener("click", async()=>{
+
+
+const email =
+document.getElementById("email").value;
+
+
+const password =
+document.getElementById("password").value;
+
+
+
+try{
+
+
+await createUserWithEmailAndPassword(
+auth,
+email,
+password
+);
+
+
+alert("Compte créé avec succès !");
+
+
+}catch(error){
+
+
+console.error(error);
+
+
+alert(
+"Erreur création compte : " + error.message
+);
+
+
+}
+
+
+
+});
+
+}
+const testProfile = document.getElementById("profileBtn");
+
+if(testProfile){
+
+testProfile.addEventListener("click", function(e){
+
+e.preventDefault();
+
+alert("Bouton Profil détecté !");
+
+});
 
 }
