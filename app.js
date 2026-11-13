@@ -1,400 +1,595 @@
-/* ==========================================
-   GARANGODAAKI APP
-   Version 3.0
-========================================== */
+// ==========================================
+// GARANGODAAKI APP V3
+// AUTHENTIFICATION + BASE
+// ==========================================
 
-// Firebase
 import { db, auth } from "./firebase.js";
+
+import {
+  onAuthStateChanged,
+  signOut
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
 
 import {
   collection,
   getDocs,
-  addDoc
+  addDoc,
+  serverTimestamp,
+  query,
+  orderBy
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-import {
-  onAuthStateChanged,
-  signOut,
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword
-} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
-/* -----------------------------
-Configuration
-------------------------------*/
 
-const APP_NAME = "GarangoDaaki";
-const APP_VERSION = "3.0.0";
-const DEFAULT_LANGUAGE = "fr";
-
-/* -----------------------------
-État de l'application
-------------------------------*/
-
-const APP = {
-  language: DEFAULT_LANGUAGE,
-  favorites: [],
-  user: null,
-  online: navigator.onLine
-};
-
-/* -----------------------------
-Sélecteurs
-------------------------------*/
-
-const searchInput = document.getElementById("mainSearch");
-const searchBtn = document.getElementById("searchButton");
-
-const offlineNotice = document.getElementById("offlineNotice");
-
-const productsContainer = document.getElementById("productsContainer");
-
-const publishSection = document.getElementById("publishSection");
-const publishForm = document.getElementById("publishForm");
-
-const openPublish = document.getElementById("openPublish");
+// ==========================
+// ELEMENTS
+// ==========================
 
 const loginBtn = document.getElementById("loginBtn");
 const logoutBtn = document.getElementById("logoutBtn");
 
-console.log(`${APP_NAME} ${APP_VERSION} démarré`);
-/* -----------------------------
-Authentification Firebase
-------------------------------*/
+const openPublish = document.getElementById("openPublish");
+const openPublishMobile = document.getElementById("openPublishMobile");
 
-onAuthStateChanged(auth, (user) => {
+const publishSection = document.getElementById("publishSection");
+const publishForm = document.getElementById("publishForm");
 
-  APP.user = user;
+const productsContainer = document.getElementById("productsContainer");
 
-  if (user) {
+const userInfo = document.getElementById("userInfo");
 
-    console.log("Utilisateur connecté :", user.email);
+const profileSection = document.getElementById("profileSection");
 
-    if (loginBtn) loginBtn.style.display = "none";
-    if (logoutBtn) logoutBtn.style.display = "inline-block";
 
-  } else {
 
-    console.log("Aucun utilisateur connecté");
+// ==========================
+// UTILISATEUR CONNECTÉ
+// ==========================
 
-    if (loginBtn) loginBtn.style.display = "inline-block";
-    if (logoutBtn) logoutBtn.style.display = "none";
+let currentUser = null;
+
+
+
+onAuthStateChanged(auth, (user)=>{
+
+  currentUser = user;
+
+
+  if(user){
+
+    if(loginBtn)
+      loginBtn.style.display="none";
+
+
+    if(logoutBtn)
+      logoutBtn.style.display="block";
+
+
+    if(userInfo)
+      userInfo.innerHTML =
+      `
+      Connecté : <b>${user.email}</b>
+      `;
+
+
+  }else{
+
+
+    if(loginBtn)
+      loginBtn.style.display="block";
+
+
+    if(logoutBtn)
+      logoutBtn.style.display="none";
+
+
+    if(userInfo)
+      userInfo.innerHTML =
+      "Connectez-vous pour accéder à votre profil.";
+
 
   }
+
 
 });
 
-/* -----------------------------
-Connexion
-------------------------------*/
 
-if (loginBtn) {
 
-  loginBtn.addEventListener("click", async () => {
+// ==========================
+// DECONNEXION
+// ==========================
 
-    const email = prompt("Votre adresse e-mail :");
-    if (!email) return;
+if(logoutBtn){
 
-    const password = prompt("Votre mot de passe :");
-    if (!password) return;
+logoutBtn.addEventListener("click", async()=>{
 
-    try {
+ await signOut(auth);
 
-      await signInWithEmailAndPassword(auth, email, password);
+ alert("Vous êtes déconnecté.");
 
-      alert("Connexion réussie !");
-
-    } catch (error) {
-
-      if (
-        error.code === "auth/user-not-found" ||
-        error.code === "auth/invalid-credential"
-      ) {
-
-        const creer = confirm(
-          "Compte introuvable.\nVoulez-vous créer un nouveau compte ?"
-        );
-
-        if (!creer) return;
-
-        try {
-
-          await createUserWithEmailAndPassword(auth, email, password);
-
-          alert("Compte créé avec succès !");
-
-        } catch (e) {
-
-          alert(e.message);
-
-        }
-
-      } else {
-
-        alert(error.message);
-
-      }
-
-    }
-
-  });
+});
 
 }
-      
+// ==========================
+// OUVERTURE PUBLICATION
+// ==========================
 
-/* -----------------------------
-Déconnexion
-------------------------------*/
 
-if (logoutBtn) {
+function openPublication(){
 
-  logoutBtn.addEventListener("click", async () => {
+  if(!currentUser){
 
-    await signOut(auth);
+    alert("Veuillez vous connecter avant de publier une annonce.");
 
-    alert("Vous êtes déconnecté.");
+    return;
 
-  });
-
-}
-/* -----------------------------
-Connexion Internet
-------------------------------*/
-
-function updateConnection() {
-
-  APP.online = navigator.onLine;
-
-  if (offlineNotice) {
-    offlineNotice.style.display = APP.online ? "none" : "block";
   }
 
-}
 
-window.addEventListener("online", updateConnection);
-window.addEventListener("offline", updateConnection);
-
-updateConnection();
-
-/* -----------------------------
-Recherche
-------------------------------*/
-
-function searchProducts() {
-
-  if (!searchInput) return;
-
-  const value = searchInput.value.trim().toLowerCase();
-
-  console.log("Recherche :", value);
-
-  const cards = document.querySelectorAll(".product-card");
-
-  cards.forEach(card => {
-
-    const text = card.textContent.toLowerCase();
-
-    card.style.display = text.includes(value) ? "block" : "none";
-
-  });
-
-}
-
-if (searchBtn) {
-  searchBtn.addEventListener("click", searchProducts);
-}
-
-if (searchInput) {
-  searchInput.addEventListener("keyup", searchProducts);
-}
-
-/* -----------------------------
-Mode sombre
-------------------------------*/
-
-function toggleDarkMode() {
-
-  document.body.classList.toggle("dark");
-
-  localStorage.setItem(
-    "garango_dark",
-    document.body.classList.contains("dark")
-  );
-
-}
-
-if (localStorage.getItem("garango_dark") === "true") {
-  document.body.classList.add("dark");
-}
-/* -----------------------------
-Ouverture du formulaire
-------------------------------*/
-
-if (openPublish && publishSection) {
-
-  openPublish.addEventListener("click", () => {
-
-    if (!APP.user) {
-      alert("Veuillez vous connecter avant de publier une annonce.");
-      return;
-    }
+  if(publishSection){
 
     publishSection.style.display = "block";
 
     publishSection.scrollIntoView({
-      behavior: "smooth",
-      block: "start"
+      behavior:"smooth"
     });
-
-  });
-
-}
-
-/* -----------------------------
-Publication d'une annonce
-------------------------------*/
-
-if (publishForm) {
-
-  publishForm.addEventListener("submit", async (e) => {
-
-    e.preventDefault();
-
-    const title = document.getElementById("title").value.trim();
-    const price = document.getElementById("price").value.trim();
-    const city = document.getElementById("city").value.trim();
-    const category = document.getElementById("category").value;
-    const imageUrl = document.getElementById("imageUrl").value.trim();
-    const description = document.getElementById("description").value.trim();
-
-    if (!title || !price || !city || !category) {
-      alert("Veuillez remplir tous les champs obligatoires.");
-      return;
-    }
-
-    try {
-
-      if (!APP.user) {
-  alert("Veuillez vous connecter.");
-  return;
-}
-
-await addDoc(collection(db, "products"), {
-  title,
-  price,
-  city,
-  category,
-  imageUrl,
-  description,
-  userId: APP.user.uid,
-  userEmail: APP.user.email,
-  createdAt: Date.now()
-});
-
-      alert("Annonce publiée avec succès !");
-
-      publishForm.reset();
-
-      publishSection.style.display = "none";
-
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-      });
-
-     await loadProducts(); 
-
-    } catch (error) {
-
-      console.error(error);
-      alert("Erreur : " + error.message);
-
-    }
-
-  });
-
-}
-/* -----------------------------
-Chargement des produits Firebase
-------------------------------*/
-
-async function loadProducts() {
-
-  if (!productsContainer) return;
-
-  productsContainer.innerHTML = "<p>Chargement des annonces...</p>";
-
-  try {
-
-    const snapshot = await getDocs(collection(db, "products"));
-
-    productsContainer.innerHTML = "";
-
-    if (snapshot.empty) {
-
-      productsContainer.innerHTML = `
-        <div class="empty-state">
-          <p>Aucune annonce disponible.</p>
-        </div>
-      `;
-
-      return;
-
-    }
-
-    snapshot.forEach((doc) => {
-
-const product = {
-  id: doc.id,
-  ...doc.data()
-};
-
-      productsContainer.innerHTML += `
-        
-      <div class="product-card" data-id="${product.id}">
-          <img
-            src="${product.imageUrl || "file_000000009964821182652bb3efaf3af8.png"}"
-            alt="${product.title || "Annonce"}"
-          >
-
-          <h3>${product.title || "Sans titre"}</h3>
-
- <p><strong>${Number(product.price || 0).toLocaleString("fr-FR")} FCFA</strong></p>
-
-          <p>📍 ${product.city || ""}</p>
-
-          <p>📂 ${product.category || ""}</p>
-
-          <p>
-            ${(product.description || "").substring(0, 100)}
-            ${product.description && product.description.length > 100 ? "..." : ""}
-          </p>
-
-        </div>
-      `;
-
-    });
-
-  } catch (error) {
-
-    console.error("Erreur Firestore :", error);
-
-    productsContainer.innerHTML =
-      "<p>Impossible de charger les annonces.</p>";
 
   }
 
 }
-/* -----------------------------
-Initialisation
-------------------------------*/
 
-document.addEventListener("DOMContentLoaded", () => {
 
-  console.log(APP_NAME + " prêt.");
 
-  updateConnection();
+if(openPublish){
 
-  loadProducts();
+openPublish.addEventListener(
+"click",
+openPublication
+);
+
+}
+
+
+
+if(openPublishMobile){
+
+openPublishMobile.addEventListener(
+"click",
+(e)=>{
+
+e.preventDefault();
+
+openPublication();
+
+}
+
+);
+
+}
+
+
+
+// ==========================
+// PUBLICATION FIRESTORE
+// ==========================
+
+
+if(publishForm){
+
+
+publishForm.addEventListener(
+"submit",
+async(e)=>{
+
+
+e.preventDefault();
+
+
+
+if(!currentUser){
+
+alert("Connexion nécessaire.");
+
+return;
+
+}
+
+
+
+const annonce = {
+
+
+title:
+document.getElementById("title").value,
+
+
+price:
+document.getElementById("price").value,
+
+
+city:
+document.getElementById("city").value,
+
+
+category:
+document.getElementById("category").value,
+
+
+imageUrl:
+document.getElementById("imageUrl").value,
+
+
+description:
+document.getElementById("description").value,
+
+
+userId:
+currentUser.uid,
+
+
+userEmail:
+currentUser.email,
+
+
+createdAt:
+serverTimestamp()
+
+
+};
+
+
+
+try{
+
+
+await addDoc(
+collection(db,"annonces"),
+annonce
+);
+
+
+
+alert("Annonce publiée avec succès !");
+
+
+publishForm.reset();
+
+
+loadAnnonces();
+
+
+
+}catch(error){
+
+
+console.error(
+"Erreur publication :",
+error
+);
+
+
+alert(
+"Erreur pendant la publication."
+);
+
+
+}
+
+
 
 });
+
+
+}
+
+
+
+
+// ==========================
+// CHARGEMENT ANNONCES
+// ==========================
+
+
+async function loadAnnonces(){
+
+
+if(!productsContainer)
+return;
+
+
+
+try{
+
+
+const q = query(
+collection(db,"annonces"),
+orderBy("createdAt","desc")
+);
+
+
+
+const snapshot =
+await getDocs(q);
+
+
+
+productsContainer.innerHTML="";
+
+
+
+if(snapshot.empty){
+
+
+productsContainer.innerHTML =
+`
+<div class="empty-state">
+<p>Aucune annonce pour le moment.</p>
+</div>
+`;
+
+
+return;
+
+}
+
+
+
+snapshot.forEach((doc)=>{
+
+
+const data = doc.data();
+
+
+
+productsContainer.innerHTML +=
+
+`
+<div class="product-card">
+
+
+<img 
+src="${data.imageUrl || 'logo.png'}"
+alt="${data.title}">
+
+
+<h3>
+${data.title}
+</h3>
+
+
+<p>
+${data.category}
+</p>
+
+
+<strong>
+${data.price} FCFA
+</strong>
+
+
+<p>
+${data.city}
+</p>
+
+
+<p>
+${data.description}
+</p>
+
+
+<button>
+Contacter
+</button>
+
+
+</div>
+`;
+
+
+});
+
+
+}catch(error){
+
+
+console.error(
+"Erreur chargement annonces :",
+error
+);
+
+
+productsContainer.innerHTML =
+`
+<p>Impossible de charger les annonces.</p>
+`;
+
+}
+
+
+
+}
+
+
+loadAnnonces();
+// ==========================
+// RECHERCHE
+// ==========================
+
+
+const searchInput =
+document.getElementById("mainSearch");
+
+
+const searchButton =
+document.getElementById("searchButton");
+
+
+
+if(searchButton){
+
+
+searchButton.addEventListener(
+"click",
+()=>{
+
+
+const text =
+searchInput.value.toLowerCase();
+
+
+
+const cards =
+document.querySelectorAll(".product-card");
+
+
+
+cards.forEach(card=>{
+
+
+const content =
+card.innerText.toLowerCase();
+
+
+
+if(content.includes(text)){
+
+card.style.display="block";
+
+}else{
+
+card.style.display="none";
+
+}
+
+
+});
+
+
+});
+
+
+}
+
+
+
+// ==========================
+// PROFIL
+// ==========================
+
+
+if(profileSection){
+
+
+profileSection.addEventListener(
+"click",
+()=>{
+
+
+if(!currentUser){
+
+
+alert(
+"Veuillez vous connecter pour accéder au profil."
+);
+
+
+
+if(loginBtn){
+
+loginBtn.click();
+
+}
+
+
+}else{
+
+
+alert(
+"Votre profil : " + currentUser.email
+);
+
+
+
+}
+
+
+});
+
+
+}
+
+
+
+// ==========================
+// FAVORIS
+// ==========================
+
+
+const favoriteBtn =
+document.getElementById("favoriteBtn");
+
+
+
+if(favoriteBtn){
+
+
+favoriteBtn.addEventListener(
+"click",
+()=>{
+
+
+alert(
+"Fonction favoris bientôt disponible."
+);
+
+
+});
+
+
+}
+
+
+
+
+// ==========================
+// SERVICE WORKER PWA
+// ==========================
+
+
+if("serviceWorker" in navigator){
+
+
+window.addEventListener(
+"load",
+()=>{
+
+
+navigator.serviceWorker.register(
+"sw.js"
+)
+
+.then(()=>{
+
+console.log(
+"GarangoDaaki : Service Worker enregistré"
+);
+
+})
+
+.catch((error)=>{
+
+
+console.error(
+"Erreur Service Worker :",
+error
+);
+
+
+});
+
+
+});
+
+
+}
