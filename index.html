@@ -163,6 +163,60 @@ async function openConversation(item){
 
   await loadConversation();
 }
+  async function loadConversation(){
+  if(!activeConversation || !currentUser) return;
+
+  const {sellerId, listingId} = activeConversation;
+
+  const [sent, received] = await Promise.all([
+    supabaseClient.from('messages')
+      .select('id,sender_id,receiver_id,listing_id,content,created_at,is_read')
+      .eq('sender_id', currentUser.id)
+      .eq('receiver_id', sellerId)
+      .eq('listing_id', listingId),
+
+    supabaseClient.from('messages')
+      .select('id,sender_id,receiver_id,listing_id,content,created_at,is_read')
+      .eq('sender_id', sellerId)
+      .eq('receiver_id', currentUser.id)
+      .eq('listing_id', listingId)
+  ]);
+
+  const thread = document.getElementById('messageThread');
+
+  if(sent.error || received.error){
+    thread.textContent = 'Impossible de charger les messages.';
+    return;
+  }
+
+  const messages = [...(sent.data || []), ...(received.data || [])]
+    .sort((a,b)=>new Date(a.created_at)-new Date(b.created_at));
+
+  if(!messages.length){
+    thread.innerHTML = '<p>Aucun message pour le moment. Envoyez le premier message !</p>';
+  }else{
+    thread.innerHTML = messages.map(m=>{
+      const mine = m.sender_id === currentUser.id;
+      return `
+        <div style="text-align:${mine?'right':'left'};margin:10px 0">
+          <div style="display:inline-block;max-width:85%;padding:10px 13px;border-radius:12px;background:${mine?'#dff3e7':'#f0f0f0'};text-align:left">
+            <div style="white-space:pre-wrap">${safeText(m.content)}</div>
+            <small>${new Date(m.created_at).toLocaleString('fr-FR')}</small>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  thread.scrollTop = thread.scrollHeight;
+
+  await supabaseClient.from('messages')
+    .update({is_read:true})
+    .eq('sender_id', sellerId)
+    .eq('receiver_id', currentUser.id)
+    .eq('listing_id', listingId)
+    .eq('is_read', false);
+}
 function showDetails(item){
   const box = document.getElementById('detailsContent');
   const photos = item.images || [];
