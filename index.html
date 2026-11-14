@@ -217,6 +217,40 @@ async function openConversation(item){
     .eq('listing_id', listingId)
     .eq('is_read', false);
 }
+ document.getElementById('messageForm').addEventListener('submit', async function(e){
+  e.preventDefault();
+
+  if(!activeConversation || !currentUser) return;
+
+  const input = document.getElementById('messageInput');
+  const button = document.getElementById('sendMessageBtn');
+  const status = document.getElementById('messageStatus');
+  const content = input.value.trim();
+
+  if(!content) return;
+
+  button.disabled = true;
+  status.textContent = 'Envoi en cours...';
+
+  const {error} = await supabaseClient.from('messages').insert({
+    sender_id: currentUser.id,
+    receiver_id: activeConversation.sellerId,
+    listing_id: activeConversation.listingId,
+    content: content
+  });
+
+  button.disabled = false;
+
+  if(error){
+    status.textContent = 'Erreur : ' + error.message;
+    return;
+  }
+
+  input.value = '';
+  status.textContent = 'Message envoyé !';
+
+  await loadConversation();
+}); 
 function showDetails(item){
   const box = document.getElementById('detailsContent');
   const photos = item.images || [];
