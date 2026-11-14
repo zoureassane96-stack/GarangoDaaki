@@ -131,7 +131,38 @@ function closeMessageModal(){
 function closeDetails(){
   detailsModal.classList.remove('open');
 }
+async function openConversation(item){
+  if(!currentUser){
+    openAuth('login');
+    return;
+  }
 
+  if(!item.user_id || item.user_id === currentUser.id){
+    alert('Vous ne pouvez pas vous envoyer un message.');
+    return;
+  }
+
+  activeConversation = {
+    sellerId: item.user_id,
+    listingId: item.id
+  };
+
+  document.getElementById('messageTitle').textContent =
+    'Conversation avec ' + (item.seller?.full_name || 'le vendeur');
+
+  document.getElementById('messageListingInfo').textContent =
+    'Annonce : ' + item.title;
+
+  document.getElementById('messageThread').innerHTML =
+    '<p>Chargement des messages...</p>';
+
+  document.getElementById('messageStatus').textContent = '';
+  document.getElementById('messageInput').value = '';
+
+  messageModal.classList.add('open');
+
+  await loadConversation();
+}
 function showDetails(item){
   const box = document.getElementById('detailsContent');
   const photos = item.images || [];
