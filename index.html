@@ -83,7 +83,42 @@ async function toggleFavorite(id){if(!currentUser){openAuth('login');setStatus('
 async function loadListings(){const grid=document.getElementById('listingGrid');grid.innerHTML='<div class="empty" style="display:block;grid-column:1/-1">Chargement des annonces…</div>';let {data,error}=await supabaseClient.from('listings').select('id,title,description,category,listing_type,price,negotiable,city,phone,is_featured,created_at').eq('status','published').order('created_at',{ascending:false});if(error){grid.innerHTML='';document.getElementById('empty').style.display='block';document.getElementById('empty').textContent='Impossible de charger les annonces pour le moment. Vérifiez la connexion puis actualisez.';console.error(error);return}allListings=data||[];if(allListings.length){const ids=allListings.map(x=>x.id);const {data:imgs,error:imgErr}=await supabaseClient.from('listing_images').select('listing_id,image_url,position').in('listing_id',ids).order('position',{ascending:true});if(!imgErr){const byId={};(imgs||[]).forEach(im=>(byId[im.listing_id]??=[]).push(im.image_url));allListings.forEach(x=>x.images=byId[x.id]||[])}else allListings.forEach(x=>x.images=[])}else allListings=[];renderListings()}
 function safeText(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function renderListings(){const grid=document.getElementById('listingGrid');grid.innerHTML='';let shown=0;const q=(document.getElementById('searchInput')?.value||'').trim().toLowerCase(),city=(document.getElementById('cityFilter')?.value||'').trim().toLowerCase(),selected=window.selectedCategory||'';allListings.forEach(item=>{const text=[item.title,item.description,item.category,item.city,item.listing_type].join(' ').toLowerCase();if((q&&!text.includes(q))||(city&&String(item.city).toLowerCase()!==city)||(selected&&item.category!==selected))return;shown++;const card=document.createElement('article');card.className='listing';card.dataset.category=item.category;card.dataset.city=item.city;const img=item.images?.[0]||'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=700&q=80';card.innerHTML=`${item.is_featured?'<span class="featured">★ À la une</span>':''}<button class="fav" type="button" aria-label="Ajouter aux favoris">${favoriteIds.has(item.id)?'♥':'♡'}</button><img alt="Photo de l’annonce" loading="lazy"><div class="listingbody"><h3></h3><div class="price"></div><div class="meta"><span class="city"></span><span class="category"></span></div><div class="listing-actions"><button type="button" class="galleryBtn">Voir les photos</button>${item.phone?`<a class="contactBtn" target="_blank" rel="noopener">Contacter</a>`:''}</div></div>`;const image=card.querySelector('img');image.src=img;image.addEventListener('click',()=>showPhoto(img));card.querySelector('h3').textContent=item.title;card.querySelector('.price').textContent=item.price!==null&&item.price!==''?Number(item.price).toLocaleString('fr-FR')+' FCFA':(item.negotiable?'Prix à discuter':'Prix non précisé');card.querySelector('.city').textContent='📍 '+item.city;card.querySelector('.category').textContent=item.category;card.querySelector('.fav').addEventListener('click',()=>toggleFavorite(item.id));card.querySelector('.galleryBtn').addEventListener('click',()=>{if(item.images?.length)showPhoto(item.images[0]);else alert('Aucune photo disponible pour cette annonce.')});const contact=card.querySelector('.contactBtn');if(contact)contact.href='https://wa.me/'+String(item.phone).replace(/\D/g,'');grid.appendChild(card)});document.getElementById('empty').style.display=shown?'none':'block';if(!allListings.length)document.getElementById('empty').textContent='Aucune annonce publiée pour le moment. Revenez bientôt ou soyez le premier à publier.';else document.getElementById('empty').textContent='Aucune annonce ne correspond à votre recherche.'}
-function showPhoto(src){document.getElementById('largePhoto').src=src;photoModal.classList.add('open')}
+let galleryPhotos = [];
+let galleryIndex = 0;
+let touchStartX = 0;
+
+function showPhoto(photos){
+  galleryPhotos = Array.isArray(photos) ? photos : [photos];
+  galleryPhotos = galleryPhotos.filter(Boolean);
+  if(!galleryPhotos.length)return;
+  galleryIndex = 0;
+  updateGallery();
+  photoModal.classList.add('open');
+}
+
+function updateGallery(){
+  document.getElementById('largePhoto').src = galleryPhotos[galleryIndex];
+  document.getElementById('photoCounter').textContent =
+    (galleryIndex + 1) + ' / ' + galleryPhotos.length;
+}
+
+function changePhoto(direction){
+  if(!galleryPhotos.length)return;
+  galleryIndex = (galleryIndex + direction + galleryPhotos.length) % galleryPhotos.length;
+  updateGallery();
+}
+
+const galleryImage = document.getElementById('largePhoto');
+galleryImage.addEventListener('touchstart', e => {
+  touchStartX = e.changedTouches[0].screenX;
+}, {passive:true});
+
+galleryImage.addEventListener('touchend', e => {
+  const difference = e.changedTouches[0].screenX - touchStartX;
+  if(Math.abs(difference) > 45){
+    changePhoto(difference < 0 ? 1 : -1);
+  }
+}, {passive:true});
 function filterListings(cat=''){window.selectedCategory=cat;renderListings()}
 document.getElementById('searchInput').addEventListener('input',()=>renderListings());document.getElementById('cityFilter').addEventListener('change',()=>renderListings());document.querySelectorAll('.cat').forEach(el=>el.addEventListener('click',()=>{document.querySelectorAll('.cat').forEach(x=>x.style.outline='');el.style.outline='3px solid #f58216';filterListings(el.dataset.cat)}));
 document.getElementById('photos').addEventListener('change',e=>{const files=[...e.target.files],preview=document.getElementById('preview');preview.innerHTML='';if(files.length>5){alert('Choisissez au maximum 5 photos.');e.target.value='';return}for(const f of files){if(!['image/jpeg','image/png','image/webp'].includes(f.type)||f.size>2*1024*1024){alert('Chaque photo doit être JPG, PNG ou WebP et ne pas dépasser 2 Mo.');e.target.value='';preview.innerHTML='';return}const img=document.createElement('img');img.src=URL.createObjectURL(f);img.alt='Aperçu photo';preview.appendChild(img)}});
