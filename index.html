@@ -121,7 +121,13 @@ function closeAuth(){authModal.classList.remove('open')}
 function closeProfile(){profileModal.classList.remove('open')}
 function closePhoto(){photoModal.classList.remove('open')}
   const detailsModal = document.getElementById('detailsModal');
+const messageModal = document.getElementById('messageModal');
+let activeConversation = null;
 
+function closeMessageModal(){
+  messageModal.classList.remove('open');
+  activeConversation = null;
+}
 function closeDetails(){
   detailsModal.classList.remove('open');
 }
