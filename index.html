@@ -287,9 +287,8 @@ function showDetails(item){
     </div>
 
     ${item.phone
-      ? `<a class="btn btn-green" target="_blank" rel="noopener" href="https://wa.me/${String(item.phone).replace(/\D/g,'')}">Contacter le vendeur sur WhatsApp</a>`
-      : '<p>Numéro du vendeur non renseigné.</p>'}
-  `;
+  ? `<a class="btn" style="display:block;width:100%;box-sizing:border-box;text-align:center;background:#f58216;color:white;margin-top:12px;" target="_blank" rel="noopener" href="https://wa.me/${String(item.phone).replace(/\D/g,'')}">Contacter le vendeur sur WhatsApp</a>`
+  : '<p>Numéro du vendeur non renseigné.</p>'}
 
   box.querySelectorAll('[data-photo-index]').forEach(img=>{
     img.addEventListener('click',()=>{
