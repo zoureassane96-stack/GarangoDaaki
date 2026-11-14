@@ -131,39 +131,8 @@ function closeMessageModal(){
 function closeDetails(){
   detailsModal.classList.remove('open');
 }
-async function openConversation(item){
-  if(!currentUser){
-    openAuth('login');
-    return;
-  }
 
-  if(!item.user_id || item.user_id === currentUser.id){
-    alert('Vous ne pouvez pas vous envoyer un message.');
-    return;
-  }
-
-  activeConversation = {
-    sellerId: item.user_id,
-    listingId: item.id
-  };
-
-  document.getElementById('messageTitle').textContent =
-    'Conversation avec ' + (item.seller?.full_name || 'le vendeur');
-
-  document.getElementById('messageListingInfo').textContent =
-    'Annonce : ' + item.title;
-
-  document.getElementById('messageThread').innerHTML =
-    '<p>Chargement des messages...</p>';
-
-  document.getElementById('messageStatus').textContent = '';
-  document.getElementById('messageInput').value = '';
-
-  messageModal.classList.add('open');
-
-  await loadConversation();
-}
-  async function loadConversation(){
+async function loadConversation(){
   if(!activeConversation || !currentUser) return;
 
   const {sellerId, listingId} = activeConversation;
@@ -198,10 +167,11 @@ async function openConversation(item){
     thread.innerHTML = messages.map(m=>{
       const mine = m.sender_id === currentUser.id;
       return `
-        <div style="text-align:${mine?'right':'left'};margin:10px 0">
-          <div style="display:inline-block;max-width:85%;padding:10px 13px;border-radius:12px;background:${mine?'#dff3e7':'#f0f0f0'};text-align:left">
+        <div style="text-align:${mine?'right':'left'};margin:12px 0">
+          <div style="display:inline-block;max-width:85%;padding:12px 15px;border-radius:14px;background:${mine?'#d9fbe8':'#fff0df'};border:1px solid ${mine?'#8bd5a8':'#f5bd83'};text-align:left">
+            <strong style="display:block;font-size:12px;margin-bottom:5px;color:${mine?'#08734d':'#b45b0a'}">${mine?'Vous':'Vendeur'}</strong>
             <div style="white-space:pre-wrap">${safeText(m.content)}</div>
-            <small>${new Date(m.created_at).toLocaleString('fr-FR')}</small>
+            <small style="display:block;margin-top:7px;color:#666">${new Date(m.created_at).toLocaleString('fr-FR')}</small>
           </div>
         </div>
       `;
@@ -217,6 +187,7 @@ async function openConversation(item){
     .eq('listing_id', listingId)
     .eq('is_read', false);
 }
+
  document.getElementById('messageForm').addEventListener('submit', async function(e){
   e.preventDefault();
 
