@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#064b35">
+<title>Administration — GarangoDaaki</title>
+<style>
+:root{--green:#064b35;--green2:#08734d;--orange:#f58216;--bg:#f3f6f4;--ink:#17231d;--muted:#64736b;--line:#dce5df;--red:#b42318}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px system-ui,-apple-system,Segoe UI,Roboto,sans-serif}header{background:var(--green);color:#fff;padding:18px 16px}header .inner,main{max-width:900px;margin:auto}header h1{margin:0;font-size:21px}header p{margin:4px 0 0;color:#d9eee3}main{padding:20px 14px 50px}.panel,.listing{background:#fff;border:1px solid var(--line);border-radius:15px;padding:17px;margin:0 0 15px;box-shadow:0 3px 12px #102b1b0a}h2{font-size:19px;margin:0 0 12px}.muted{color:var(--muted)}label{display:block;font-weight:650;margin:12px 0 6px}input{width:100%;padding:13px;border:1px solid #cbd8d0;border-radius:9px;font:inherit}button,.linkbtn{border:0;border-radius:9px;padding:12px 15px;font:650 14px system-ui;cursor:pointer;text-decoration:none;display:inline-block}button:disabled{opacity:.55;cursor:wait}.primary{background:var(--green2);color:#fff}.approve{background:#e3f4e9;color:#126436}.reject{background:#fff0ed;color:var(--red)}.secondary{background:#eaf0ec;color:var(--green)}.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}.topline{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}.hidden{display:none!important}.status{font-size:12px;font-weight:700;background:#fff3df;color:#8a4b00;padding:5px 9px;border-radius:30px}.photos{display:flex;gap:8px;overflow:auto;margin:12px 0}.photos img{width:105px;height:90px;object-fit:cover;border-radius:9px;border:1px solid var(--line)}.listing h3{margin:8px 0;font-size:18px}.details{color:var(--muted);line-height:1.6;overflow-wrap:anywhere}.notice{padding:11px 13px;border-radius:9px;background:#eef5f0;margin:12px 0}.error{background:#fff0ed;color:var(--red)}.empty{text-align:center;padding:28px;color:var(--muted)}a{color:inherit}
+</style>
+</head>
+<body>
+<header><div class="inner"><h1>GarangoDaaki — Administration</h1><p>Gestion des annonces en attente</p></div></header>
+<main>
+<section id="loginPanel" class="panel">
+<h2>Connexion administrateur</h2>
+<p class="muted">Connecte-toi avec le compte qui a été ajouté comme administrateur dans Supabase.</p>
+<form id="loginForm">
+<label for="email">Adresse e-mail</label><input id="email" type="email" autocomplete="username" required>
+<label for="password">Mot de passe</label><input id="password" type="password" autocomplete="current-password" required>
+<div class="actions"><button class="primary" id="loginBtn" type="submit">Se connecter</button><a class="linkbtn secondary" href="./">Retour au site</a></div>
+</form><div id="loginMessage" class="notice hidden" role="status"></div>
+</section>
+<section id="dashboard" class="hidden">
+<div class="panel"><div class="topline"><div><h2>Tableau de bord</h2><div class="muted" id="adminEmail"></div></div><div class="actions"><button class="secondary" id="refreshBtn" type="button">Actualiser</button><button class="reject" id="logoutBtn" type="button">Déconnexion</button></div></div><div id="message" class="notice hidden" role="status"></div></div>
+<div class="topline" style="margin:18px 2px"><h2>Annonces en attente</h2><span class="status" id="count">0 annonce</span></div>
+<div id="listings"><div class="empty">Chargement…</div></div>
+</section>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SUPABASE_URL='https://uabhuviadsclbjiplgyn.supabase.co';
+const SUPABASE_KEY='sb_publishable_41TR7IoA2GmoO3GoN1Cayg_meKVO_qn';
+const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+const $=id=>document.getElementById(id);
+function show(el,on=true){$(el).classList.toggle('hidden',!on)}
+function note(id,msg,isError=false){const el=$(id);el.textContent=msg;el.classList.toggle('error',isError);show(id,true)}
+function clearNote(id){show(id,false)}
+function make(tag,cls,text){const e=document.createElement(tag);if(cls)e.className=cls;if(text!==undefined)e.textContent=text;return e}
+async function verifyAdmin(){const {data,error}=await db.rpc('is_garangodaaki_admin');if(error)throw error;if(data!==true)throw new Error('Ce compte ne possède pas les droits administrateur.');}
+async function showDashboard(user){await verifyAdmin();$('adminEmail').textContent=user.email||'Compte administrateur';show('loginPanel',false);show('dashboard',true);await loadPending();}
+$('loginForm').addEventListener('submit',async e=>{e.preventDefault();clearNote('loginMessage');$('loginBtn').disabled=true;try{const {data,error}=await db.auth.signInWithPassword({email:$('email').value.trim(),password:$('password').value});if(error)throw error;await showDashboard(data.user);}catch(err){note('loginMessage',err.message||'Connexion impossible.',true);}finally{$('loginBtn').disabled=false;}});
+async function loadPending(){const root=$('listings');root.replaceChildren(make('div','empty','Chargement des annonces…'));clearNote('message');const {data:rows,error}=await db.from('listings').select('id,title,description,category,listing_type,price,negotiable,city,phone,status,created_at,user_id').eq('status','pending').order('created_at',{ascending:false});if(error){root.replaceChildren();note('message','Erreur de chargement : '+error.message,true);return;}$('count').textContent=rows.length+' annonce'+(rows.length>1?'s':'');if(!rows.length){root.replaceChildren(make('div','panel empty','Aucune annonce en attente pour le moment.'));return;}const ids=rows.map(x=>x.id);const {data:photos,error:photoError}=await db.from('listing_images').select('listing_id,image_url,position').in('listing_id',ids).order('position',{ascending:true});if(photoError)console.warn('Photos non chargées',photoError);const byId={};(photos||[]).forEach(p=>(byId[p.listing_id]??=[]).push(p));root.replaceChildren();rows.forEach(row=>root.appendChild(renderListing(row,byId[row.id]||[])));}
+function renderListing(row,photos){const card=make('article','listing');const top=make('div','topline');top.append(make('span','status','EN ATTENTE'),make('span','muted',new Date(row.created_at).toLocaleString('fr-FR')));card.append(top,make('h3','',row.title||'Annonce sans titre'));const info=[row.category,row.listing_type==='service'?'Service':'Produit',row.city,row.price!=null?Number(row.price).toLocaleString('fr-FR')+' FCFA':'Prix à discuter',row.negotiable?'Négociable':''].filter(Boolean).join(' · ');card.append(make('div','details',info));if(row.description)card.append(make('p','',row.description));if(row.phone)card.append(make('div','details','Téléphone : '+row.phone));if(photos.length){const strip=make('div','photos');photos.forEach(p=>{const img=document.createElement('img');img.src=p.image_url;img.alt='Photo de '+(row.title||'annonce');img.loading='lazy';strip.append(img)});card.append(strip);}const actions=make('div','actions');const yes=make('button','approve','Publier');const no=make('button','reject','Refuser');yes.type=no.type='button';yes.addEventListener('click',()=>setStatus(row.id,'published',yes,no));no.addEventListener('click',()=>setStatus(row.id,'rejected',yes,no));actions.append(yes,no);card.append(actions);return card;}
+async function setStatus(id,status,yes,no){const label=status==='published'?'publier':'refuser';if(!confirm('Confirmer : '+label+' cette annonce ?'))return;yes.disabled=no.disabled=true;try{const {error}=await db.rpc('admin_set_listing_status',{p_listing_id:id,p_status:status});if(error)throw error;note('message',status==='published'?'Annonce publiée avec succès.':'Annonce refusée.');await loadPending();}catch(err){note('message',err.message||'Action impossible.',true);yes.disabled=no.disabled=false;}}
+$('refreshBtn').addEventListener('click',loadPending);
+$('logoutBtn').addEventListener('click',async()=>{await db.auth.signOut();show('dashboard',false);show('loginPanel',true);$('password').value='';});
+(async()=>{const {data:{session}}=await db.auth.getSession();if(session){try{await showDashboard(session.user);}catch(err){await db.auth.signOut();show('loginPanel',true);note('loginMessage',err.message||'Accès refusé.',true);}}})();
+</script>
+</body>
+</html>
