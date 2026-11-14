@@ -58,6 +58,15 @@
     <p id="photoCounter" style="font-weight:800;color:var(--green)">0 / 0</p>
   </div>
 </div>
+  <div class="modal" id="detailsModal" role="dialog" aria-modal="true" aria-label="Détails de l'annonce">
+  <div class="dialog" style="width:min(750px,100%)">
+    <div class="dialoghead">
+      <h2>Détails de l'annonce</h2>
+      <button class="close" onclick="closeDetails()" aria-label="Fermer">×</button>
+    </div>
+    <div id="detailsContent"></div>
+  </div>
+</div>
 <script>
 // Configuration publique Supabase : cette clé publishable est destinée au navigateur.
 const SUPABASE_URL='https://uabhuviadsclbjiplgyn.supabase.co';
@@ -70,6 +79,36 @@ function closeModal(){modal.classList.remove('open')}
 function closeAuth(){authModal.classList.remove('open')}
 function closeProfile(){profileModal.classList.remove('open')}
 function closePhoto(){photoModal.classList.remove('open')}
+  const detailsModal = document.getElementById('detailsModal');
+
+function closeDetails(){
+  detailsModal.classList.remove('open');
+}
+
+function showDetails(item){
+  const box = document.getElementById('detailsContent');
+  const photos = item.images || [];
+
+  box.innerHTML = `
+    <div style="display:flex;gap:10px;overflow-x:auto;margin:15px 0">
+      ${photos.length ? photos.map((url,i)=>`
+        <img src="${safeText(url)}" alt="Photo ${i+1}"
+          data-photo-index="${i}"
+          style="width:180px;height:150px;object-fit:cover;border-radius:10px;cursor:zoom-in;flex:none">
+      `).join('') : '<p>Aucune photo disponible.</p>'}
+    </div>
+    <h2>${safeText(item.title)}</h2>
+    <p style="color:var(--orange);font-size:22px;font-weight:900">
+      ${item.price!==null && item.price!=='' ? Number(item.price).toLocaleString('fr-FR')+' FCFA' : 'Prix à discuter'}
+    </p>
+    <p><strong>Catégorie :</strong> ${safeText(item.category)}</p>
+    <p><strong>Localité :</strong> ${safeText(item.city)}</p>
+    <p style="white-space:pre-wrap;line-height:1.6">${safeText(item.description || 'Aucune description.')}</p>
+    ${item.phone ? `<a class="btn btn-green" target="_blank" rel="noopener" href="https://wa.me/${String(item.phone).replace(/\D/g,'')}">Contacter le vendeur sur WhatsApp</a>` : '<p>Numéro du vendeur non renseigné.</p>'}
+  `;
+
+  detailsModal.classList.add('open');
+}
 [modal,authModal,profileModal,photoModal].forEach(m=>m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('open')}));
 function setStatus(id,msg,isError=false){const el=document.getElementById(id);el.textContent=msg;el.style.color=isError?'#b42318':'var(--green)'}
 function openAuth(mode='login'){authMode=mode;const signup=mode==='signup';document.getElementById('authTitle').textContent=signup?'Créer un compte':'Connexion';document.getElementById('authIntro').textContent=signup?'Créez votre compte pour publier et gérer vos annonces.':'Connectez-vous à votre compte GarangoDaaki.';document.getElementById('authSubmit').textContent=signup?'Créer mon compte':'Se connecter';['nameField','phoneField','authCityField'].forEach(id=>document.getElementById(id).style.display=signup?'flex':'none');document.getElementById('authName').required=signup;document.getElementById('authSwitch').innerHTML=signup?'Vous avez déjà un compte ? <a href="#" onclick="openAuth(\'login\');return false">Se connecter</a>':'Pas encore de compte ? <a href="#" onclick="openAuth(\'signup\');return false">Créer un compte</a>';setStatus('authStatus','');authModal.classList.add('open')}
