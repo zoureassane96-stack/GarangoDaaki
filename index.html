@@ -44,7 +44,20 @@
 <div class="field full"><label for="photos">Photos de l'annonce</label><input id="photos" type="file" accept="image/jpeg,image/png,image/webp" multiple><span class="hint">JPG, PNG ou WebP. Maximum 5 photos de 2 Mo chacune.</span><div class="preview" id="preview"></div></div><div class="field full"><label for="description">Description *</label><textarea id="description" required maxlength="1500" placeholder="Décrivez votre produit, service ou annonce…"></textarea></div><div class="field full"><button class="btn btn-orange" id="publishSubmit" type="submit">Publier l'annonce</button><div class="statusline" id="publishStatus" role="status"></div></div></div></form></div></div>
 <div class="modal" id="authModal" role="dialog" aria-modal="true" aria-labelledby="authTitle"><div class="dialog"><div class="dialoghead"><h2 id="authTitle">Connexion</h2><button class="close" onclick="closeAuth()" aria-label="Fermer">×</button></div><p class="authnote" id="authIntro">Connectez-vous à votre compte GarangoDaaki.</p><form id="authForm"><div class="formgrid"><div class="field full" id="nameField" style="display:none"><label for="authName">Nom complet</label><input id="authName" autocomplete="name" maxlength="100"></div><div class="field full" id="phoneField" style="display:none"><label for="authPhone">Téléphone</label><input id="authPhone" type="tel" placeholder="+226 …"></div><div class="field full" id="authCityField" style="display:none"><label for="authCity">Ville / localité</label><input id="authCity" placeholder="Garango"></div><div class="field full"><label for="authEmail">Adresse e-mail *</label><input id="authEmail" type="email" required autocomplete="email"></div><div class="field full"><label for="authPassword">Mot de passe *</label><input id="authPassword" type="password" required minlength="6" autocomplete="current-password"></div><div class="field full"><button class="btn btn-green" id="authSubmit" type="submit">Se connecter</button><div class="statusline" id="authStatus" role="status"></div><p class="authnote" id="authSwitch">Pas encore de compte ? <a href="#" onclick="openAuth('signup');return false">Créer un compte</a></p></div></div></form></div></div>
 <div class="modal" id="profileModal" role="dialog" aria-modal="true" aria-labelledby="profileTitle"><div class="dialog"><div class="dialoghead"><h2 id="profileTitle">Mon espace</h2><button class="close" onclick="closeProfile()" aria-label="Fermer">×</button></div><div id="profileContent"></div></div></div>
-<div class="modal" id="photoModal" role="dialog" aria-modal="true" aria-label="Photo de l'annonce"><div class="dialog" style="width:min(900px,100%);text-align:center"><div class="dialoghead"><strong>Photos de l'annonce</strong><button class="close" onclick="closePhoto()" aria-label="Fermer">×</button></div><img id="largePhoto" alt="Photo agrandie" style="max-width:100%;max-height:72vh;object-fit:contain;margin-top:12px"></div></div>
+<div class="modal" id="photoModal" role="dialog" aria-modal="true" aria-label="Galerie de photos">
+  <div class="dialog" style="width:min(900px,100%);text-align:center">
+    <div class="dialoghead">
+      <strong>Photos de l'annonce</strong>
+      <button class="close" onclick="closePhoto()" aria-label="Fermer">×</button>
+    </div>
+    <div style="display:flex;align-items:center;justify-content:center;gap:10px;margin-top:15px">
+      <button class="btn btn-green" onclick="changePhoto(-1)" aria-label="Photo précédente">❮</button>
+      <img id="largePhoto" alt="Photo agrandie" style="max-width:75%;max-height:65vh;object-fit:contain">
+      <button class="btn btn-green" onclick="changePhoto(1)" aria-label="Photo suivante">❯</button>
+    </div>
+    <p id="photoCounter" style="font-weight:800;color:var(--green)">0 / 0</p>
+  </div>
+</div>
 <script>
 // Configuration publique Supabase : cette clé publishable est destinée au navigateur.
 const SUPABASE_URL='https://uabhuviadsclbjiplgyn.supabase.co';
