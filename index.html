@@ -106,7 +106,14 @@ function showDetails(item){
     <p style="white-space:pre-wrap;line-height:1.6">${safeText(item.description || 'Aucune description.')}</p>
     ${item.phone ? `<a class="btn btn-green" target="_blank" rel="noopener" href="https://wa.me/${String(item.phone).replace(/\D/g,'')}">Contacter le vendeur sur WhatsApp</a>` : '<p>Numéro du vendeur non renseigné.</p>'}
   `;
-
+  box.querySelectorAll('[data-photo-index]').forEach(img=>{
+    img.addEventListener('click',()=>{
+      galleryPhotos = photos;
+      galleryIndex = Number(img.dataset.photoIndex);
+      updateGallery();
+      photoModal.classList.add('open');
+    });
+  });
   detailsModal.classList.add('open');
 }
 [modal,authModal,profileModal,photoModal].forEach(m=>m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('open')}));
