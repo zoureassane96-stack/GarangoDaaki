@@ -9,43 +9,17 @@
 <link rel="manifest" href="manifest.json">
 <style>
 :root{--green:#064b35;--green2:#08734d;--orange:#f58216;--ink:#18231e;--muted:#66736c;--pale:#e4f5ed;--line:#e5ebe7;--shadow:0 8px 24px #063d2814}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--ink);background:#f7faf8}button,input,select,textarea{font:inherit}button{cursor:pointer}
-.wrap{width:min(1200px,calc(100% - 32px));margin:auto}.top{background:#fff;border-bottom:1px solid var(--line)}.topin{min-height:82px;display:flex;align-items:center;gap:22px;justify-content:space-between}.brand{display:flex;align-items:center;gap:10px;color:var(--green);text-decoration:none;min-width:240px}.brand svg{width:62px;height:52px;flex:none}.brandname{font-size:clamp(23px,3vw,34px);font-weight:900;letter-spacing:-1.4px;line-height:1}.brandname span{color:var(--orange)}.tag{font-size:12px;font-weight:700;font-style:italic;color:var(--green);margin-top:4px}.place{font-weight:750;border-left:1px solid var(--line);padding-left:20px;line-height:1.25}.actions{display:flex;gap:10px}.btn{border:0;border-radius:12px;padding:12px 18px;font-weight:800}.btn-outline{background:white;color:var(--green);border:1.5px solid var(--green)}.btn-orange{background:var(--orange);color:white}.btn-green{background:var(--green);color:white}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--ink);background:#f7faf8}button,input,select,textarea{font:inherit}button{cursor:pointer}.wrap{width:min(1200px,calc(100% - 32px));margin:auto}
+.top{background:#fff;border-bottom:1px solid var(--line)}.topin{min-height:82px;display:flex;align-items:center;gap:22px;justify-content:space-between}.brand{display:flex;align-items:center;gap:10px;color:var(--green);text-decoration:none;min-width:240px}.brand svg{width:62px;height:52px;flex:none}.brandname{font-size:clamp(23px,3vw,34px);font-weight:900;letter-spacing:-1.4px;line-height:1}.brandname span{color:var(--orange)}.tag{font-size:12px;font-weight:700;font-style:italic;color:var(--green);margin-top:4px}.place{font-weight:750;border-left:1px solid var(--line);padding-left:20px;line-height:1.25}.actions{display:flex;gap:10px}.btn{border:0;border-radius:12px;padding:12px 18px;font-weight:800}.btn-outline{background:white;color:var(--green);border:1.5px solid var(--green)}.btn-orange{background:var(--orange);color:white}.btn-green{background:var(--green);color:white}.btn-danger{background:#b42318;color:#fff}
 .nav{background:var(--green);color:white;border-radius:0 0 18px 18px;display:flex;justify-content:space-around;overflow:hidden}.nav a{color:white;text-decoration:none;font-weight:800;padding:16px 24px;display:flex;align-items:center;gap:9px;flex:1;justify-content:center}.nav a.active,.nav a:hover{background:var(--orange)}
 .hero{margin-top:14px;border-radius:20px;overflow:hidden;color:white;background:linear-gradient(90deg,#063d31 0%,#063d31e8 34%,#063d3150 67%,#063d3120),url('https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?auto=format&fit=crop&w=1800&q=85') center/cover;min-height:300px;display:flex;align-items:center;padding:34px}.hero-content{max-width:590px}.hero h1{font-size:clamp(34px,5vw,58px);line-height:1.02;margin:0 0 12px;font-weight:950;letter-spacing:-1.5px}.hero h1 span{color:var(--orange)}.hero p{font-size:clamp(16px,2vw,21px);font-weight:700;line-height:1.35;margin:0 0 20px}.search{display:grid;grid-template-columns:1fr 190px auto;gap:8px;background:white;padding:7px;border-radius:16px;box-shadow:var(--shadow)}.search input,.search select{border:0;outline:0;padding:12px;color:var(--ink);min-width:0;background:white}.search button{border:0;border-radius:11px;background:var(--orange);color:white;font-weight:850;padding:0 24px}
-.section{padding:28px 0 4px}.sectionhead{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}.sectionhead h2{margin:0;font-size:25px;letter-spacing:-.5px}.textlink{color:var(--orange);font-weight:800;text-decoration:none}.categories{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}.cat{position:relative;overflow:hidden;border-radius:15px;background:var(--green);box-shadow:var(--shadow);min-width:0;color:white;text-decoration:none}.cat img{width:100%;height:120px;display:block;object-fit:cover;transition:transform .25s}.cat:hover img{transform:scale(1.04)}.cat strong{display:block;text-align:center;padding:10px 5px;font-size:15px}.cat .emoji{margin-right:6px}
+.section{padding:28px 0 4px}.sectionhead{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}.sectionhead h2{margin:0;font-size:25px;letter-spacing:-.5px}.textlink{color:var(--orange);font-weight:800;text-decoration:none}.categories{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}.cat{position:relative;overflow:hidden;border-radius:15px;background:var(--green);box-shadow:var(--shadow);min-width:0;color:white;text-decoration:none}.cat img{width:100%;height:120px;display:block;object-fit:cover;transition:transform .25s}.cat:hover img{transform:scale(1.04)}.cat strong{display:block;text-align:center;padding:10px 5px;font-size:15px}
 .trust{display:grid;grid-template-columns:repeat(4,1fr);gap:0;background:var(--pale);border-radius:16px;padding:18px;margin:24px 0}.trust div{display:flex;align-items:center;justify-content:center;gap:10px;padding:5px 12px;border-right:1px solid #a9d8c2;font-weight:800}.trust div:last-child{border:0}.trust b{font-size:24px;color:var(--green)}
-.cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}.listing{background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:var(--shadow);position:relative}.listing img{width:100%;height:160px;object-fit:cover;display:block;background:#e8efeb;cursor:zoom-in}.listingbody{padding:11px}.listing h3{font-size:15px;margin:0 0 7px;line-height:1.25}.price{color:var(--orange);font-size:17px;font-weight:900;margin-bottom:8px}.meta{font-size:12px;color:var(--muted);display:flex;justify-content:space-between;gap:8px}.fav{position:absolute;right:10px;top:10px;border:0;border-radius:50%;width:36px;height:36px;background:#ffffffed;color:#d24c43;font-size:20px;z-index:2}.featured{position:absolute;left:9px;top:10px;background:#078a42;color:white;font-weight:850;font-size:12px;padding:5px 9px;border-radius:20px}.listing-actions{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
-.listing-actions a,.listing-actions button{
-  border:0;
-  border-radius:8px;
-  background:#e9f4ee;
-  color:var(--green);
-  font-size:12px;
-  font-weight:800;
-  padding:10px 8px;
-  text-decoration:none;
-  text-align:center;
-  flex:1 1 auto;
-  min-width:0;
-  white-space:normal;
-  line-height:1.3;
-}
+.cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}.listing{background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:var(--shadow);position:relative}.listing img.mainphoto{width:100%;height:160px;object-fit:cover;display:block;background:#e8efeb;cursor:zoom-in}.listingbody{padding:11px}.listing h3{font-size:15px;margin:0 0 7px;line-height:1.25}.price{color:var(--orange);font-size:17px;font-weight:900;margin-bottom:8px}.meta{font-size:12px;color:var(--muted);display:flex;justify-content:space-between;gap:8px}.fav{position:absolute;right:10px;top:10px;border:0;border-radius:50%;width:36px;height:36px;background:#ffffffed;color:#d24c43;font-size:20px;z-index:2}.featured{position:absolute;left:9px;top:10px;background:#078a42;color:white;font-weight:850;font-size:12px;padding:5px 9px;border-radius:20px}.listing-actions{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}.listing-actions a,.listing-actions button{border:0;border-radius:8px;background:#e9f4ee;color:var(--green);font-size:12px;font-weight:800;padding:10px 8px;text-decoration:none;text-align:center;flex:1 1 auto;min-width:0;line-height:1.3}
 .publishband{margin:30px 0;background:linear-gradient(105deg,#064b35,#08734d);border-radius:20px;color:white;padding:26px 30px;display:flex;align-items:center;justify-content:space-between;gap:20px;overflow:hidden}.publishband h2{margin:0 0 8px;font-size:clamp(22px,3vw,34px)}.publishband p{margin:0;color:#d9eee4}.publishband .btn{font-size:17px;padding:15px 22px;white-space:nowrap}footer{background:#043c2b;color:#e9f5ef;padding:28px 0 90px;margin-top:28px}.footin{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}.footin p{margin:6px 0;color:#c8dfd4;font-size:13px}.mobilebar{display:none}
-.modal{position:fixed;inset:0;background:#071b13a8;z-index:20;display:none;align-items:center;justify-content:center;padding:18px}.modal.open{display:flex}.dialog{background:#fff;border-radius:18px;padding:22px;width:min(620px,100%);max-height:90vh;overflow:auto;box-shadow:0 20px 70px #0004}.dialoghead{display:flex;justify-content:space-between;align-items:center;gap:12px}.dialog h2{margin:0;color:var(--green)}.close{border:0;background:#eef4f0;border-radius:50%;width:38px;height:38px;font-size:20px}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}.field{display:flex;flex-direction:column;gap:6px}.field.full{grid-column:1/-1}.field label{font-size:13px;font-weight:800}.field input,.field select,.field textarea{width:100%;border:1px solid #d8e2dc;border-radius:10px;padding:11px;background:white}.field textarea{min-height:90px;resize:vertical}.hint{font-size:12px;color:var(--muted)}.preview{display:flex;gap:8px;flex-wrap:wrap}.preview img{width:76px;height:76px;object-fit:cover;border-radius:8px}.empty{padding:25px;text-align:center;color:var(--muted);background:white;border:1px dashed #cbd8d0;border-radius:12px;display:none}.statusline{font-size:13px;color:var(--green);font-weight:700;min-height:18px;margin-top:8px}.authnote{font-size:13px;color:var(--muted);line-height:1.4}.checkrow{display:flex;align-items:center;gap:9px;font-size:13px;font-weight:700}.checkrow input{width:auto}
-@media(max-width:760px){.wrap{width:min(100% - 22px,600px)}.topin{min-height:70px;gap:8px;flex-wrap:wrap;padding:9px 0}.brand{min-width:0;flex:1}.brand svg{width:48px;height:42px}.brandname{font-size:23px}.tag{font-size:10px}.place{display:none}.actions .btn{padding:9px 11px;font-size:12px}.nav{display:none}.hero{margin-top:10px;min-height:320px;padding:23px 17px;background-position:center}.hero-content{max-width:100%}.search{grid-template-columns:1fr 1fr}.search input{grid-column:1/-1}.search button{min-height:46px}.categories{grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}.cat{border-radius:10px}.cat img{height:76px}.cat strong{font-size:11px;padding:8px 3px;line-height:1.15}.section{padding-top:22px}.sectionhead h2{font-size:20px}.trust{grid-template-columns:repeat(2,1fr);padding:12px;gap:8px}.trust div{justify-content:flex-start;border:0;padding:7px;font-size:12px}.trust b{font-size:20px}.cards{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.listing img{height:135px}.listingbody{padding:9px}.listing h3{font-size:13px}.price{font-size:15px}.publishband{padding:22px 18px;display:block}.publishband .btn{margin-top:15px}.mobilebar{display:flex;position:fixed;bottom:0;left:0;right:0;background:#064b35;color:white;z-index:10;justify-content:space-around;padding:8px 4px calc(8px + env(safe-area-inset-bottom));box-shadow:0 -5px 20px #0002}.mobilebar a,.mobilebar button{color:white;text-decoration:none;background:none;border:0;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:11px;font-weight:800;min-width:55px}.mobilebar span{font-size:21px}.formgrid{grid-template-columns:1fr}.field.full{grid-column:auto}}
-@media(max-width:380px){
-.cat img{height:64px}
-.cat strong{font-size:10px}
-.brandname{font-size:20px}
-.actions{gap:5px}
-.actions .btn{padding:8px}
-.listing-actions{gap:5px}
-.listing-actions a,.listing-actions button{
-font-size:11px;
-padding:9px 5px
-}
-}
+.modal{position:fixed;inset:0;background:#071b13a8;z-index:20;display:none;align-items:center;justify-content:center;padding:18px}.modal.open{display:flex}.dialog{background:#fff;border-radius:18px;padding:22px;width:min(620px,100%);max-height:90vh;overflow:auto;box-shadow:0 20px 70px #0004}.dialoghead{display:flex;justify-content:space-between;align-items:center;gap:12px}.dialog h2{margin:0;color:var(--green)}.close{border:0;background:#eef4f0;border-radius:50%;width:38px;height:38px;font-size:20px}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}.field{display:flex;flex-direction:column;gap:6px}.field.full{grid-column:1/-1}.field label{font-size:13px;font-weight:800}.field input,.field select,.field textarea{width:100%;border:1px solid #d8e2dc;border-radius:10px;padding:11px;background:white}.field textarea{min-height:90px;resize:vertical}.hint{font-size:12px;color:var(--muted)}.preview{display:flex;gap:8px;flex-wrap:wrap}.preview img{width:76px;height:76px;object-fit:cover;border-radius:8px}.empty{padding:25px;text-align:center;color:var(--muted);background:white;border:1px dashed #cbd8d0;border-radius:12px;display:none}.statusline{font-size:13px;color:var(--green);font-weight:700;min-height:18px;margin-top:8px}.authnote{font-size:13px;color:var(--muted);line-height:1.4}.checkrow{display:flex;align-items:center;gap:9px;font-size:13px;font-weight:700}.checkrow input{width:auto}.profile-row{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:12px 0;padding:10px;border:1px solid #ddd;border-radius:8px}.profile-row span{min-width:0;overflow-wrap:anywhere}.inbox-card{padding:12px;margin:12px 0;border:1px solid #d8e2dc;border-radius:12px;background:#f0f7f3}.unread-badge{display:inline-block;color:#fff;background:#c65c0a;border-radius:20px;padding:3px 8px;font-size:12px;font-weight:800;margin-top:6px}
+@media(max-width:760px){.wrap{width:min(100% - 22px,600px)}.topin{min-height:70px;gap:8px;flex-wrap:wrap;padding:9px 0}.brand{min-width:0;flex:1}.brand svg{width:48px;height:42px}.brandname{font-size:23px}.tag{font-size:10px}.place{display:none}.actions .btn{padding:9px 11px;font-size:12px}.nav{display:none}.hero{margin-top:10px;min-height:320px;padding:23px 17px;background-position:center}.hero-content{max-width:100%}.search{grid-template-columns:1fr 1fr}.search input{grid-column:1/-1}.search button{min-height:46px}.categories{grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}.cat{border-radius:10px}.cat img{height:76px}.cat strong{font-size:11px;padding:8px 3px;line-height:1.15}.section{padding-top:22px}.sectionhead h2{font-size:20px}.trust{grid-template-columns:repeat(2,1fr);padding:12px;gap:8px}.trust div{justify-content:flex-start;border:0;padding:7px;font-size:12px}.trust b{font-size:20px}.cards{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.listing img.mainphoto{height:135px}.listingbody{padding:9px}.listing h3{font-size:13px}.price{font-size:15px}.publishband{padding:22px 18px;display:block}.publishband .btn{margin-top:15px}.mobilebar{display:flex;position:fixed;bottom:0;left:0;right:0;background:#064b35;color:white;z-index:10;justify-content:space-around;padding:8px 4px calc(8px + env(safe-area-inset-bottom));box-shadow:0 -5px 20px #0002}.mobilebar a,.mobilebar button{color:white;text-decoration:none;background:none;border:0;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:11px;font-weight:800;min-width:55px}.mobilebar span{font-size:21px}.formgrid{grid-template-columns:1fr}.field.full{grid-column:auto}.profile-row{align-items:flex-start;flex-wrap:wrap}}
+@media(max-width:380px){.cat img{height:64px}.cat strong{font-size:10px}.brandname{font-size:20px}.actions{gap:5px}.actions .btn{padding:8px}.listing-actions{gap:5px}.listing-actions a,.listing-actions button{font-size:11px;padding:9px 5px}}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
@@ -62,576 +36,79 @@ padding:9px 5px
 </main>
 <footer><div class="wrap footin"><div><strong>GarangoDaaki</strong><p>Toutes les opportunités du Centre-Est.</p></div><div><strong>Informations</strong><p>Les annonces publiées sont affichées après validation.</p><p>© 2026 GarangoDaaki — Burkina Faso</p></div></div></footer>
 <nav class="mobilebar"><a href="#"><span>⌂</span>Accueil</a><a href="#annonces"><span>📢</span>Annonce</a><button onclick="openModal()"><span>⊕</span>Publier</button><button onclick="openProfile(event)"><span>♟</span>Profil</button></nav>
-<div class="modal" id="publishModal" role="dialog" aria-modal="true" aria-labelledby="formTitle"><div class="dialog"><div class="dialoghead"><h2 id="formTitle">Publier une annonce</h2><button class="close" onclick="closeModal()" aria-label="Fermer">×</button></div><p class="hint">Connectez-vous pour publier. Votre annonce sera vérifiée avant sa mise en ligne.</p>
+
+<div class="modal" id="publishModal" role="dialog" aria-modal="true" aria-labelledby="formTitle"><div class="dialog"><div class="dialoghead"><h2 id="formTitle">Publier une annonce</h2><button class="close" onclick="closeModal()" aria-label="Fermer">×</button></div><p class="hint" id="publishHint">Connectez-vous pour publier. Votre annonce sera vérifiée avant sa mise en ligne.</p>
 <form id="publishForm"><div class="formgrid"><div class="field full"><label for="title">Titre de l'annonce *</label><input id="title" required maxlength="90" placeholder="Ex. Tracteur à vendre à Garango"></div>
 <div class="field"><label for="listingType">Type d'annonce *</label><select id="listingType" required><option value="">Choisir…</option><option value="product">Produit / Annonce</option><option value="service">Service</option></select></div>
 <div class="field"><label for="category">Catégorie *</label><select id="category" required><option value="">Choisir…</option><option>Agriculture</option><option>Élevage</option><option>Immobilier</option><option>Mode</option><option>Services</option><option>Construction</option><option>Engins et véhicules</option><option>Alimentation et autres</option><option>Location</option><option>Autres</option></select></div>
 <div class="field"><label for="price">Prix (FCFA)</label><input id="price" type="number" min="0" step="1" placeholder="Laisser vide si à discuter"></div><div class="field"><label for="city">Ville / localité *</label><input id="city" required placeholder="Ex. Garango"></div><div class="field"><label for="phone">Téléphone / WhatsApp</label><input id="phone" type="tel" placeholder="+226 …"></div><div class="field"><label class="checkrow"><input id="negotiable" type="checkbox"> Prix négociable</label><span class="hint">Cochez si le prix peut être discuté.</span></div>
-<div class="field full"><label for="photos">Photos de l'annonce</label><input id="photos" type="file" accept="image/jpeg,image/png,image/webp" multiple><span class="hint">JPG, PNG ou WebP. Maximum 5 photos de 2 Mo chacune.</span><div class="preview" id="preview"></div></div><div class="field full"><label for="description">Description *</label><textarea id="description" required maxlength="1500" placeholder="Décrivez votre produit, service ou annonce…"></textarea></div><div class="field full"><button class="btn btn-orange" id="publishSubmit" type="submit">Publier l'annonce</button><div class="statusline" id="publishStatus" role="status"></div></div></div></form></div></div>
-<div class="modal" id="authModal" role="dialog" aria-modal="true" aria-labelledby="authTitle"><div class="dialog"><div class="dialoghead"><h2 id="authTitle">Connexion</h2><button class="close" onclick="closeAuth()" aria-label="Fermer">×</button></div><p class="authnote" id="authIntro">Connectez-vous à votre compte GarangoDaaki.</p><form id="authForm"><div class="formgrid"><div class="field full" id="nameField" style="display:none"><label for="authName">Nom complet</label><input id="authName" autocomplete="name" maxlength="100"></div><div class="field full" id="phoneField" style="display:none"><label for="authPhone">Téléphone</label><input id="authPhone" type="tel" placeholder="+226 …"></div><div class="field full" id="authCityField" style="display:none"><label for="authCity">Ville / localité</label><input id="authCity" placeholder="Garango"></div><div class="field full"><label for="authEmail">Adresse e-mail *</label><input id="authEmail" type="email" required autocomplete="email"></div><div class="field full"><label for="authPassword">Mot de passe *</label><input id="authPassword" type="password" required minlength="6" autocomplete="current-password"></div><div class="field full"><button class="btn btn-green" id="authSubmit" type="submit">Se connecter</button><div class="statusline" id="authStatus" role="status"></div><p class="authnote" id="authSwitch">Pas encore de compte ? <a href="#" onclick="openAuth('signup');return false">Créer un compte</a></p></div></div></form></div></div>
-<div class="modal" id="profileModal" role="dialog" aria-modal="true" aria-labelledby="profileTitle"><div class="dialog"><div class="dialoghead"><h2 id="profileTitle">Mon espace</h2><button class="close" onclick="closeProfile()" aria-label="Fermer">×</button></div><div id="profileContent"></div>
-<button class="btn btn-green" type="button" onclick="activateNotifications()" style="margin-top:15px">
-  Activer les notifications
-</button>
-  </div></div>
-<div class="modal" id="photoModal" role="dialog" aria-modal="true" aria-label="Galerie de photos">
-  <div class="dialog" style="width:min(900px,100%);text-align:center">
-    <div class="dialoghead">
-      <strong>Photos de l'annonce</strong>
-      <button class="close" onclick="closePhoto()" aria-label="Fermer">×</button>
-    </div>
-    <div style="display:flex;align-items:center;justify-content:center;gap:10px;margin-top:15px">
-      <button class="btn btn-green" onclick="changePhoto(-1)" aria-label="Photo précédente">❮</button>
-      <img id="largePhoto" alt="Photo agrandie" style="max-width:75%;max-height:65vh;object-fit:contain">
-      <button class="btn btn-green" onclick="changePhoto(1)" aria-label="Photo suivante">❯</button>
-    </div>
-    <p id="photoCounter" style="font-weight:800;color:var(--green)">0 / 0</p>
-  </div>
-</div>
-  <div class="modal" id="detailsModal" role="dialog" aria-modal="true" aria-label="Détails de l'annonce">
-  <div class="dialog" style="width:min(750px,100%)">
-    <div class="dialoghead">
-      <h2>Détails de l'annonce</h2>
-      <button class="close" onclick="closeDetails()" aria-label="Fermer">×</button>
-    </div>
-    <div id="detailsContent"></div>
-  </div>
-</div>
-  <div class="modal" id="messageModal" role="dialog" aria-modal="true" aria-label="Conversation privée">
-  <div class="dialog" style="width:min(650px,100%)">
-    <div class="dialoghead">
-      <h2 id="messageTitle">Conversation privée</h2>
-      <button class="close" onclick="closeMessageModal()" aria-label="Fermer">×</button>
-    </div>
-    <div id="messageListingInfo"></div>
-    <div id="messageThread" style="height:320px;overflow:auto;border:1px solid var(--line);border-radius:12px;padding:12px;margin:12px 0"></div>
-    <form id="messageForm">
-      <textarea id="messageInput" required maxlength="2000" placeholder="Écrivez votre message..." style="width:100%;min-height:80px;border:1px solid #d8e2dc;border-radius:10px;padding:11px"></textarea>
-      <button id="sendMessageBtn" class="btn btn-green" type="submit">Envoyer</button>
-      <div id="messageStatus" role="status"></div>
-    </form>
-  </div>
-  </div>
+<div class="field full" id="photoField"><label for="photos">Photos de l'annonce</label><input id="photos" type="file" accept="image/jpeg,image/png,image/webp" multiple><span class="hint" id="photoHint">JPG, PNG ou WebP. Maximum 5 photos de 2 Mo chacune.</span><div class="preview" id="preview"></div></div><div class="field full"><label for="description">Description *</label><textarea id="description" required maxlength="1500" placeholder="Décrivez votre produit, service ou annonce…"></textarea></div><div class="field full"><button class="btn btn-orange" id="publishSubmit" type="submit">Publier l'annonce</button><div class="statusline" id="publishStatus" role="status"></div></div></div></form></div></div>
+
+<div class="modal" id="authModal" role="dialog" aria-modal="true" aria-labelledby="authTitle"><div class="dialog"><div class="dialoghead"><h2 id="authTitle">Connexion</h2><button class="close" onclick="closeAuth()" aria-label="Fermer">×</button></div><p class="authnote" id="authIntro">Connectez-vous à votre compte GarangoDaaki.</p><form id="authForm"><div class="formgrid"><div class="field full" id="nameField" style="display:none"><label for="authName">Nom complet</label><input id="authName" autocomplete="name" maxlength="100"></div><div class="field full" id="phoneField" style="display:none"><label for="authPhone">Téléphone</label><input id="authPhone" type="tel" placeholder="+226 …"></div><div class="field full" id="authCityField" style="display:none"><label for="authCity">Ville / localité</label><input id="authCity" placeholder="Garango"></div><div class="field full"><label for="authEmail">Adresse e-mail *</label><input id="authEmail" type="email" required autocomplete="email"></div><div class="field full"><label for="authPassword">Mot de passe *</label><input id="authPassword" type="password" required minlength="6" autocomplete="current-password"></div><div class="field full"><button class="btn btn-green" id="authSubmit" type="submit">Se connecter</button><div class="statusline" id="authStatus" role="status"></div><p class="authnote" id="authSwitch"></p></div></div></form></div></div>
+
+<div class="modal" id="profileModal" role="dialog" aria-modal="true" aria-labelledby="profileTitle"><div class="dialog"><div class="dialoghead"><h2 id="profileTitle">Mon espace</h2><button class="close" onclick="closeProfile()" aria-label="Fermer">×</button></div><div id="profileContent"></div><button class="btn btn-green" type="button" onclick="activateNotifications()" style="margin-top:15px">Activer les notifications</button></div></div>
+<div class="modal" id="photoModal" role="dialog" aria-modal="true" aria-label="Galerie de photos"><div class="dialog" style="width:min(900px,100%);text-align:center"><div class="dialoghead"><strong>Photos de l'annonce</strong><button class="close" onclick="closePhoto()" aria-label="Fermer">×</button></div><div style="display:flex;align-items:center;justify-content:center;gap:10px;margin-top:15px"><button class="btn btn-green" onclick="changePhoto(-1)" aria-label="Photo précédente">❮</button><img id="largePhoto" alt="Photo agrandie" style="max-width:75%;max-height:65vh;object-fit:contain"><button class="btn btn-green" onclick="changePhoto(1)" aria-label="Photo suivante">❯</button></div><p id="photoCounter" style="font-weight:800;color:var(--green)">0 / 0</p></div></div>
+<div class="modal" id="detailsModal" role="dialog" aria-modal="true" aria-label="Détails de l'annonce"><div class="dialog" style="width:min(750px,100%)"><div class="dialoghead"><h2>Détails de l'annonce</h2><button class="close" onclick="closeDetails()" aria-label="Fermer">×</button></div><div id="detailsContent"></div></div></div>
+<div class="modal" id="messageModal" role="dialog" aria-modal="true" aria-label="Conversation privée"><div class="dialog" style="width:min(650px,100%)"><div class="dialoghead"><h2 id="messageTitle">Conversation privée</h2><button class="close" onclick="closeMessageModal()" aria-label="Fermer">×</button></div><div id="messageListingInfo"></div><div id="messageThread" style="height:320px;overflow:auto;border:1px solid var(--line);border-radius:12px;padding:12px;margin:12px 0"></div><form id="messageForm"><textarea id="messageInput" required maxlength="2000" placeholder="Écrivez votre message..." style="width:100%;min-height:80px;border:1px solid #d8e2dc;border-radius:10px;padding:11px"></textarea><button id="sendMessageBtn" class="btn btn-green" type="submit">Envoyer</button><div id="messageStatus" class="statusline" role="status"></div></form></div></div>
+
 <script>
-// Configuration publique Supabase : cette clé publishable est destinée au navigateur.
 const SUPABASE_URL='https://uabhuviadsclbjiplgyn.supabase.co';
 const SUPABASE_KEY='sb_publishable_41TR7IoA2GmoO3GoN1Cayg_meKVO_qn';
 const supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
-let currentUser=null, favoriteIds=new Set(), allListings=[], authMode='login';
-const modal=document.getElementById('publishModal'), authModal=document.getElementById('authModal'), profileModal=document.getElementById('profileModal'), photoModal=document.getElementById('photoModal');
-function openModal(e){if(e)e.preventDefault();if(!currentUser){openAuth('login');document.getElementById('authStatus').textContent='Connectez-vous pour déposer une annonce.';return}modal.classList.add('open')}
-function closeModal(){modal.classList.remove('open')}
+let currentUser=null,favoriteIds=new Set(),allListings=[],authMode='login',editingListingId=null;
+const modal=document.getElementById('publishModal'),authModal=document.getElementById('authModal'),profileModal=document.getElementById('profileModal'),photoModal=document.getElementById('photoModal'),detailsModal=document.getElementById('detailsModal'),messageModal=document.getElementById('messageModal');
+let activeConversation=null,galleryPhotos=[],galleryIndex=0,touchStartX=0;
+
+function safeText(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function setStatus(id,msg,isError=false){const el=document.getElementById(id);el.textContent=msg;el.style.color=isError?'#b42318':'var(--green)'}
+function openModal(e){if(e)e.preventDefault();if(!currentUser){openAuth('login');setStatus('authStatus','Connectez-vous pour déposer une annonce.');return}resetPublishForm();modal.classList.add('open')}
+function closeModal(){modal.classList.remove('open');if(!editingListingId)resetPublishForm()}
 function closeAuth(){authModal.classList.remove('open')}
 function closeProfile(){profileModal.classList.remove('open')}
 function closePhoto(){photoModal.classList.remove('open')}
-  const detailsModal = document.getElementById('detailsModal');
-const messageModal = document.getElementById('messageModal');
-let activeConversation = null;
+function closeDetails(){detailsModal.classList.remove('open')}
+function closeMessageModal(){messageModal.classList.remove('open');activeConversation=null}
+function resetPublishForm(){editingListingId=null;document.getElementById('publishForm').reset();document.getElementById('preview').innerHTML='';document.getElementById('formTitle').textContent='Publier une annonce';document.getElementById('publishSubmit').textContent='Publier l’annonce';document.getElementById('publishHint').textContent='Connectez-vous pour publier. Votre annonce sera vérifiée avant sa mise en ligne.';document.getElementById('photoField').style.display='';document.getElementById('photos').disabled=false;setStatus('publishStatus','')}
+function openEditListing(item){if(!currentUser||item.user_id!==currentUser.id){alert('Vous ne pouvez modifier que vos propres annonces.');return}editingListingId=item.id;document.getElementById('title').value=item.title||'';document.getElementById('listingType').value=item.listing_type||'product';document.getElementById('category').value=item.category||'';document.getElementById('price').value=item.price??'';document.getElementById('city').value=item.city||'';document.getElementById('phone').value=item.phone||'';document.getElementById('negotiable').checked=!!item.negotiable;document.getElementById('description').value=item.description||'';document.getElementById('photos').value='';document.getElementById('photos').disabled=true;document.getElementById('photoField').style.display='none';document.getElementById('formTitle').textContent='Modifier mon annonce';document.getElementById('publishSubmit').textContent='Enregistrer les modifications';document.getElementById('publishHint').textContent='Modifiez les informations ci-dessous. Les photos déjà publiées seront conservées.';setStatus('publishStatus','');profileModal.classList.remove('open');modal.classList.add('open')}
+[modal,authModal,profileModal,photoModal,detailsModal,messageModal].forEach(m=>m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('open')}));
 
-function closeMessageModal(){
-  messageModal.classList.remove('open');
-  activeConversation = null;
-}
-function closeDetails(){
-  detailsModal.classList.remove('open');
-}
-
-async function loadConversation(){
-  if(!activeConversation || !currentUser) return;
-
-  const {sellerId, listingId} = activeConversation;
-
-  const [sent, received] = await Promise.all([
-    supabaseClient.from('messages')
-      .select('id,sender_id,receiver_id,listing_id,content,created_at,is_read')
-      .eq('sender_id', currentUser.id)
-      .eq('receiver_id', sellerId)
-      .eq('listing_id', listingId),
-
-    supabaseClient.from('messages')
-      .select('id,sender_id,receiver_id,listing_id,content,created_at,is_read')
-      .eq('sender_id', sellerId)
-      .eq('receiver_id', currentUser.id)
-      .eq('listing_id', listingId)
-  ]);
-
-  const thread = document.getElementById('messageThread');
-
-  if(sent.error || received.error){
-    thread.textContent = 'Impossible de charger les messages.';
-    return;
-  }
-
-  const messages = [...(sent.data || []), ...(received.data || [])]
-    .sort((a,b)=>new Date(a.created_at)-new Date(b.created_at));
-
-  if(!messages.length){
-    thread.innerHTML = '<p>Aucun message pour le moment. Envoyez le premier message !</p>';
-  }else{
-    thread.innerHTML = messages.map(m=>{
-      const mine = m.sender_id === currentUser.id;
-      const otherRole = activeConversation.isSeller ? 'Acheteur' : 'Vendeur';
-      return `
-        <div style="text-align:${mine?'right':'left'};margin:12px 0">
-          <div style="display:inline-block;max-width:85%;padding:12px 15px;border-radius:14px;background:${mine?'#d9fbe8':'#fff0df'};border:1px solid ${mine?'#8bd5a8':'#f5bd83'};text-align:left">
-            <strong style="display:block;font-size:12px;margin-bottom:5px;color:${mine?'#08734d':'#b45b0a'}">${mine?'Vous':otherRole}</strong>
-            <div style="white-space:pre-wrap">${safeText(m.content)}</div>
-            <small style="display:block;margin-top:7px;color:#666">${new Date(m.created_at).toLocaleString('fr-FR')}</small>
-          </div>
-        </div>
-      `;
-    }).join('');
-  }
-
-  thread.scrollTop = thread.scrollHeight;
-
-  await supabaseClient.from('messages')
-    .update({is_read:true})
-    .eq('sender_id', sellerId)
-    .eq('receiver_id', currentUser.id)
-    .eq('listing_id', listingId)
-    .eq('is_read', false);
-}
-
- document.getElementById('messageForm').addEventListener('submit', async function(e){
-  e.preventDefault();
-
-  if(!activeConversation || !currentUser) return;
-
-  const input = document.getElementById('messageInput');
-  const button = document.getElementById('sendMessageBtn');
-  const status = document.getElementById('messageStatus');
-  const content = input.value.trim();
-
-  if(!content) return;
-
-  button.disabled = true;
-  status.textContent = 'Envoi en cours...';
-
- 
-const { data, error } = await supabaseClient
-  .from('messages')
-  .insert({
-    sender_id: currentUser.id,
-    receiver_id: activeConversation.sellerId,
-    listing_id: activeConversation.listingId,
-    content: content
-  })
-  .select('id')
-  .single();
-
-button.disabled = false;
-
-if (error) {
-  status.textContent = 'Erreur : ' + error.message;
-  return;
-}
-
-// Envoyer la notification au destinataire
-   alert('Le code arrive à l’étape notification.');
-const { error: notificationError } =
-  await supabaseClient.functions.invoke('send-push-notification', {
-    body: { message_id: data.id }
-  });
-
-if (notificationError) {
-  let details = notificationError.message;
-
-  try {
-    if (notificationError.context) {
-      const response = await notificationError.context.clone().json();
-      details = response.error || JSON.stringify(response);
-    }
-  } catch (e) {}
-
-  alert('Erreur notification : ' + details);
-} else {
-  alert('Appel de notification envoyé à Supabase.');
-}
-input.value = '';
-status.textContent = 'Message envoyé !';
-
-await loadConversation();
-
-});
-  async function openConversation(item){
-  if(!currentUser){
-    openAuth('login');
-    return;
-  }
-
-  const otherUserId = item.user_id;
-  const ownerId = item.ownerId || item.user_id;
-
-  if(!otherUserId || otherUserId === currentUser.id){
-    alert('Destinataire invalide.');
-    return;
-  }
-
-  activeConversation = {
-    sellerId: otherUserId,
-    listingId: item.id,
-    isSeller: ownerId === currentUser.id
-  };
-
-  document.getElementById('messageTitle').textContent =
-    'Conversation avec ' + (item.seller?.full_name || 'Utilisateur');
-
-  document.getElementById('messageListingInfo').textContent =
-    'Annonce : ' + item.title;
-
-  document.getElementById('messageThread').innerHTML =
-    '<p>Chargement des messages...</p>';
-
-  document.getElementById('messageStatus').textContent = '';
-  document.getElementById('messageInput').value = '';
-
-  messageModal.classList.add('open');
-
-  await loadConversation();
-}
-function showDetails(item){
-  const box = document.getElementById('detailsContent');
-  const photos = item.images || [];
-
-  box.innerHTML = `
-    <div style="display:flex;gap:10px;overflow-x:auto;margin:15px 0">
-      ${photos.length ? photos.map((url,i)=>`
-        <img src="${safeText(url)}" alt="Photo ${i+1}"
-          data-photo-index="${i}"
-          style="width:180px;height:150px;object-fit:cover;border-radius:10px;cursor:zoom-in;flex:none">
-      `).join('') : '<p>Aucune photo disponible.</p>'}
-    </div>
-
-    <h2>${safeText(item.title)}</h2>
-
-    <p style="color:var(--orange);font-size:22px;font-weight:900">
-      ${item.price!==null && item.price!=='' ? Number(item.price).toLocaleString('fr-FR')+' FCFA' : 'Prix à discuter'}
-    </p>
-
-    <p><strong>Catégorie :</strong> ${safeText(item.category)}</p>
-    <p><strong>Localité :</strong> ${safeText(item.city)}</p>
-
-    <p style="white-space:pre-wrap;line-height:1.6">
-      ${safeText(item.description || 'Aucune description.')}
-    </p>
-
-    <div style="background:#f0f7f3;padding:14px;border-radius:12px;margin:15px 0">
-      <h3>Informations sur le vendeur</h3>
-      <p><strong>Nom :</strong> ${safeText(item.seller?.full_name || 'Vendeur GarangoDaaki')}</p>
-      <p><strong>Localité :</strong> ${safeText(item.seller?.city || item.city)}</p>
-      <button type="button" class="btn btn-green" id="privateMessageBtn">
-        Envoyer un message privé
-      </button>
-    </div>
-
-    ${item.phone
-  ? `<a class="btn" style="display:block;width:100%;box-sizing:border-box;text-align:center;background:#f58216;color:white;margin-top:12px;" target="_blank" rel="noopener" href="https://wa.me/${String(item.phone).replace(/\D/g,'')}">Contacter le vendeur sur WhatsApp</a>`
-  : '<p>Numéro du vendeur non renseigné.</p>'}
-  `;
-  box.querySelectorAll('[data-photo-index]').forEach(img=>{
-    img.addEventListener('click',()=>{
-      galleryPhotos = photos;
-      galleryIndex = Number(img.dataset.photoIndex);
-      updateGallery();
-      photoModal.classList.add('open');
-    });
-  });
-
-  document.getElementById('privateMessageBtn').addEventListener('click',()=>{
-    openConversation(item);
-  });
-
-  detailsModal.classList.add('open');
-}
-[modal,authModal,profileModal,photoModal].forEach(m=>m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('open')}));
-function setStatus(id,msg,isError=false){const el=document.getElementById(id);el.textContent=msg;el.style.color=isError?'#b42318':'var(--green)'}
-function openAuth(mode='login'){authMode=mode;const signup=mode==='signup';document.getElementById('authTitle').textContent=signup?'Créer un compte':'Connexion';document.getElementById('authIntro').textContent=signup?'Créez votre compte pour publier et gérer vos annonces.':'Connectez-vous à votre compte GarangoDaaki.';document.getElementById('authSubmit').textContent=signup?'Créer mon compte':'Se connecter';['nameField','phoneField','authCityField'].forEach(id=>document.getElementById(id).style.display=signup?'flex':'none');document.getElementById('authName').required=signup;document.getElementById('authSwitch').innerHTML=signup?'Vous avez déjà un compte ? <a href="#" onclick="openAuth(\'login\');return false">Se connecter</a>':'Pas encore de compte ? <a href="#" onclick="openAuth(\'signup\');return false">Créer un compte</a>';setStatus('authStatus','');authModal.classList.add('open')}
-async function syncSession(){const {data:{session}}=await supabaseClient.auth.getSession();currentUser=session?.user||null;updateAccountButtons();await loadFavorites();}
+function openAuth(mode='login'){authMode=mode;const signup=mode==='signup';document.getElementById('authTitle').textContent=signup?'Créer un compte':'Connexion';document.getElementById('authIntro').textContent=signup?'Créez votre compte pour publier et gérer vos annonces.':'Connectez-vous à votre compte GarangoDaaki.';document.getElementById('authSubmit').textContent=signup?'Créer mon compte':'Se connecter';['nameField','phoneField','authCityField'].forEach(id=>document.getElementById(id).style.display=signup?'flex':'none');document.getElementById('authName').required=signup;document.getElementById('authPhone').required=false;document.getElementById('authCity').required=false;document.getElementById('authPassword').autocomplete=signup?'new-password':'current-password';document.getElementById('authSwitch').innerHTML=signup?'Vous avez déjà un compte ? <a href="#" onclick="openAuth(\'login\');return false">Se connecter</a>':'Pas encore de compte ? <a href="#" onclick="openAuth(\'signup\');return false">Créer un compte</a>';setStatus('authStatus','');authModal.classList.add('open')}
 function updateAccountButtons(){const buttons=document.querySelectorAll('.actions button');if(currentUser){buttons[0].textContent='Mon espace';buttons[0].onclick=()=>openProfile();buttons[1].textContent='Déconnexion';buttons[1].onclick=signOut}else{buttons[0].textContent='Connexion';buttons[0].onclick=()=>openAuth('login');buttons[1].textContent='Inscription';buttons[1].onclick=()=>openAuth('signup')}}
-async function signOut(){const {error}=await supabaseClient.auth.signOut();if(error){alert('Erreur de déconnexion : '+error.message);return}currentUser=null;favoriteIds.clear();updateAccountButtons();renderListings();alert('Vous êtes déconnecté.')}
-document.getElementById('authForm').addEventListener('submit',async e=>{e.preventDefault();const btn=document.getElementById('authSubmit');btn.disabled=true;setStatus('authStatus','Traitement en cours…');try{const email=document.getElementById('authEmail').value.trim(),password=document.getElementById('authPassword').value;if(authMode==='signup'){const full_name=document.getElementById('authName').value.trim(),phone=document.getElementById('authPhone').value.trim(),city=document.getElementById('authCity').value.trim();const {data,error}=await supabaseClient.auth.signUp({email,password,options:{data:{full_name,phone,city}}});if(error)throw error;if(data.session&&data.user){currentUser=data.user;await supabaseClient.from('profiles').upsert({id:currentUser.id,full_name,phone:phone||null,city:city||null});closeAuth();updateAccountButtons();await loadFavorites();alert('Compte créé. Bienvenue sur GarangoDaaki !')}else{setStatus('authStatus','Compte créé. Vérifiez votre boîte e-mail pour confirmer votre adresse, puis connectez-vous.');}}else{const {data,error}=await supabaseClient.auth.signInWithPassword({email,password});if(error)throw error;currentUser=data.user;closeAuth();updateAccountButtons();await loadFavorites();alert('Connexion réussie.')}}catch(err){setStatus('authStatus',err.message||'Une erreur est survenue.',true)}finally{btn.disabled=false}});
+async function signOut(){const {error}=await supabaseClient.auth.signOut();if(error){alert('Erreur de déconnexion : '+error.message);return}currentUser=null;favoriteIds.clear();updateAccountButtons();renderListings();closeProfile();alert('Vous êtes déconnecté.')}
+async function syncSession(){const {data:{session}}=await supabaseClient.auth.getSession();currentUser=session?.user||null;updateAccountButtons();await loadFavorites()}
+document.getElementById('authForm').addEventListener('submit',async e=>{e.preventDefault();const btn=document.getElementById('authSubmit');btn.disabled=true;setStatus('authStatus','Traitement en cours…');try{const email=document.getElementById('authEmail').value.trim(),password=document.getElementById('authPassword').value;if(authMode==='signup'){const full_name=document.getElementById('authName').value.trim(),phone=document.getElementById('authPhone').value.trim(),city=document.getElementById('authCity').value.trim();const {data,error}=await supabaseClient.auth.signUp({email,password,options:{data:{full_name,phone,city}}});if(error)throw error;if(data.session&&data.user){currentUser=data.user;const {error:profileError}=await supabaseClient.from('profiles').upsert({id:currentUser.id,full_name,phone:phone||null,city:city||null});if(profileError)console.warn('Profil non enregistré:',profileError.message);closeAuth();updateAccountButtons();await loadFavorites();alert('Compte créé. Bienvenue sur GarangoDaaki !')}else{setStatus('authStatus','Compte créé. Vérifiez votre boîte e-mail pour confirmer votre adresse, puis connectez-vous.')}}else{const {data,error}=await supabaseClient.auth.signInWithPassword({email,password});if(error)throw error;currentUser=data.user;closeAuth();updateAccountButtons();await loadFavorites();alert('Connexion réussie.')}}catch(err){setStatus('authStatus',err.message||'Une erreur est survenue.',true)}finally{btn.disabled=false}});
 supabaseClient.auth.onAuthStateChange((_event,session)=>{currentUser=session?.user||null;updateAccountButtons();setTimeout(()=>{loadFavorites();},0)});
+
 async function loadFavorites(){favoriteIds.clear();if(currentUser){const {data,error}=await supabaseClient.from('favorites').select('listing_id').eq('user_id',currentUser.id);if(!error)(data||[]).forEach(x=>favoriteIds.add(x.listing_id))}renderListings()}
 async function toggleFavorite(id){if(!currentUser){openAuth('login');setStatus('authStatus','Connectez-vous pour enregistrer vos favoris.');return}if(favoriteIds.has(id)){const {error}=await supabaseClient.from('favorites').delete().eq('user_id',currentUser.id).eq('listing_id',id);if(error){alert('Impossible de retirer ce favori : '+error.message);return}favoriteIds.delete(id)}else{const {error}=await supabaseClient.from('favorites').insert({user_id:currentUser.id,listing_id:id});if(error){alert('Impossible d’ajouter ce favori : '+error.message);return}favoriteIds.add(id)}renderListings()}
-async function loadListings(){const grid=document.getElementById('listingGrid');grid.innerHTML='<div class="empty" style="display:block;grid-column:1/-1">Chargement des annonces…</div>'; let {data,error}=await supabaseClient.from('listings')
-.select('id,user_id,title,description,category,listing_type,price,negotiable,city,phone,status,created_at')eq('status','published').order('created_at',{ascending:false});if(error){grid.innerHTML='';document.getElementById('empty').style.display='block';document.getElementById('empty').textContent='Impossible de charger les annonces pour le moment. Vérifiez la connexion puis actualisez.';console.error(error);return}allListings=data||[];
+async function loadListings(){const grid=document.getElementById('listingGrid');grid.innerHTML='<div class="empty" style="display:block;grid-column:1/-1">Chargement des annonces…</div>';const {data,error}=await supabaseClient.from('listings').select('id,user_id,title,description,category,listing_type,price,negotiable,city,phone,status,created_at,is_featured').eq('status','published').order('created_at',{ascending:false});if(error){grid.innerHTML='';document.getElementById('empty').style.display='block';document.getElementById('empty').textContent='Impossible de charger les annonces pour le moment. Vérifiez la connexion puis actualisez.';console.error(error);return}allListings=data||[];if(allListings.length){const sellerIds=[...new Set(allListings.map(x=>x.user_id).filter(Boolean))];const sellerResults=await Promise.all(sellerIds.map(async id=>{const {data,error}=await supabaseClient.rpc('get_garangodaaki_seller',{p_user_id:id});return [id,!error&&data?.length?data[0]:null]}));const sellersById=Object.fromEntries(sellerResults);allListings.forEach(x=>x.seller=sellersById[x.user_id]||null);const ids=allListings.map(x=>x.id);const {data:imgs,error:imgErr}=await supabaseClient.from('listing_images').select('listing_id,image_url,position').in('listing_id',ids).order('position',{ascending:true});if(!imgErr){const byId={};(imgs||[]).forEach(im=>(byId[im.listing_id]??=[]).push(im.image_url));allListings.forEach(x=>x.images=byId[x.id]||[])}else allListings.forEach(x=>x.images=[])}renderListings()}
+function renderListings(){const grid=document.getElementById('listingGrid');grid.innerHTML='';let shown=0;const q=(document.getElementById('searchInput')?.value||'').trim().toLowerCase(),city=(document.getElementById('cityFilter')?.value||'').trim().toLowerCase(),selected=window.selectedCategory||'';allListings.forEach(item=>{const text=[item.title,item.description,item.category,item.city,item.listing_type].join(' ').toLowerCase();if((q&&!text.includes(q))||(city&&String(item.city).toLowerCase()!==city)||(selected&&item.category!==selected))return;shown++;const card=document.createElement('article');card.className='listing';const img=item.images?.[0]||'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=700&q=80';card.innerHTML=`${item.is_featured?'<span class="featured">★ À la une</span>':''}<button class="fav" type="button" aria-label="Ajouter aux favoris">${favoriteIds.has(item.id)?'♥':'♡'}</button><img class="mainphoto" alt="Photo de l’annonce" loading="lazy"><div class="listingbody"><h3></h3><div class="price"></div><div class="meta"><span class="city"></span><span class="category"></span></div><div class="listing-actions"><button type="button" class="detailsBtn">Détails</button><button type="button" class="galleryBtn">Voir les photos</button>${item.phone?'<a class="contactBtn" target="_blank" rel="noopener">Contacter</a>':''}</div></div>`;const image=card.querySelector('img.mainphoto');image.src=img;image.addEventListener('click',()=>showPhoto(item.images?.length?item.images:[img]));card.querySelector('h3').textContent=item.title;card.querySelector('.price').textContent=item.price!==null&&item.price!==''?Number(item.price).toLocaleString('fr-FR')+' FCFA':(item.negotiable?'Prix à discuter':'Prix non précisé');card.querySelector('.city').textContent='📍 '+item.city;card.querySelector('.category').textContent=item.category;card.querySelector('.fav').addEventListener('click',()=>toggleFavorite(item.id));card.querySelector('.detailsBtn').addEventListener('click',()=>showDetails(item));card.querySelector('.galleryBtn').addEventListener('click',()=>item.images?.length?showPhoto(item.images):alert('Aucune photo disponible pour cette annonce.'));const contact=card.querySelector('.contactBtn');if(contact)contact.href='https://wa.me/'+String(item.phone).replace(/\D/g,'');grid.appendChild(card)});document.getElementById('empty').style.display=shown?'none':'block';document.getElementById('empty').textContent=allListings.length?'Aucune annonce ne correspond à votre recherche.':'Aucune annonce publiée pour le moment. Revenez bientôt ou soyez le premier à publier.'}
 
-if(allListings.length){
-  const sellerIds=[...new Set(allListings.map(x=>x.user_id).filter(Boolean))];
-
-  const sellerResults=await Promise.all(
-    sellerIds.map(async id=>{
-      const {data,error}=await supabaseClient.rpc(
-        'get_garangodaaki_seller',
-        {p_user_id:id}
-      );
-      return [id,!error&&data?.length?data[0]:null];
-    })
-  );
-
-  const sellersById=Object.fromEntries(sellerResults);
-
-    allListings.forEach(x=>{
-    x.seller=sellersById[x.user_id]||null;
-  });
-
-  const ids=allListings.map(x=>x.id);const{data:imgs,error:imgErr}=await supabaseClient.from('listing_images').select('listing_id,image_url,position').in('listing_id',ids).order('position',{ascending:true});if(!imgErr){const byId={};(imgs||[]).forEach(im=>(byId[im.listing_id]??=[]).push(im.image_url));allListings.forEach(x=>x.images=byId[x.id]||[])}else allListings.forEach(x=>x.images=[])}else allListings=[];renderListings()}
-function safeText(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-function renderListings(){const grid=document.getElementById('listingGrid');grid.innerHTML='';let shown=0;const q=(document.getElementById('searchInput')?.value||'').trim().toLowerCase(),city=(document.getElementById('cityFilter')?.value||'').trim().toLowerCase(),selected=window.selectedCategory||'';allListings.forEach(item=>{const text=[item.title,item.description,item.category,item.city,item.listing_type].join(' ').toLowerCase();if((q&&!text.includes(q))||(city&&String(item.city).toLowerCase()!==city)||(selected&&item.category!==selected))return;shown++;const card=document.createElement('article');card.className='listing';card.dataset.category=item.category;card.dataset.city=item.city;const img=item.images?.[0]||'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=700&q=80';card.innerHTML=`${item.is_featured?'<span class="featured">★ À la une</span>':''}<button class="fav" type="button" aria-label="Ajouter aux favoris">${favoriteIds.has(item.id)?'♥':'♡'}</button><img alt="Photo de l’annonce" loading="lazy"><div class="listingbody"><h3></h3><div class="price"></div><div class="meta"><span class="city"></span><span class="category"></span></div><div class="listing-actions"><button type="button" class="detailsBtn">Détails</button><button type="button" class="galleryBtn">Voir les photos</button>${item.phone?`<a class="contactBtn" target="_blank" rel="noopener">Contacter</a>`:''}</div></div>`;const image=card.querySelector('img');image.src=img;image.addEventListener('click',()=>showPhoto(item.images?.length ? item.images : [img]));card.querySelector('h3').textContent=item.title;card.querySelector('.price').textContent=item.price!==null&&item.price!==''?Number(item.price).toLocaleString('fr-FR')+' FCFA':(item.negotiable?'Prix à discuter':'Prix non précisé');card.querySelector('.city').textContent='📍 '+item.city;card.querySelector('.category').textContent=item.category;card.querySelector('.fav').addEventListener('click',()=>toggleFavorite(item.id));card.querySelector('.detailsBtn').addEventListener('click',()=>showDetails(item));card.querySelector('.galleryBtn').addEventListener('click',()=>{if(item.images?.length)showPhoto(item.images);else alert('Aucune photo disponible pour cette annonce.')});const contact=card.querySelector('.contactBtn');if(contact)contact.href='https://wa.me/'+String(item.phone).replace(/\D/g,'');grid.appendChild(card)});document.getElementById('empty').style.display=shown?'none':'block';if(!allListings.length)document.getElementById('empty').textContent='Aucune annonce publiée pour le moment. Revenez bientôt ou soyez le premier à publier.';else document.getElementById('empty').textContent='Aucune annonce ne correspond à votre recherche.'}
-let galleryPhotos = [];
-let galleryIndex = 0;
-let touchStartX = 0;
-
-function showPhoto(photos){
-  galleryPhotos = Array.isArray(photos) ? photos : [photos];
-  galleryPhotos = galleryPhotos.filter(Boolean);
-  if(!galleryPhotos.length)return;
-  galleryIndex = 0;
-  updateGallery();
-  photoModal.classList.add('open');
-}
-
-function updateGallery(){
-  document.getElementById('largePhoto').src = galleryPhotos[galleryIndex];
-  document.getElementById('photoCounter').textContent =
-    (galleryIndex + 1) + ' / ' + galleryPhotos.length;
-}
-
-function changePhoto(direction){
-  if(!galleryPhotos.length)return;
-  galleryIndex = (galleryIndex + direction + galleryPhotos.length) % galleryPhotos.length;
-  updateGallery();
-}
-
-const galleryImage = document.getElementById('largePhoto');
-galleryImage.addEventListener('touchstart', e => {
-  touchStartX = e.changedTouches[0].screenX;
-}, {passive:true});
-
-galleryImage.addEventListener('touchend', e => {
-  const difference = e.changedTouches[0].screenX - touchStartX;
-  if(Math.abs(difference) > 45){
-    changePhoto(difference < 0 ? 1 : -1);
-  }
-}, {passive:true});
+function showPhoto(photos){galleryPhotos=(Array.isArray(photos)?photos:[photos]).filter(Boolean);if(!galleryPhotos.length)return;galleryIndex=0;updateGallery();photoModal.classList.add('open')}
+function updateGallery(){document.getElementById('largePhoto').src=galleryPhotos[galleryIndex];document.getElementById('photoCounter').textContent=(galleryIndex+1)+' / '+galleryPhotos.length}
+function changePhoto(direction){if(!galleryPhotos.length)return;galleryIndex=(galleryIndex+direction+galleryPhotos.length)%galleryPhotos.length;updateGallery()}
+document.getElementById('largePhoto').addEventListener('touchstart',e=>{touchStartX=e.changedTouches[0].screenX},{passive:true});document.getElementById('largePhoto').addEventListener('touchend',e=>{const d=e.changedTouches[0].screenX-touchStartX;if(Math.abs(d)>45)changePhoto(d<0?1:-1)},{passive:true});
+function showDetails(item){const box=document.getElementById('detailsContent'),photos=item.images||[];box.innerHTML=`<div style="display:flex;gap:10px;overflow-x:auto;margin:15px 0">${photos.length?photos.map((url,i)=>`<img src="${safeText(url)}" alt="Photo ${i+1}" data-photo-index="${i}" style="width:180px;height:150px;object-fit:cover;border-radius:10px;cursor:zoom-in;flex:none">`).join(''):'<p>Aucune photo disponible.</p>'}</div><h2>${safeText(item.title)}</h2><p style="color:var(--orange);font-size:22px;font-weight:900">${item.price!==null&&item.price!==''?Number(item.price).toLocaleString('fr-FR')+' FCFA':'Prix à discuter'}</p><p><strong>Catégorie :</strong> ${safeText(item.category)}</p><p><strong>Localité :</strong> ${safeText(item.city)}</p><p style="white-space:pre-wrap;line-height:1.6">${safeText(item.description||'Aucune description.')}</p><div style="background:#f0f7f3;padding:14px;border-radius:12px;margin:15px 0"><h3>Informations sur le vendeur</h3><p><strong>Nom :</strong> ${safeText(item.seller?.full_name||'Vendeur GarangoDaaki')}</p><p><strong>Localité :</strong> ${safeText(item.seller?.city||item.city)}</p><button type="button" class="btn btn-green" id="privateMessageBtn">Envoyer un message privé</button></div>${item.phone?`<a class="btn" style="display:block;width:100%;box-sizing:border-box;text-align:center;background:#f58216;color:white;margin-top:12px" target="_blank" rel="noopener" href="https://wa.me/${String(item.phone).replace(/\D/g,'')}">Contacter le vendeur sur WhatsApp</a>`:'<p>Numéro du vendeur non renseigné.</p>'}`;box.querySelectorAll('[data-photo-index]').forEach(img=>img.addEventListener('click',()=>{galleryPhotos=photos;galleryIndex=Number(img.dataset.photoIndex);updateGallery();photoModal.classList.add('open')}));document.getElementById('privateMessageBtn').addEventListener('click',()=>openConversation(item));detailsModal.classList.add('open')}
 function filterListings(cat=''){window.selectedCategory=cat;renderListings()}
 document.getElementById('searchInput').addEventListener('input',()=>renderListings());document.getElementById('cityFilter').addEventListener('change',()=>renderListings());document.querySelectorAll('.cat').forEach(el=>el.addEventListener('click',()=>{document.querySelectorAll('.cat').forEach(x=>x.style.outline='');el.style.outline='3px solid #f58216';filterListings(el.dataset.cat)}));
+
 document.getElementById('photos').addEventListener('change',e=>{const files=[...e.target.files],preview=document.getElementById('preview');preview.innerHTML='';if(files.length>5){alert('Choisissez au maximum 5 photos.');e.target.value='';return}for(const f of files){if(!['image/jpeg','image/png','image/webp'].includes(f.type)||f.size>2*1024*1024){alert('Chaque photo doit être JPG, PNG ou WebP et ne pas dépasser 2 Mo.');e.target.value='';preview.innerHTML='';return}const img=document.createElement('img');img.src=URL.createObjectURL(f);img.alt='Aperçu photo';preview.appendChild(img)}});
-document.getElementById('publishForm').addEventListener('submit',async e=>{e.preventDefault();if(!currentUser){closeModal();openAuth('login');return}const btn=document.getElementById('publishSubmit');btn.disabled=true;setStatus('publishStatus','Enregistrement de votre annonce…');const files=[...document.getElementById('photos').files];try{if(files.length>5)throw new Error('Maximum 5 photos.');for(const f of files){if(!['image/jpeg','image/png','image/webp'].includes(f.type)||f.size>2*1024*1024)throw new Error('Chaque photo doit être JPG, PNG ou WebP et ne pas dépasser 2 Mo.')}const priceValue=document.getElementById('price').value;const payload={user_id:currentUser.id,title:document.getElementById('title').value.trim(),description:document.getElementById('description').value.trim(),category:document.getElementById('category').value,listing_type:document.getElementById('listingType').value,price:priceValue===''?null:Number(priceValue),negotiable:document.getElementById('negotiable').checked,city:document.getElementById('city').value.trim(),phone:document.getElementById('phone').value.trim()||null};if(!payload.title||!payload.category||!payload.city||!payload.listing_type||!payload.description)throw new Error('Veuillez remplir tous les champs obligatoires.');const {data:listing,error}=await supabaseClient.from('listings').insert(payload).select('id').single();if(error)throw error;let imageErrors=[];for(let i=0;i<files.length;i++){const file=files[i],ext=file.type==='image/png'?'png':file.type==='image/webp'?'webp':'jpg',path=`${currentUser.id}/${listing.id}/${crypto.randomUUID()}.${ext}`;const {error:upErr}=await supabaseClient.storage.from('listing-photos').upload(path,file,{contentType:file.type,upsert:false});if(upErr){imageErrors.push(file.name+': '+upErr.message);continue}const {data:urlData}=supabaseClient.storage.from('listing-photos').getPublicUrl(path);const {error:rowErr}=await supabaseClient.from('listing_images').insert({listing_id:listing.id,image_url:urlData.publicUrl,position:i});if(rowErr)imageErrors.push(file.name+': '+rowErr.message)}if(imageErrors.length){setStatus('publishStatus','Annonce enregistrée en attente de validation, mais certaines photos n’ont pas été ajoutées : '+imageErrors.join(' | '),true);alert('Votre annonce est enregistrée, mais certaines photos n’ont pas pu être envoyées. Vous pouvez contacter l’assistance.')}else{alert('Votre annonce a bien été envoyée. Elle sera visible après validation par l’équipe GarangoDaaki.')}document.getElementById('publishForm').reset();document.getElementById('preview').innerHTML='';if(!imageErrors.length)closeModal();await loadListings()}catch(err){setStatus('publishStatus',err.message||'Une erreur est survenue pendant la publication.',true)}finally{btn.disabled=false}});
-async function openProfile(e){if(e)e.preventDefault();if(!currentUser){openAuth('login');return}const box=document.getElementById('profileContent');box.innerHTML='<p>Chargement de votre espace…</p>';profileModal.classList.add('open');const {data,error}=await supabaseClient.from('listings')
-.select('id,user_id,title,description,category,listing_type,price,negotiable,city,phone,status,created_at').eq('user_id',currentUser.id).order('created_at',{ascending:false});if(error){box.textContent='Impossible de charger vos annonces : '+error.message;return}box.innerHTML=`<p><strong>${safeText(currentUser.email||'Compte connecté')}</strong></p><h3>Mes annonces</h3>`;if(!data?.length){box.innerHTML+='<p>Vous n’avez pas encore publié d’annonce.</p>'}else data.forEach(item=>{
-    const row=document.createElement('div');
-    row.style.display='flex';
-    row.style.justifyContent='space-between';
-    row.style.alignItems='center';
-    row.style.gap='10px';
-    row.style.margin='12px 0';
-    row.style.padding='10px';
-    row.style.border='1px solid #ddd';
-    row.style.borderRadius='8px';
+document.getElementById('publishForm').addEventListener('submit',async e=>{e.preventDefault();if(!currentUser){closeModal();openAuth('login');return}const btn=document.getElementById('publishSubmit');btn.disabled=true;setStatus('publishStatus',editingListingId?'Enregistrement des modifications…':'Enregistrement de votre annonce…');try{const title=document.getElementById('title').value.trim(),description=document.getElementById('description').value.trim(),category=document.getElementById('category').value,listing_type=document.getElementById('listingType').value,priceValue=document.getElementById('price').value,city=document.getElementById('city').value.trim(),phone=document.getElementById('phone').value.trim();const payload={title,description,category,listing_type,price:priceValue===''?null:Number(priceValue),negotiable:document.getElementById('negotiable').checked,city,phone:phone||null};if(!title||!category||!city||!listing_type||!description)throw new Error('Veuillez remplir tous les champs obligatoires.');if(editingListingId){const id=editingListingId;const {error}=await supabaseClient.from('listings').update(payload).eq('id',id).eq('user_id',currentUser.id);if(error)throw error;alert('Votre annonce a été modifiée. Son statut de validation et ses photos sont conservés.');closeModal();resetPublishForm();await loadListings();await openProfile()}else{const files=[...document.getElementById('photos').files];if(files.length>5)throw new Error('Maximum 5 photos.');for(const f of files){if(!['image/jpeg','image/png','image/webp'].includes(f.type)||f.size>2*1024*1024)throw new Error('Chaque photo doit être JPG, PNG ou WebP et ne pas dépasser 2 Mo.')}const {data:listing,error}=await supabaseClient.from('listings').insert({...payload,user_id:currentUser.id}).select('id').single();if(error)throw error;const imageErrors=[];for(let i=0;i<files.length;i++){const file=files[i],ext=file.type==='image/png'?'png':file.type==='image/webp'?'webp':'jpg',path=`${currentUser.id}/${listing.id}/${crypto.randomUUID()}.${ext}`;const {error:upErr}=await supabaseClient.storage.from('listing-photos').upload(path,file,{contentType:file.type,upsert:false});if(upErr){imageErrors.push(file.name+': '+upErr.message);continue}const {data:urlData}=supabaseClient.storage.from('listing-photos').getPublicUrl(path);const {error:rowErr}=await supabaseClient.from('listing_images').insert({listing_id:listing.id,image_url:urlData.publicUrl,position:i});if(rowErr)imageErrors.push(file.name+': '+rowErr.message)}if(imageErrors.length){setStatus('publishStatus','Annonce enregistrée, mais certaines photos n’ont pas été ajoutées : '+imageErrors.join(' | '),true);alert('Votre annonce est enregistrée, mais certaines photos n’ont pas pu être envoyées.')}else{alert('Votre annonce a bien été envoyée. Elle sera visible après validation par l’équipe GarangoDaaki.');closeModal()}document.getElementById('publishForm').reset();document.getElementById('preview').innerHTML='';await loadListings();if(imageErrors.length)return}}catch(err){setStatus('publishStatus',err.message||'Une erreur est survenue.',true)}finally{btn.disabled=false}});
 
-    const info=document.createElement('span');
-    info.textContent=item.title+' — '+({pending:'En attente de validation',published:'Publiée',rejected:'Refusée',sold:'Vendue'}[item.status]||item.status);
+async function openProfile(e){if(e)e.preventDefault();if(!currentUser){openAuth('login');return}const box=document.getElementById('profileContent');box.innerHTML='<p>Chargement de votre espace…</p>';profileModal.classList.add('open');const {data,error}=await supabaseClient.from('listings').select('id,user_id,title,description,category,listing_type,price,negotiable,city,phone,status,created_at').eq('user_id',currentUser.id).order('created_at',{ascending:false});if(error){box.textContent='Impossible de charger vos annonces : '+error.message;return}box.innerHTML=`<p><strong>${safeText(currentUser.email||'Compte connecté')}</strong></p><h3>Mes annonces</h3>`;if(!data?.length)box.innerHTML+='<p>Vous n’avez pas encore publié d’annonce.</p>';else data.forEach(item=>{const row=document.createElement('div');row.className='profile-row';const info=document.createElement('span');info.textContent=item.title+' — '+({pending:'En attente de validation',published:'Publiée',rejected:'Refusée',sold:'Vendue'}[item.status]||item.status);const controls=document.createElement('div');controls.style.cssText='display:flex;gap:6px;flex-wrap:wrap';const edit=document.createElement('button');edit.type='button';edit.className='btn btn-green';edit.textContent='Modifier';edit.onclick=()=>openEditListing(item);const del=document.createElement('button');del.type='button';del.className='btn btn-danger';del.textContent='Supprimer';del.onclick=()=>deleteOwnListing(item);controls.append(edit,del);row.append(info,controls);box.appendChild(row)});const messagesBtn=document.createElement('button');messagesBtn.className='btn btn-green';messagesBtn.textContent='Mes messages';messagesBtn.style.margin='10px 0';messagesBtn.onclick=()=>openInbox();box.appendChild(messagesBtn);const out=document.createElement('button');out.className='btn btn-outline';out.textContent='Se déconnecter';out.style.margin='10px';out.onclick=signOut;box.appendChild(out)}
+async function deleteOwnListing(item){if(!currentUser||item.user_id!==currentUser.id){alert('Vous ne pouvez supprimer que vos propres annonces.');return}if(!confirm('Supprimer définitivement cette annonce ? Cette action ne peut pas être annulée.'))return;const {error}=await supabaseClient.from('listings').delete().eq('id',item.id).eq('user_id',currentUser.id);if(error){alert('Suppression refusée par Supabase : '+error.message+'\\nVérifiez que la politique DELETE du fichier SQL fourni a été exécutée.');return}alert('Annonce supprimée.');await loadListings();await openProfile()}
 
-    const edit=document.createElement('button');
-    edit.type='button';
-    edit.className='btn btn-green';
-    edit.textContent='Modifier';
-    edit.onclick=()=>openEditListing(item);
+async function openInbox(){if(!currentUser)return;const box=document.getElementById('profileContent');box.innerHTML='<p>Chargement de vos messages...</p>';const [received,sent]=await Promise.all([supabaseClient.from('messages').select('sender_id,receiver_id,listing_id,content,created_at,is_read').eq('receiver_id',currentUser.id).order('created_at',{ascending:false}),supabaseClient.from('messages').select('sender_id,receiver_id,listing_id,content,created_at,is_read').eq('sender_id',currentUser.id).order('created_at',{ascending:false})]);if(received.error||sent.error){box.textContent='Impossible de charger les messages : '+(received.error||sent.error).message;return}const conversations=new Map();[...(received.data||[]),...(sent.data||[])].sort((a,b)=>new Date(b.created_at)-new Date(a.created_at)).forEach(m=>{if(!m.listing_id)return;const other=m.sender_id===currentUser.id?m.receiver_id:m.sender_id,key=other+'_'+m.listing_id;if(!conversations.has(key))conversations.set(key,{otherUserId:other,listingId:m.listing_id,lastContent:m.content,lastDate:m.created_at,unread:0});if(m.receiver_id===currentUser.id&&!m.is_read)conversations.get(key).unread++});const threads=[...conversations.values()];const listingIds=[...new Set(threads.map(t=>t.listingId))];let titles={},owners={};if(listingIds.length){const {data,error}=await supabaseClient.from('listings').select('id,title,user_id').in('id',listingIds);if(!error)(data||[]).forEach(x=>{titles[x.id]=x.title;owners[x.id]=x.user_id})}box.innerHTML=`<p><strong>${safeText(currentUser.email||'Mon compte')}</strong></p><h3>Mes conversations</h3><button type="button" class="btn btn-green" id="backToProfile">Retour à mon espace</button><div id="inboxList"></div>`;document.getElementById('backToProfile').onclick=()=>openProfile();const list=document.getElementById('inboxList');if(!threads.length){list.innerHTML='<p>Aucune conversation pour le moment.</p>';return}threads.forEach(t=>{const card=document.createElement('div');card.className='inbox-card';const title=document.createElement('strong');title.textContent=titles[t.listingId]||'Annonce supprimée ou indisponible';const message=document.createElement('p');message.textContent=t.lastContent;const date=document.createElement('small');date.textContent=new Date(t.lastDate).toLocaleString('fr-FR');const button=document.createElement('button');button.className='btn btn-green';button.textContent='Ouvrir la conversation';button.onclick=()=>{profileModal.classList.remove('open');openConversation({user_id:t.otherUserId,ownerId:owners[t.listingId],id:t.listingId,title:titles[t.listingId]||'Annonce',seller:{full_name:'Utilisateur'}})};card.append(title,message,date);if(t.unread){const badge=document.createElement('div');badge.className='unread-badge';badge.textContent=t.unread+' message(s) non lu(s)';card.appendChild(badge)}card.appendChild(button);list.appendChild(card)})}
 
-    row.appendChild(info);
-    row.appendChild(edit);
-    box.appendChild(row);
-  });const messagesBtn=document.createElement('button');
-messagesBtn.className='btn btn-green';
-messagesBtn.textContent='Mes messages';
-messagesBtn.style.margin='10px 0';
-messagesBtn.onclick=()=>openInbox();
-box.appendChild(messagesBtn);const out=document.createElement('button');out.className='btn btn-green';out.textContent='Se déconnecter';out.onclick=signOut;box.appendChild(out)}
-  async function openInbox(){
-  if(!currentUser) return;
+async function openConversation(item){if(!currentUser){openAuth('login');return}const otherUserId=item.user_id;if(!otherUserId||otherUserId===currentUser.id){alert('Destinataire invalide.');return}activeConversation={otherUserId,listingId:item.id,isSeller:item.ownerId===currentUser.id};document.getElementById('messageTitle').textContent='Conversation avec '+(item.seller?.full_name||'Utilisateur');document.getElementById('messageListingInfo').textContent='Annonce : '+item.title;document.getElementById('messageThread').innerHTML='<p>Chargement des messages...</p>';document.getElementById('messageStatus').textContent='';document.getElementById('messageInput').value='';messageModal.classList.add('open');await loadConversation()}
+async function loadConversation(){if(!activeConversation||!currentUser)return;const {otherUserId,listingId}=activeConversation;const [a,b]=await Promise.all([supabaseClient.from('messages').select('id,sender_id,receiver_id,listing_id,content,created_at,is_read').eq('sender_id',currentUser.id).eq('receiver_id',otherUserId).eq('listing_id',listingId),supabaseClient.from('messages').select('id,sender_id,receiver_id,listing_id,content,created_at,is_read').eq('sender_id',otherUserId).eq('receiver_id',currentUser.id).eq('listing_id',listingId)]);const thread=document.getElementById('messageThread');if(a.error||b.error){thread.textContent='Impossible de charger les messages : '+(a.error||b.error).message;return}const messages=[...(a.data||[]),...(b.data||[])].sort((x,y)=>new Date(x.created_at)-new Date(y.created_at));thread.innerHTML=messages.length?messages.map(m=>{const mine=m.sender_id===currentUser.id;return `<div style="text-align:${mine?'right':'left'};margin:12px 0"><div style="display:inline-block;max-width:85%;padding:12px 15px;border-radius:14px;background:${mine?'#d9fbe8':'#fff0df'};border:1px solid ${mine?'#8bd5a8':'#f5bd83'};text-align:left"><strong style="display:block;font-size:12px;margin-bottom:5px;color:${mine?'#08734d':'#b45b0a'}">${mine?'Vous':'Correspondant'}</strong><div style="white-space:pre-wrap">${safeText(m.content)}</div><small style="display:block;margin-top:7px;color:#666">${new Date(m.created_at).toLocaleString('fr-FR')}</small></div></div>`}).join(''):'<p>Aucun message pour le moment. Envoyez le premier message !</p>';thread.scrollTop=thread.scrollHeight;const {error:readError}=await supabaseClient.from('messages').update({is_read:true}).eq('sender_id',otherUserId).eq('receiver_id',currentUser.id).eq('listing_id',listingId).eq('is_read',false);if(readError)console.warn('Impossible de marquer les messages comme lus:',readError.message)}
+document.getElementById('messageForm').addEventListener('submit',async e=>{e.preventDefault();if(!activeConversation||!currentUser)return;const input=document.getElementById('messageInput'),button=document.getElementById('sendMessageBtn'),status=document.getElementById('messageStatus'),content=input.value.trim();if(!content)return;button.disabled=true;status.textContent='Envoi en cours…';const {data,error}=await supabaseClient.from('messages').insert({sender_id:currentUser.id,receiver_id:activeConversation.otherUserId,listing_id:activeConversation.listingId,content}).select('id').single();button.disabled=false;if(error){status.textContent='Erreur : '+error.message;return}input.value='';status.textContent='Message envoyé !';await loadConversation();try{const {error:pushError}=await supabaseClient.functions.invoke('send-push-notification',{body:{message_id:data.id}});if(pushError)console.warn('Notification non envoyée :',pushError.message)}catch(err){console.warn('Notification non envoyée :',err.message)}});
 
-  const box = document.getElementById('profileContent');
-  box.innerHTML = '<p>Chargement de vos messages...</p>';
-
-  const {data, error} = await supabaseClient
-    .from('messages')
-    .select('sender_id, listing_id, content, created_at, is_read')
-    .eq('receiver_id', currentUser.id)
-    .order('created_at', {ascending:false});
-
-  if(error){
-    box.textContent = 'Impossible de charger les messages : ' + error.message;
-    return;
-  }
-
-  const conversations = new Map();
-
-  (data || []).forEach(message=>{
-    if(!message.listing_id) return;
-
-    const key = message.sender_id + '_' + message.listing_id;
-
-    if(!conversations.has(key)){
-      conversations.set(key, {
-        senderId: message.sender_id,
-        listingId: message.listing_id,
-        content: message.content,
-        createdAt: message.created_at,
-        unread: 0
-      });
-    }
-
-    if(!message.is_read){
-      conversations.get(key).unread++;
-    }
-  });
-
-  const threads = [...conversations.values()];
-  const listingIds = [...new Set(threads.map(t=>t.listingId))];
-
-let titles = {};
-let owners = {};
-
-  if(listingIds.length){
-    const result = await supabaseClient
-      .from('listings')
-      .select('id,title,user_id')
-      .in('id', listingIds);
-
-    if(!result.error){
-      (result.data || []).forEach(item=>{
-  titles[item.id] = item.title;
-  owners[item.id] = item.user_id;
-});
-    }
-  }
-
-  box.innerHTML = `
-    <p><strong>${safeText(currentUser.email || 'Mon compte')}</strong></p>
-    <h3>Mes messages reçus</h3>
-    <button type="button" class="btn btn-green" id="backToProfile">
-      Retour à mon espace
-    </button>
-    <div id="inboxList"></div>
-  `;
-
-  document.getElementById('backToProfile').onclick = ()=>openProfile();
-
-  const list = document.getElementById('inboxList');
-
-  if(!threads.length){
-    list.innerHTML = '<p>Aucun message reçu pour le moment.</p>';
-    return;
-  }
-
-  threads.forEach(thread=>{
-    const card = document.createElement('div');
-    card.style.cssText =
-      'padding:12px;margin:12px 0;border:1px solid #d8e2dc;border-radius:12px;background:#f0f7f3';
-
-    const title = document.createElement('strong');
-    title.textContent = titles[thread.listingId] || 'Annonce';
-
-    const message = document.createElement('p');
-    message.textContent = thread.content;
-
-    const date = document.createElement('small');
-    date.textContent = new Date(thread.createdAt).toLocaleString('fr-FR');
-
-    const button = document.createElement('button');
-    button.className = 'btn btn-green';
-    button.textContent = 'Ouvrir la conversation';
-
-    if(thread.unread > 0){
-      const badge = document.createElement('strong');
-      badge.textContent = thread.unread + ' nouveau(x) message(s)';
-      badge.style.cssText = 'display:block;color:#b45b0a;margin-top:8px';
-      card.appendChild(badge);
-    }
-
-        button.onclick = ()=>{
-      profileModal.classList.remove('open');
-
-      openConversation({
-        user_id: thread.senderId,
-        ownerId: owners[thread.listingId],
-        id: thread.listingId,
-        title: titles[thread.listingId] || 'Annonce',
-        seller: {full_name:'Utilisateur'}
-      });
-    };
-
-    card.append(title, message, date, button);
-    list.appendChild(card);
-  });
-}
-
-function urlBase64ToUint8Array(base64String) {
-  const padding = '='.repeat((4 - base64String.length % 4) % 4);
-  const base64 = (base64String + padding)
-    .replace(/-/g, '+')
-    .replace(/_/g, '/');
-
-  const rawData = window.atob(base64);
-  return Uint8Array.from(rawData, c => c.charCodeAt(0));
-}
-
-
-async function activateNotifications() {
-  try {
-    if (!currentUser) {
-      alert('Connectez-vous pour activer les notifications.');
-      return;
-    }
-
-    if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
-      alert('Les notifications ne sont pas prises en charge par ce navigateur.');
-      return;
-    }
-
-    const permission = await Notification.requestPermission();
-
-    if (permission !== 'granted') {
-      alert('Autorisez les notifications dans les paramètres du navigateur.');
-      return;
-    }
-
-    const registration = await navigator.serviceWorker.ready;
-
-    const subscription = await registration.pushManager.subscribe({
-      userVisibleOnly: true,
-      applicationServerKey: urlBase64ToUint8Array(
-        "BByT8IcNZ44P_N1q0V0cUrFiQNo-B0pA1Du86TQgq8CeBCL57JOgqf-kpKwl1p6zBtGXnllLBuM-fYSoBtYumtY"
-      )
-    });
-
-    const json = subscription.toJSON();
-
-    const { error } = await supabaseClient
-      .from('push_subscriptions')
-      .upsert({
-        user_id: currentUser.id,
-        endpoint: json.endpoint,
-        p256dh: json.keys.p256dh,
-        auth: json.keys.auth
-      }, { onConflict: 'endpoint' });
-
-    if (error) {
-      alert('Erreur lors de l’enregistrement : ' + error.message);
-      return;
-    }
-
-    alert('Notifications activées avec succès !');
-
-  } catch (error) {
-    alert('Erreur : ' + error.message);
-  }
-}
+function urlBase64ToUint8Array(base64String){const padding='='.repeat((4-base64String.length%4)%4);const base64=(base64String+padding).replace(/-/g,'+').replace(/_/g,'/');const rawData=window.atob(base64);return Uint8Array.from(rawData,c=>c.charCodeAt(0))}
+async function activateNotifications(){try{if(!currentUser){alert('Connectez-vous pour activer les notifications.');return}if(!('serviceWorker'in navigator)||!('PushManager'in window)){alert('Les notifications ne sont pas prises en charge par ce navigateur.');return}const permission=await Notification.requestPermission();if(permission!=='granted'){alert('Autorisez les notifications dans les paramètres du navigateur.');return}const registration=await navigator.serviceWorker.ready;const subscription=await registration.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:urlBase64ToUint8Array('BByT8IcNZ44P_N1q0V0cUrFiQNo-B0pA1Du86TQgq8CeBCL57JOgqf-kpKwl1p6zBtGXnllLBuM-fYSoBtYumtY')});const json=subscription.toJSON();const {error}=await supabaseClient.from('push_subscriptions').upsert({user_id:currentUser.id,endpoint:json.endpoint,p256dh:json.keys.p256dh,auth:json.keys.auth},{onConflict:'endpoint'});if(error){alert('Erreur lors de l’enregistrement : '+error.message);return}alert('Notifications activées avec succès !')}catch(error){alert('Erreur : '+error.message)}}
 
 async function initialize(){await syncSession();await loadListings()}
 initialize();
-if('serviceWorker' in navigator&&location.protocol.startsWith('http'))window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+if('serviceWorker'in navigator&&location.protocol.startsWith('http'))window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(err=>console.warn('Service worker non enregistré:',err)));
 </script>
 </body></html>
