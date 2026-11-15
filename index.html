@@ -234,7 +234,9 @@ const { error: notificationError } =
   });
 
 if (notificationError) {
-  console.warn('Notification non envoyée :', notificationError);
+  alert('Erreur notification : ' + notificationError.message);
+} else {
+  alert('Appel de notification envoyé à Supabase.');
 }
 
 input.value = '';
