@@ -208,24 +208,40 @@ async function loadConversation(){
   button.disabled = true;
   status.textContent = 'Envoi en cours...';
 
-  const {error} = await supabaseClient.from('messages').insert({
+ 
+const { data, error } = await supabaseClient
+  .from('messages')
+  .insert({
     sender_id: currentUser.id,
     receiver_id: activeConversation.sellerId,
     listing_id: activeConversation.listingId,
     content: content
+  })
+  .select('id')
+  .single();
+
+button.disabled = false;
+
+if (error) {
+  status.textContent = 'Erreur : ' + error.message;
+  return;
+}
+
+// Envoyer la notification au destinataire
+const { error: notificationError } =
+  await supabaseClient.functions.invoke('send-push-notification', {
+    body: { message_id: data.id }
   });
 
-  button.disabled = false;
+if (notificationError) {
+  console.warn('Notification non envoyée :', notificationError);
+}
 
-  if(error){
-    status.textContent = 'Erreur : ' + error.message;
-    return;
-  }
+input.value = '';
+status.textContent = 'Message envoyé !';
 
-  input.value = '';
-  status.textContent = 'Message envoyé !';
+await loadConversation();
 
-  await loadConversation();
 });
   async function openConversation(item){
   if(!currentUser){
