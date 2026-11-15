@@ -447,8 +447,9 @@ let owners = {};
 
     if(!result.error){
       (result.data || []).forEach(item=>{
-        titles[item.id] = item.title;
-      });
+  titles[item.id] = item.title;
+  owners[item.id] = item.user_id;
+});
     }
   }
 
