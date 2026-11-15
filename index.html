@@ -229,21 +229,22 @@ async function loadConversation(){
     return;
   }
 
-  if(!item.user_id || item.user_id === currentUser.id){
-    alert('Vous ne pouvez pas vous envoyer un message.');
+  const otherUserId = item.user_id;
+  const ownerId = item.ownerId || item.user_id;
+
+  if(!otherUserId || otherUserId === currentUser.id){
+    alert('Destinataire invalide.');
     return;
   }
 
-  const sellerId = item.user_id;
-
-activeConversation = {
-  sellerId: sellerId,
-  listingId: item.id,
-  isSeller: currentUser.id === sellerId
-};
+  activeConversation = {
+    sellerId: otherUserId,
+    listingId: item.id,
+    isSeller: ownerId === currentUser.id
+  };
 
   document.getElementById('messageTitle').textContent =
-    'Conversation avec ' + (item.seller?.full_name || 'le vendeur');
+    'Conversation avec ' + (item.seller?.full_name || 'Utilisateur');
 
   document.getElementById('messageListingInfo').textContent =
     'Annonce : ' + item.title;
@@ -257,6 +258,7 @@ activeConversation = {
   messageModal.classList.add('open');
 
   await loadConversation();
+}
 }
 function showDetails(item){
   const box = document.getElementById('detailsContent');
