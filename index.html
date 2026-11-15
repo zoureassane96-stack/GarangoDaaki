@@ -234,10 +234,11 @@ async function loadConversation(){
     return;
   }
 
-  activeConversation = {
-    sellerId: item.user_id,
-    listingId: item.id
-  };
+  activeConversation={
+  sellerId:item.user_id,
+  listingId:item.id,
+  isSeller:item.isSeller === true
+};
 
   document.getElementById('messageTitle').textContent =
     'Conversation avec ' + (item.seller?.full_name || 'le vendeur');
