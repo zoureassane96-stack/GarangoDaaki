@@ -436,7 +436,8 @@ box.appendChild(messagesBtn);const out=document.createElement('button');out.clas
   const threads = [...conversations.values()];
   const listingIds = [...new Set(threads.map(t=>t.listingId))];
 
-  let titles = {};
+let titles = {};
+let owners = {};
 
   if(listingIds.length){
     const result = await supabaseClient
