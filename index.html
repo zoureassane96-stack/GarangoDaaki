@@ -166,10 +166,11 @@ async function loadConversation(){
   }else{
     thread.innerHTML = messages.map(m=>{
       const mine = m.sender_id === currentUser.id;
+      const otherRole = activeConversation.isSeller ? 'Acheteur' : 'Vendeur';
       return `
         <div style="text-align:${mine?'right':'left'};margin:12px 0">
           <div style="display:inline-block;max-width:85%;padding:12px 15px;border-radius:14px;background:${mine?'#d9fbe8':'#fff0df'};border:1px solid ${mine?'#8bd5a8':'#f5bd83'};text-align:left">
-            <strong style="display:block;font-size:12px;margin-bottom:5px;color:${mine?'#08734d':'#b45b0a'}">${mine?'Vous':'Vendeur'}</strong>
+            <strong style="display:block;font-size:12px;margin-bottom:5px;color:${mine?'#08734d':'#b45b0a'}">${mine?'Vous':otherRole}</strong>
             <div style="white-space:pre-wrap">${safeText(m.content)}</div>
             <small style="display:block;margin-top:7px;color:#666">${new Date(m.created_at).toLocaleString('fr-FR')}</small>
           </div>
