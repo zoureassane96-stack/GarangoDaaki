@@ -497,7 +497,8 @@ box.appendChild(messagesBtn);const out=document.createElement('button');out.clas
         user_id: thread.senderId,
         id: thread.listingId,
         title: titles[thread.listingId] || 'Annonce',
-        seller: {full_name:'Utilisateur'}
+        seller: {full_name:'Utilisateur'},
+isSeller: true
       });
     };
 
