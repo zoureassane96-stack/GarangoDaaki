@@ -235,11 +235,19 @@ const { error: notificationError } =
   });
 
 if (notificationError) {
-  alert('Erreur notification : ' + notificationError.message);
+  let details = notificationError.message;
+
+  try {
+    if (notificationError.context) {
+      const response = await notificationError.context.clone().json();
+      details = response.error || JSON.stringify(response);
+    }
+  } catch (e) {}
+
+  alert('Erreur notification : ' + details);
 } else {
   alert('Appel de notification envoyé à Supabase.');
 }
-
 input.value = '';
 status.textContent = 'Message envoyé !';
 
