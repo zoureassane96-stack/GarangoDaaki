@@ -442,7 +442,7 @@ let owners = {};
   if(listingIds.length){
     const result = await supabaseClient
       .from('listings')
-      .select('id,title')
+      .select('id,title,user_id')
       .in('id', listingIds);
 
     if(!result.error){
