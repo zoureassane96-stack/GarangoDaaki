@@ -543,12 +543,11 @@ async function activateNotifications() {
   const registration = await navigator.serviceWorker.ready;
 
   const subscription = await registration.pushManager.subscribe({
-    userVisibleOnly: true,
-    applicationServerKey: urlBase64ToUint8Array('REMPLACER_PAR_LA_CLE_PUBLIQUE_VAPID')
-  });
+  userVisibleOnly: true,
+  applicationServerKey: urlBase64ToUint8Array("BByT8IcNZ44P_N1q0V0cUrFiQNo-B0pA1Du86TQgq8CeBCL57JOgqf-kpKwl1p6zBtGXnllLBuM-fYSoBtYumtY",)
+});
 
-  const json = subscription.toJSON();
-
+const json = subscription.toJSON();
   const { error } = await supabaseClient
     .from('push_subscriptions')
     .upsert({
