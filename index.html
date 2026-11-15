@@ -228,6 +228,7 @@ if (error) {
 }
 
 // Envoyer la notification au destinataire
+   alert('Le code arrive à l’étape notification.');
 const { error: notificationError } =
   await supabaseClient.functions.invoke('send-push-notification', {
     body: { message_id: data.id }
