@@ -388,6 +388,121 @@ messagesBtn.textContent='Mes messages';
 messagesBtn.style.margin='10px 0';
 messagesBtn.onclick=()=>openInbox();
 box.appendChild(messagesBtn);const out=document.createElement('button');out.className='btn btn-green';out.textContent='Se déconnecter';out.onclick=signOut;box.appendChild(out)}
+  async function openInbox(){
+  if(!currentUser) return;
+
+  const box = document.getElementById('profileContent');
+  box.innerHTML = '<p>Chargement de vos messages...</p>';
+
+  const {data, error} = await supabaseClient
+    .from('messages')
+    .select('sender_id, listing_id, content, created_at, is_read')
+    .eq('receiver_id', currentUser.id)
+    .order('created_at', {ascending:false});
+
+  if(error){
+    box.textContent = 'Impossible de charger les messages : ' + error.message;
+    return;
+  }
+
+  const conversations = new Map();
+
+  (data || []).forEach(message=>{
+    if(!message.listing_id) return;
+
+    const key = message.sender_id + '_' + message.listing_id;
+
+    if(!conversations.has(key)){
+      conversations.set(key, {
+        senderId: message.sender_id,
+        listingId: message.listing_id,
+        content: message.content,
+        createdAt: message.created_at,
+        unread: 0
+      });
+    }
+
+    if(!message.is_read){
+      conversations.get(key).unread++;
+    }
+  });
+
+  const threads = [...conversations.values()];
+  const listingIds = [...new Set(threads.map(t=>t.listingId))];
+
+  let titles = {};
+
+  if(listingIds.length){
+    const result = await supabaseClient
+      .from('listings')
+      .select('id,title')
+      .in('id', listingIds);
+
+    if(!result.error){
+      (result.data || []).forEach(item=>{
+        titles[item.id] = item.title;
+      });
+    }
+  }
+
+  box.innerHTML = `
+    <p><strong>${safeText(currentUser.email || 'Mon compte')}</strong></p>
+    <h3>Mes messages reçus</h3>
+    <button type="button" class="btn btn-green" id="backToProfile">
+      Retour à mon espace
+    </button>
+    <div id="inboxList"></div>
+  `;
+
+  document.getElementById('backToProfile').onclick = ()=>openProfile();
+
+  const list = document.getElementById('inboxList');
+
+  if(!threads.length){
+    list.innerHTML = '<p>Aucun message reçu pour le moment.</p>';
+    return;
+  }
+
+  threads.forEach(thread=>{
+    const card = document.createElement('div');
+    card.style.cssText =
+      'padding:12px;margin:12px 0;border:1px solid #d8e2dc;border-radius:12px;background:#f0f7f3';
+
+    const title = document.createElement('strong');
+    title.textContent = titles[thread.listingId] || 'Annonce';
+
+    const message = document.createElement('p');
+    message.textContent = thread.content;
+
+    const date = document.createElement('small');
+    date.textContent = new Date(thread.createdAt).toLocaleString('fr-FR');
+
+    const button = document.createElement('button');
+    button.className = 'btn btn-green';
+    button.textContent = 'Ouvrir la conversation';
+
+    if(thread.unread > 0){
+      const badge = document.createElement('strong');
+      badge.textContent = thread.unread + ' nouveau(x) message(s)';
+      badge.style.cssText = 'display:block;color:#b45b0a;margin-top:8px';
+      card.appendChild(badge);
+    }
+
+    button.onclick = ()=>{
+      profileModal.classList.remove('open');
+
+      openConversation({
+        user_id: thread.senderId,
+        id: thread.listingId,
+        title: titles[thread.listingId] || 'Annonce',
+        seller: {full_name:'Utilisateur'}
+      });
+    };
+
+    card.append(title, message, date, button);
+    list.appendChild(card);
+  });
+}
 async function initialize(){await syncSession();await loadListings()}
 initialize();
 if('serviceWorker' in navigator&&location.protocol.startsWith('http'))window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
