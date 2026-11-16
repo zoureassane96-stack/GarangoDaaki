@@ -505,13 +505,173 @@ function changePhoto(direction){if(!galleryPhotos.length)return;galleryIndex=(ga
 document.getElementById('largePhoto').addEventListener('touchstart',e=>{touchStartX=e.changedTouches[0].screenX},{passive:true});
 document.getElementById('largePhoto').addEventListener('touchend',e=>{const d=e.changedTouches[0].screenX-touchStartX;if(Math.abs(d)>45)changePhoto(d<0?1:-1)},{passive:true});
 
+
 function showDetails(item){
-const box=document.getElementById('detailsContent'),photos=item.images||[];
-box.innerHTML=`<div style="display:flex;gap:10px;overflow-x:auto;margin:15px 0">${photos.length?photos.map((url,i)=>`<img src="${safeText(url)}" alt="Photo ${i+1}" data-photo-index="${i}" style="width:180px;height:150px;object-fit:cover;border-radius:10px;cursor:zoom-in;flex:none">`).join(''):'<p>Aucune photo disponible.</p>'}</div><h2>${safeText(item.title)}</h2><p style="color:var(--orange);font-size:22px;font-weight:900">${item.price!==null&&item.price!==''?Number(item.price).toLocaleString('fr-FR')+' FCFA':'Prix à discuter'}</p><p><strong>Catégorie :</strong> ${safeText(item.category)}</p><p><strong>Localité :</strong> ${safeText(item.city)}</p><p style="white-space:pre-wrap;line-height:1.6">${safeText(item.description||'Aucune description.')}</p><div style="background:#f0f7f3;padding:14px;border-radius:12px;margin:15px 0"><h3>Informations sur le vendeur</h3><p><strong>Nom :</strong> ${safeText(item.seller?.full_name||'Vendeur GarangoDaaki')}</p><p><strong>Localité :</strong> ${safeText(item.seller?.city||item.city)}</p><button type="button" class="btn btn-green" id="privateMessageBtn">Envoyer un message privé</button></div>${item.phone?`<a class="btn" style="display:block;width:100%;box-sizing:border-box;text-align:center;background:#f58216;color:white;margin-top:12px" target="_blank" rel="noopener" href="https://wa.me/${String(item.phone).replace(/\D/g,'')}">Contacter le vendeur sur WhatsApp</a>`:'<p>Numéro du vendeur non renseigné.</p>'}`;
-box.querySelectorAll('[data-photo-index]').forEach(img=>img.addEventListener('click',()=>{galleryPhotos=photos;galleryIndex=Number(img.dataset.photoIndex);updateGallery();photoModal.classList.add('open')}));
-document.getElementById('privateMessageBtn').addEventListener('click',()=>openConversation(item));
-detailsModal.classList.add('open')
+  const box = document.getElementById('detailsContent');
+  const photos = Array.isArray(item.images) ? item.images : [];
+
+  const price = item.price !== null && item.price !== ''
+    ? Number(item.price).toLocaleString('fr-FR') + ' FCFA'
+    : 'Prix à discuter';
+
+  const createdDate = item.created_at
+    ? new Date(item.created_at)
+    : null;
+
+  let dateText = '';
+
+  if(createdDate && !isNaN(createdDate.getTime())){
+    const days = Math.floor(
+      (Date.now() - createdDate.getTime()) / 86400000
+    );
+
+    if(days <= 0) dateText = "Aujourd'hui";
+    else if(days === 1) dateText = "Hier";
+    else dateText = `Il y a ${days} jours`;
+  }
+
+  const sellerName = item.seller?.full_name || 'Vendeur GarangoDaaki';
+  const sellerCity = item.seller?.city || item.city || 'Non renseignée';
+
+  const phone = String(item.phone || '').replace(/\D/g,'');
+
+  box.innerHTML = `
+    <div class="detail-page">
+
+      <button type="button" class="detail-back" id="detailBackBtn">
+        ← Retour aux annonces
+      </button>
+
+      <div class="detail-gallery">
+        ${
+          photos.length
+          ? photos.map((url,i)=>`
+              <img
+                src="${safeText(url)}"
+                alt="Photo ${i+1} de l'annonce"
+                data-detail-photo="${i}"
+                loading="${i===0?'eager':'lazy'}"
+              >
+            `).join('')
+          : `<div class="detail-no-photo">
+               Aucune photo disponible
+             </div>`
+        }
+      </div>
+
+      <span class="detail-category">
+        ${safeText(item.category || 'Autre catégorie')}
+      </span>
+
+      <h2 class="detail-title">
+        ${safeText(item.title || 'Annonce sans titre')}
+      </h2>
+
+      <div class="detail-price">${price}</div>
+
+      <div class="detail-meta">
+        <span>📍 ${safeText(item.city || 'Localité non renseignée')}</span>
+        ${dateText ? `<span>📅 ${safeText(dateText)}</span>` : ''}
+        ${item.negotiable ? '<span>🤝 Prix négociable</span>' : ''}
+      </div>
+
+      <section class="detail-section">
+        <h3>Description de l'annonce</h3>
+        <div class="detail-description">${
+          safeText(item.description || 'Aucune description fournie.')
+        }</div>
+      </section>
+
+      <section class="detail-section detail-seller">
+        <h3>Informations sur le vendeur</h3>
+
+        <div class="detail-seller-name">
+          ${safeText(sellerName)}
+        </div>
+
+        <p>📍 Localité : ${safeText(sellerCity)}</p>
+
+        <p style="font-size:12px;color:#65736b">
+          Consultez les informations et échangez avec le vendeur
+          avant toute transaction.
+        </p>
+
+        <div class="detail-contact">
+          <button
+            type="button"
+            class="btn btn-green"
+            id="privateMessageBtn"
+          >
+            Envoyer un message privé
+          </button>
+
+          ${
+            phone
+            ? `<a
+                class="btn"
+                style="background:#168b4c;color:white"
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://wa.me/${phone}"
+              >
+                Contacter sur WhatsApp
+              </a>`
+            : `<p>Le vendeur n'a pas renseigné de numéro WhatsApp.</p>`
+          }
+        </div>
+      </section>
+
+      <section class="detail-section detail-safety">
+        <h3>⚠️ Attention : protégez votre argent !</h3>
+
+        <p>
+          GarangoDaaki vous recommande de prendre quelques précautions
+          avant d'acheter un produit ou de faire appel à un service.
+        </p>
+
+        <ul>
+          <li>Ne payez jamais à l'avance sans avoir vérifié le produit.</li>
+          <li>Rencontrez le vendeur dans un lieu public et sûr.</li>
+          <li>Inspectez soigneusement l'article avant de payer.</li>
+          <li>Méfiez-vous des prix anormalement bas.</li>
+          <li>Ne communiquez jamais vos codes secrets ou mots de passe.</li>
+          <li>En cas de doute, interrompez la transaction.</li>
+        </ul>
+      </section>
+
+      <p style="text-align:center;color:#718078;font-size:12px;margin-top:18px">
+        GarangoDaaki — Achetez et vendez avec prudence.
+      </p>
+
+    </div>
+  `;
+
+  const backBtn = document.getElementById('detailBackBtn');
+
+  backBtn.addEventListener('click',()=>{
+    closeDetails();
+    document.getElementById('annonces')?.scrollIntoView({
+      behavior:'smooth'
+    });
+  });
+
+  box.querySelectorAll('[data-detail-photo]').forEach(img=>{
+    img.addEventListener('click',()=>{
+      galleryPhotos = photos;
+      galleryIndex = Number(img.dataset.detailPhoto);
+      updateGallery();
+      photoModal.classList.add('open');
+    });
+  });
+
+  document.getElementById('privateMessageBtn')
+    .addEventListener('click',()=>{
+      openConversation(item);
+    });
+
+  detailsModal.classList.add('open');
 }
+
 
 function filterListings(cat=''){window.selectedCategory=cat;renderListings()}
 document.getElementById('searchInput').addEventListener('input',()=>renderListings());
