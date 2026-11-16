@@ -179,60 +179,45 @@ function openEditListing(item){if(!currentUser||item.user_id!==currentUser.id){a
 
 function openAuth(mode='login'){authMode=mode;const signup=mode==='signup';document.getElementById('authTitle').textContent=signup?'Créer un compte':'Connexion';document.getElementById('authIntro').textContent=signup?'Créez votre compte pour publier et gérer vos annonces.':'Connectez-vous à votre compte GarangoDaaki.';document.getElementById('authSubmit').textContent=signup?'Créer mon compte':'Se connecter';['nameField','phoneField','authCityField'].forEach(id=>document.getElementById(id).style.display=signup?'flex':'none');document.getElementById('authName').required=signup;document.getElementById('authPhone').required=false;document.getElementById('authCity').required=false;document.getElementById('authPassword').autocomplete=signup?'new-password':'current-password';document.getElementById('authSwitch').innerHTML=signup?'Vous avez déjà un compte ? <a href="#" onclick="openAuth(\'login\');return false">Se connecter</a>':'Pas encore de compte ? <a href="#" onclick="openAuth(\'signup\');return false">Créer un compte</a>';setStatus('authStatus','');authModal.classList.add('open')}
 
-function updateAccountButtons(){const buttons=document.querySelectorAll('.actions button');if(currentUser){buttons[0].textContent='Mon espace';buttons[0].onclick=()=>openProfile();buttons[1].textContent='Déconnexion';buttons[1].onclick=signOut}else{buttons[0].textContent='Connexion';buttons[0].onclick=()=>openAuth('login');buttons[1].textContent='Inscription';buttons[1].onclick=()=>openAuth('signup')}}
+async function updateAccountButtons(){
 
-async function signOut(){const {error}=await supabaseClient.auth.signOut();if(error){alert('Erreur de déconnexion : '+error.message);return}currentUser=null;favoriteIds.clear();updateAccountButtons();await refreshUnreadCount();renderListings();closeProfile();alert('Vous êtes déconnecté.')}
+  const buttons=document.querySelectorAll('.actions button');
 
-async function syncSession(){const {data:{session}}=await supabaseClient.auth.getSession();currentUser=session?.user||null;updateAccountButtons();await refreshUnreadCount();await loadFavorites()}
+  if(currentUser){
+    buttons[0].textContent='Mon espace';
+    buttons[0].onclick=()=>openProfile();
 
-document.getElementById('authForm').addEventListener('submit',async e=>{
-e.preventDefault();
-const btn=document.getElementById('authSubmit');
-btn.disabled=true;
-setStatus('authStatus','Traitement en cours…');
-try{
-const email=document.getElementById('authEmail').value.trim(),password=document.getElementById('authPassword').value;
-if(authMode==='signup'){
-const full_name=document.getElementById('authName').value.trim(),phone=document.getElementById('authPhone').value.trim(),city=document.getElementById('authCity').value.trim();
-const {data,error}=await supabaseClient.auth.signUp({email,password,options:{data:{full_name,phone,city}}});
-if(error)throw error;
-if(data.session&&data.user){
-currentUser=data.user;
-const {error:profileError}=await supabaseClient.from('profiles').upsert({id:currentUser.id,full_name,phone:phone||null,city:city||null});
-if(profileError)console.warn('Profil non enregistré:',profileError.message);
-closeAuth();
-updateAccountButtons();
-await loadFavorites();
-await refreshUnreadCount();
-alert('Compte créé. Bienvenue sur GarangoDaaki !')
-}else{
-setStatus('authStatus','Compte créé. Vérifiez votre boîte e-mail pour confirmer votre adresse, puis connectez-vous.')
+    buttons[1].textContent='Déconnexion';
+    buttons[1].onclick=signOut;
+  }else{
+    buttons[0].textContent='Connexion';
+    buttons[0].onclick=()=>openAuth('login');
+
+    buttons[1].textContent='Inscription';
+    buttons[1].onclick=()=>openAuth('signup');
+  }
+
+  const badge=document.getElementById('adminBadge');
+  const link=document.getElementById('adminLink');
+
+  badge.hidden=true;
+  link.hidden=true;
+
+  if(!currentUser)return;
+
+  const userId=currentUser.id;
+
+  const {data,error}=await supabaseClient.rpc(
+    'is_garangodaaki_admin'
+  );
+
+  if(currentUser?.id!==userId)return;
+
+  const admin=!error && data===true;
+
+  badge.hidden=!admin;
+  link.hidden=!admin;
 }
-}else{
-const {data,error}=await supabaseClient.auth.signInWithPassword({email,password});
-if(error)throw error;
-currentUser=data.user;
-closeAuth();
-updateAccountButtons();
-await loadFavorites();
-await refreshUnreadCount();
-alert('Connexion réussie.')
-}
-}catch(err){
-setStatus('authStatus',err.message||'Une erreur est survenue.',true)
-}finally{
-btn.disabled=false
-}
-});
-
-supabaseClient.auth.onAuthStateChange((_event,session)=>{
-currentUser=session?.user||null;
-updateAccountButtons();
-setTimeout(()=>{
-loadFavorites();
-refreshUnreadCount();
-},0)
-});
 
 async function loadFavorites(){favoriteIds.clear();if(currentUser){const {data,error}=await supabaseClient.from('favorites').select('listing_id').eq('user_id',currentUser.id);if(!error)(data||[]).forEach(x=>favoriteIds.add(x.listing_id))}renderListings()}
 
