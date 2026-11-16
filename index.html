@@ -782,12 +782,93 @@ function showDetails(item){
     });
   });
 
-  document.getElementById('privateMessageBtn')
-    .addEventListener('click',()=>{
-      openConversation(item);
-    });
 
-  detailsModal.classList.add('open');
+document.getElementById('privateMessageBtn')
+  .addEventListener('click',()=>{
+    openConversation(item);
+  });
+
+// Ouvrir ou fermer le formulaire de signalement
+document.getElementById('reportToggle')
+  .addEventListener('click',()=>{
+    const form = document.getElementById('reportForm');
+
+    if(!currentUser){
+      alert('Connectez-vous pour signaler une annonce.');
+      openAuth('login');
+      return;
+    }
+
+    form.classList.toggle('open');
+  });
+
+// Envoyer le signalement à Supabase
+document.getElementById('submitReport')
+  .addEventListener('click',async()=>{
+    const reason = document.getElementById('reportReason').value;
+    const details = document.getElementById('reportDetails').value.trim();
+    const message = document.getElementById('reportMessage');
+    const button = document.getElementById('submitReport');
+
+    if(!currentUser){
+      alert('Connectez-vous pour envoyer un signalement.');
+      openAuth('login');
+      return;
+    }
+
+    if(!reason){
+      message.style.color = '#a32929';
+      message.textContent = 'Veuillez choisir un motif.';
+      return;
+    }
+
+    if(!item.id){
+      message.style.color = '#a32929';
+      message.textContent = 'Identifiant de l’annonce introuvable.';
+      return;
+    }
+
+    button.disabled = true;
+    button.textContent = 'Envoi en cours...';
+    message.textContent = '';
+
+    try{
+      const {error} = await supabaseClient
+        .from('listing_reports')
+        .insert({
+          listing_id: item.id,
+          listing_title: String(item.title || 'Annonce sans titre'),
+          reporter_id: currentUser.id,
+          reason: reason,
+          details: details || null
+        });
+
+      if(error){
+        if(error.code === '23505'){
+          throw new Error('Vous avez déjà signalé cette annonce.');
+        }
+
+        throw error;
+      }
+
+      message.style.color = '#08734d';
+      message.textContent =
+        'Merci. Votre signalement a été transmis à l’administration.';
+
+      button.textContent = 'Signalement envoyé';
+      button.disabled = true;
+
+    }catch(error){
+      message.style.color = '#a32929';
+      message.textContent =
+        error.message || 'Impossible d’envoyer le signalement. Réessayez.';
+
+      button.disabled = false;
+      button.textContent = 'Envoyer le signalement';
+    }
+  });
+
+detailsModal.classList.add('open');
 }
 
 
