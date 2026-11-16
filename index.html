@@ -702,6 +702,62 @@ function showDetails(item){
       </section>
 
       <p style="text-align:center;color:#718078;font-size:12px;margin-top:18px">
+       
+<section class="detail-report">
+  <button
+    type="button"
+    class="report-toggle"
+    id="reportToggle"
+  >
+    ⚑ Signaler cette annonce
+  </button>
+
+  <div class="report-form" id="reportForm">
+
+    <p>
+      Pourquoi souhaitez-vous signaler cette annonce ?
+      Votre signalement sera transmis à l'administration.
+    </p>
+
+    <label for="reportReason">Motif du signalement</label>
+
+    <select id="reportReason" required>
+      <option value="">Choisir un motif</option>
+      <option value="Annonce frauduleuse">Annonce frauduleuse</option>
+      <option value="Faux produit ou fausse information">Faux produit ou fausse information</option>
+      <option value="Prix trompeur">Prix trompeur</option>
+      <option value="Annonce inappropriée">Annonce inappropriée</option>
+      <option value="Vendeur suspect">Vendeur suspect</option>
+      <option value="Autre">Autre</option>
+    </select>
+
+    <label for="reportDetails">
+      Explication complémentaire (facultatif)
+    </label>
+
+    <textarea
+      id="reportDetails"
+      maxlength="1000"
+      placeholder="Expliquez brièvement le problème..."
+    ></textarea>
+
+    <button
+      type="button"
+      class="report-submit"
+      id="submitReport"
+    >
+      Envoyer le signalement
+    </button>
+
+    <div
+      id="reportMessage"
+      class="report-message"
+      role="status"
+    ></div>
+
+  </div>
+</section>
+
         GarangoDaaki — Achetez et vendez avec prudence.
       </p>
 
