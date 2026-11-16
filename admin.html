@@ -6,6 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#064b35">
 <title>Administration — GarangoDaaki</title>
+
 <style>
 :root{
   --green:#064b35;
@@ -97,16 +98,144 @@ nav button.active{background:var(--green);color:#fff}
 .user-card strong{display:block;margin-bottom:5px}
 .toolbar{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0}
 .toolbar input{flex:1;min-width:180px}
+
+/* ===== GESTION DES SIGNALEMENTS ===== */
+.report-card{
+  background:#fff;
+  border:1px solid #e6d9d4;
+  border-radius:16px;
+  padding:17px;
+  margin-bottom:16px;
+  box-shadow:0 3px 12px #102b1b0a;
+}
+.report-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:10px;
+  padding-bottom:12px;
+  border-bottom:1px solid var(--line);
+}
+.report-tag{
+  display:inline-block;
+  background:#fff0ed;
+  color:#a32929;
+  padding:6px 10px;
+  border-radius:20px;
+  font-size:12px;
+  font-weight:800;
+}
+.report-pending{background:#fff3df;color:#8a4b00}
+.report-reviewed{background:#e3f4e9;color:#126436}
+.report-dismissed{background:#edf0ee;color:#58645d}
+
+.report-reason{
+  background:#fff8ed;
+  border:1px solid #f1dfbd;
+  border-radius:11px;
+  padding:13px;
+  margin:13px 0;
+}
+.report-reason strong{
+  display:block;
+  color:#8a4b00;
+  margin-bottom:5px;
+}
+.report-details{
+  line-height:1.6;
+  overflow-wrap:anywhere;
+}
+.report-listing{
+  border:1px solid var(--line);
+  border-radius:13px;
+  overflow:hidden;
+  margin-top:14px;
+}
+.report-listing-head{
+  background:#f0f7f2;
+  padding:13px 15px;
+}
+.report-listing-body{
+  padding:15px;
+}
+.report-listing-title{
+  color:var(--green);
+  font-size:20px;
+  font-weight:850;
+  margin:5px 0 12px;
+  overflow-wrap:anywhere;
+}
+.report-price{
+  color:#e87512;
+  font-size:21px;
+  font-weight:900;
+  margin:8px 0;
+}
+.report-description{
+  white-space:pre-wrap;
+  line-height:1.7;
+  overflow-wrap:anywhere;
+  margin:12px 0;
+}
+.report-photos{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(125px,1fr));
+  gap:10px;
+  margin:14px 0;
+}
+.report-photos a{
+  display:block;
+  border-radius:11px;
+  overflow:hidden;
+  background:#edf3ef;
+}
+.report-photos img{
+  display:block;
+  width:100%;
+  height:135px;
+  object-fit:cover;
+}
+.report-photos a:hover img{
+  opacity:.85;
+}
+.report-no-photo{
+  background:#f1f4f2;
+  border-radius:10px;
+  padding:20px;
+  color:var(--muted);
+  text-align:center;
+}
+.report-info{
+  background:#f7f9f7;
+  border-radius:10px;
+  padding:12px;
+  line-height:1.8;
+  overflow-wrap:anywhere;
+}
+.report-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:9px;
+  margin-top:15px;
+}
+.report-actions button{flex:1;min-width:130px}
+.report-filter{
+  max-width:230px;
+}
 @media(max-width:700px){
   .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
   .stats .stat:last-child{grid-column:span 2}
+  .report-photos{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
 @media(max-width:380px){
   .stats{grid-template-columns:1fr 1fr}
   header h1{font-size:18px}
+  .report-card{padding:12px}
 }
 </style>
 </head>
+
 <body>
 
 <header>
@@ -120,9 +249,7 @@ nav button.active{background:var(--green);color:#fff}
 
 <section id="loginPanel" class="panel">
   <h2>Connexion administrateur</h2>
-  <p class="muted">
-    Connecte-toi avec le compte autorisé dans Supabase.
-  </p>
+  <p class="muted">Connecte-toi avec le compte autorisé dans Supabase.</p>
 
   <form id="loginForm">
     <label for="email">Adresse e-mail</label>
@@ -168,6 +295,7 @@ nav button.active{background:var(--green);color:#fff}
     <button data-page="users">Utilisateurs</button>
     <button data-page="allListings">Toutes les annonces</button>
     <button data-page="pending">En attente</button>
+    <button data-page="reports">⚑ Signalements</button>
   </nav>
 
   <section id="overviewPage">
@@ -244,10 +372,49 @@ nav button.active{background:var(--green);color:#fff}
     </div>
   </section>
 
+  <!-- NOUVELLE RUBRIQUE SIGNALEMENTS -->
+  <section id="reportsPage" class="hidden">
+
+    <div class="topline">
+      <div>
+        <h2>⚑ Signalements des utilisateurs</h2>
+        <p class="muted">
+          Examine les annonces signalées et prends les mesures nécessaires.
+        </p>
+      </div>
+      <span class="status" id="reportCount">0 signalement</span>
+    </div>
+
+    <div class="toolbar">
+      <input
+        id="reportSearch"
+        type="search"
+        placeholder="Rechercher un titre, un motif ou une ville"
+      >
+
+      <select id="reportFilter" class="report-filter">
+        <option value="all">Tous les signalements</option>
+        <option value="pending">À examiner</option>
+        <option value="reviewed">Traités</option>
+        <option value="dismissed">Rejetés</option>
+      </select>
+
+      <button class="secondary" id="reportsRefreshBtn" type="button">
+        Actualiser
+      </button>
+    </div>
+
+    <div id="reportsList">
+      <div class="empty">Chargement des signalements…</div>
+    </div>
+
+  </section>
+
 </section>
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <script>
 const SUPABASE_URL='https://uabhuviadsclbjiplgyn.supabase.co';
 const SUPABASE_KEY='sb_publishable_41TR7IoA2GmoO3GoN1Cayg_meKVO_qn';
@@ -258,13 +425,16 @@ const $=id=>document.getElementById(id);
 function show(id,on=true){
   $(id).classList.toggle('hidden',!on);
 }
+
 function note(id,msg,isError=false){
   const el=$(id);
   el.textContent=msg;
   el.classList.toggle('error',isError);
   show(id,true);
 }
+
 function clearNote(id){show(id,false)}
+
 function make(tag,cls,text){
   const e=document.createElement(tag);
   if(cls)e.className=cls;
@@ -275,6 +445,7 @@ function make(tag,cls,text){
 let currentAdmin=null;
 let allUsers=[];
 let allRows=[];
+let allReports=[];
 
 async function verifyAdmin(){
   const {data,error}=await db.rpc('is_garangodaaki_admin');
@@ -297,13 +468,16 @@ $('loginForm').addEventListener('submit',async e=>{
   e.preventDefault();
   clearNote('loginMessage');
   $('loginBtn').disabled=true;
+
   try{
     const {data,error}=await db.auth.signInWithPassword({
       email:$('email').value.trim(),
       password:$('password').value
     });
+
     if(error)throw error;
     await showDashboard(data.user);
+
   }catch(err){
     note('loginMessage',err.message||'Connexion impossible.',true);
   }finally{
@@ -314,6 +488,7 @@ $('loginForm').addEventListener('submit',async e=>{
 async function loadStats(){
   const {data,error}=await db.rpc('admin_dashboard_stats');
   if(error)throw error;
+
   $('statUsers').textContent=data.users??0;
   $('statListings').textContent=data.listings??0;
   $('statPending').textContent=data.pending??0;
@@ -329,6 +504,7 @@ async function loadUsers(){
     p_limit:100,
     p_offset:0
   });
+
   if(error)throw error;
 
   allUsers=data||[];
@@ -366,6 +542,7 @@ function renderUsers(){
 }
 
 $('userSearch').addEventListener('input',renderUsers);
+
 $('usersRefreshBtn').addEventListener('click',async()=>{
   try{
     await loadUsers();
@@ -377,11 +554,13 @@ $('usersRefreshBtn').addEventListener('click',async()=>{
 
 async function refreshEverything(){
   clearNote('message');
+
   try{
     await loadStats();
     await loadUsers();
     await loadAllListings();
     await loadPending();
+    await loadReports();
   }catch(err){
     note('message','Erreur : '+err.message,true);
   }
@@ -405,9 +584,21 @@ $('adminNav').addEventListener('click',e=>{
     b.classList.toggle('active',b===btn);
   });
 
-  ['overview','users','allListings','pending'].forEach(page=>{
+  [
+    'overview',
+    'users',
+    'allListings',
+    'pending',
+    'reports'
+  ].forEach(page=>{
     show(page+'Page',page===btn.dataset.page);
   });
+
+  if(btn.dataset.page==='reports'){
+    loadReports().catch(err=>{
+      note('message','Erreur des signalements : '+err.message,true);
+    });
+  }
 });
 
 (async()=>{
@@ -449,6 +640,7 @@ function renderAllListings(){
     const matchesStatus=status==='all'||row.status===status;
     const text=[row.title,row.description,row.category,row.city]
       .join(' ').toLowerCase();
+
     return matchesStatus&&text.includes(term);
   });
 
@@ -628,8 +820,431 @@ async function deleteListing(id,button){
   }
 }
 
+/* ==========================================
+   GESTION COMPLETE DES SIGNALEMENTS
+========================================== */
+
+async function loadReports(){
+  const root=$('reportsList');
+
+  root.replaceChildren(
+    make('div','empty','Chargement des signalements…')
+  );
+
+  const {data:reports,error}=await db
+    .from('listing_reports')
+    .select('id,listing_id,listing_title,reporter_id,reason,details,status,created_at,reviewed_at,reviewed_by')
+    .order('created_at',{ascending:false})
+    .limit(200);
+
+  if(error)throw error;
+
+  allReports=reports||[];
+
+  // Récupérer les annonces concernées
+  const listingIds=[
+    ...new Set(
+      allReports
+        .map(r=>r.listing_id)
+        .filter(Boolean)
+    )
+  ];
+
+  let listings=[];
+
+  if(listingIds.length){
+    const {data,error}=await db
+      .from('listings')
+      .select('id,title,description,category,listing_type,price,negotiable,city,phone,status,created_at,user_id')
+      .in('id',listingIds);
+
+    if(error)throw error;
+    listings=data||[];
+  }
+
+  const listingById={};
+  listings.forEach(item=>{
+    listingById[item.id]=item;
+  });
+
+  // Récupérer toutes les photos des annonces signalées
+  let images=[];
+
+  if(listingIds.length){
+    const {data,error}=await db
+      .from('listing_images')
+      .select('listing_id,image_url,position')
+      .in('listing_id',listingIds)
+      .order('position',{ascending:true});
+
+    if(error)throw error;
+    images=data||[];
+  }
+
+  const imagesById={};
+
+  images.forEach(photo=>{
+    if(!imagesById[photo.listing_id]){
+      imagesById[photo.listing_id]=[];
+    }
+
+    imagesById[photo.listing_id].push(photo);
+  });
+
+  renderReports(listingById,imagesById);
+}
+
+function renderReports(listingById={},imagesById={}){
+  const root=$('reportsList');
+  const term=$('reportSearch').value.trim().toLowerCase();
+  const status=$('reportFilter').value;
+
+  const filtered=allReports.filter(report=>{
+    const listing=listingById[report.listing_id]||{};
+
+    const matchesStatus=status==='all'||report.status===status;
+
+    const searchable=[
+      report.listing_title,
+      report.reason,
+      report.details,
+      listing.title,
+      listing.city,
+      listing.category
+    ].join(' ').toLowerCase();
+
+    return matchesStatus&&searchable.includes(term);
+  });
+
+  const pendingCount=allReports.filter(r=>r.status==='pending').length;
+
+  $('reportCount').textContent=
+    pendingCount+' à examiner · '+allReports.length+' au total';
+
+  root.replaceChildren();
+
+  if(!filtered.length){
+    root.append(
+      make('div','panel empty',
+        allReports.length
+          ?'Aucun signalement ne correspond à cette recherche.'
+          :'Aucun signalement reçu pour le moment.'
+      )
+    );
+    return;
+  }
+
+  filtered.forEach(report=>{
+    const listing=listingById[report.listing_id]||null;
+    const photos=imagesById[report.listing_id]||[];
+
+    root.append(renderReportCard(report,listing,photos));
+  });
+}
+
+function renderReportCard(report,listing,photos){
+  const card=make('article','report-card');
+
+  // En-tête du signalement
+  const head=make('div','report-head');
+
+  const statusNames={
+    pending:'À EXAMINER',
+    reviewed:'TRAITÉ',
+    dismissed:'REJETÉ'
+  };
+
+  const statusClasses={
+    pending:'report-tag report-pending',
+    reviewed:'report-tag report-reviewed',
+    dismissed:'report-tag report-dismissed'
+  };
+
+  head.append(
+    make('span',statusClasses[report.status]||'report-tag',
+      statusNames[report.status]||report.status
+    ),
+    make('span','muted',
+      'Signalé le '+new Date(report.created_at).toLocaleString('fr-FR')
+    )
+  );
+
+  card.append(head);
+
+  // Motif
+  const reason=make('div','report-reason');
+  reason.append(
+    make('strong','','Motif du signalement'),
+    make('div','',report.reason||'Motif non renseigné')
+  );
+
+  if(report.details){
+    reason.append(
+      make('p','report-details',report.details)
+    );
+  }else{
+    reason.append(
+      make('p','muted','Aucune explication complémentaire.')
+    );
+  }
+
+  card.append(reason);
+
+  // Informations du déclarant
+  const reporter=allUsers.find(u=>u.id===report.reporter_id);
+
+  const reporterBox=make('div','report-info');
+
+  reporterBox.append(
+    make('strong','','Personne ayant signalé l’annonce')
+  );
+
+  reporterBox.append(
+    make('div','',
+      'Nom : '+(reporter?.full_name||'Utilisateur')
+    )
+  );
+
+  reporterBox.append(
+    make('div','',
+      'E-mail : '+(reporter?.email||'Non disponible')
+    )
+  );
+
+  reporterBox.append(
+    make('div','',
+      'Téléphone : '+(reporter?.phone||'Non renseigné')
+    )
+  );
+
+  card.append(reporterBox);
+
+  // Détails complets de l'annonce
+  const listingBox=make('div','report-listing');
+
+  const listingHead=make('div','report-listing-head');
+
+  listingHead.append(
+    make('strong','','Annonce concernée')
+  );
+
+  listingBox.append(listingHead);
+
+  const body=make('div','report-listing-body');
+
+  if(listing){
+    body.append(
+      make('div','report-listing-title',
+        listing.title||report.listing_title||'Annonce sans titre'
+      )
+    );
+
+    body.append(
+      make('div','details',
+        'Statut de l’annonce : '+(listing.status||'Inconnu')
+      )
+    );
+
+    body.append(
+      make('div','report-price',
+        listing.price!=null
+          ?Number(listing.price).toLocaleString('fr-FR')+' FCFA'
+          :'Prix à discuter'
+      )
+    );
+
+    const info=[
+      'Catégorie : '+(listing.category||'Non renseignée'),
+      'Type : '+(listing.listing_type==='service'?'Service':'Produit'),
+      'Localité : '+(listing.city||'Non renseignée'),
+      'Négociable : '+(listing.negotiable?'Oui':'Non'),
+      'Téléphone : '+(listing.phone||'Non renseigné'),
+      'Date de publication : '+(
+        listing.created_at
+          ?new Date(listing.created_at).toLocaleString('fr-FR')
+          :'Non disponible'
+      )
+    ];
+
+    const infoBox=make('div','report-info');
+
+    info.forEach(line=>{
+      infoBox.append(make('div','',line));
+    });
+
+    body.append(infoBox);
+
+    body.append(
+      make('h3','','Description complète')
+    );
+
+    body.append(
+      make('div','report-description',
+        listing.description||'Aucune description.'
+      )
+    );
+
+    // Galerie complète des photos
+    body.append(
+      make('h3','','Photos de l’annonce ('+photos.length+')')
+    );
+
+    if(photos.length){
+      const gallery=make('div','report-photos');
+
+      photos.forEach((photo,index)=>{
+        const link=document.createElement('a');
+        link.href=photo.image_url;
+        link.target='_blank';
+        link.rel='noopener noreferrer';
+        link.title='Ouvrir la photo '+(index+1);
+
+        const img=document.createElement('img');
+        img.src=photo.image_url;
+        img.alt='Photo '+(index+1)+' de '+(listing.title||'annonce');
+        img.loading='lazy';
+
+        link.append(img);
+        gallery.append(link);
+      });
+
+      body.append(gallery);
+
+      body.append(
+        make('p','muted','Appuie sur une photo pour l’ouvrir en grand.')
+      );
+
+    }else{
+      body.append(
+        make('div','report-no-photo',
+          'Aucune photo enregistrée pour cette annonce.'
+        )
+      );
+    }
+
+  }else{
+    body.append(
+      make('div','report-listing-title',
+        report.listing_title||'Annonce introuvable'
+      )
+    );
+
+    body.append(
+      make('p','muted',
+        'Cette annonce a peut-être été supprimée. Les informations conservées dans le signalement restent consultables.'
+      )
+    );
+  }
+
+  listingBox.append(body);
+  card.append(listingBox);
+
+  // Actions administrateur
+  const actions=make('div','report-actions');
+
+  if(report.status==='pending'){
+    const reviewed=make('button','approve','✓ Marquer comme traité');
+    const dismissed=make('button','reject','Rejeter le signalement');
+
+    reviewed.type='button';
+    dismissed.type='button';
+
+    reviewed.addEventListener('click',()=>{
+      updateReportStatus(report.id,'reviewed',reviewed,dismissed);
+    });
+
+    dismissed.addEventListener('click',()=>{
+      updateReportStatus(report.id,'dismissed',reviewed,dismissed);
+    });
+
+    actions.append(reviewed,dismissed);
+
+  }else{
+    const reset=make('button','secondary','Remettre à examiner');
+    reset.type='button';
+
+    reset.addEventListener('click',()=>{
+      updateReportStatus(report.id,'pending',reset);
+    });
+
+    actions.append(reset);
+  }
+
+  card.append(actions);
+
+  return card;
+}
+
+async function updateReportStatus(id,status,...buttons){
+  const labels={
+    reviewed:'marquer ce signalement comme traité',
+    dismissed:'rejeter ce signalement',
+    pending:'remettre ce signalement à examiner'
+  };
+
+  if(!confirm('Confirmer : '+labels[status]+' ?'))return;
+
+  buttons.forEach(button=>button.disabled=true);
+
+  try{
+    const update={
+      status:status,
+      reviewed_at:status==='pending'?null:new Date().toISOString(),
+      reviewed_by:status==='pending'?null:currentAdmin.id
+    };
+
+    const {data,error}=await db
+      .from('listing_reports')
+      .update(update)
+      .eq('id',id)
+      .select('id');
+
+    if(error)throw error;
+
+    if(!data||data.length===0){
+      throw new Error('Aucun signalement modifié. Vérifie les droits administrateur.');
+    }
+
+    note('message',
+      status==='reviewed'
+        ?'Signalement marqué comme traité.'
+        :status==='dismissed'
+          ?'Signalement rejeté.'
+          :'Signalement remis à examiner.'
+    );
+
+    await loadReports();
+
+  }catch(err){
+    note('message','Erreur de traitement : '+err.message,true);
+    buttons.forEach(button=>button.disabled=false);
+  }
+}
+
+$('reportSearch').addEventListener('input',()=>{
+  loadReports().catch(err=>{
+    note('message','Erreur : '+err.message,true);
+  });
+});
+
+$('reportFilter').addEventListener('change',()=>{
+  loadReports().catch(err=>{
+    note('message','Erreur : '+err.message,true);
+  });
+});
+
+$('reportsRefreshBtn').addEventListener('click',async()=>{
+  try{
+    await loadReports();
+    note('message','Signalements actualisés.');
+  }catch(err){
+    note('message','Erreur signalements : '+err.message,true);
+  }
+});
+
 $('listingSearch').addEventListener('input',renderAllListings);
 $('listingFilter').addEventListener('change',renderAllListings);
+
 </script>
 </body>
 </html>
