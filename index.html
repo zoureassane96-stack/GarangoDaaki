@@ -43,7 +43,18 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
-<header class="top"><div class="wrap topin"><a class="brand" href="#" aria-label="GarangoDaaki accueil"><svg viewBox="0 0 100 80" role="img" aria-label="Logo GarangoDaaki"><path fill="#064b35" d="M7 18h14l10 35h48l13-27H28l-4-9h70L77 61H25L14 27H7z"/><circle cx="38" cy="69" r="6" fill="#f58216"/><circle cx="72" cy="69" r="6" fill="#f58216"/><path fill="#f58216" d="M44 7h44L70 23H36z"/></svg><div><div class="brandname">Garango<span>Daaki</span></div><div class="tag">Toutes les opportunités du Centre-Est</div></div></a><div class="place">📍 Centre-Est<br><small>Burkina Faso</small></div><div class="actions"><button class="btn btn-outline" onclick="openAuth('login')">Connexion</button><button class="btn btn-orange" onclick="openAuth('signup')">Inscription</button></div></div></header>
+<header class="top"><div class="wrap topin"><a class="brand" href="#" aria-label="GarangoDaaki accueil"><svg viewBox="0 0 100 80" role="img" aria-label="Logo GarangoDaaki"><path fill="#064b35" d="M7 18h14l10 35h48l13-27H28l-4-9h70L77 61H25L14 27H7z"/><circle cx="38" cy="69" r="6" fill="#f58216"/><circle cx="72" cy="69" r="6" fill="#f58216"/><path fill="#f58216" d="M44 7h44L70 23H36z"/></svg><div><div class="brandname">Garango<span>Daaki</span></div><div class="tag">Toutes les opportunités du Centre-Est</div></div></a><div class="place">📍 Centre-Est<br><small>Burkina Faso</small></div><div class="actions">
+<button class="btn btn-outline" onclick="openAuth('login')">Connexion</button>
+<button class="btn btn-orange" onclick="openAuth('signup')">Inscription</button>
+
+<span id="adminBadge" class="admin-badge" hidden>
+★ ADMIN
+</span>
+
+<a id="adminLink" class="admin-link" href="./admin.html" hidden>
+Administration
+</a>
+</div></header>
 <nav class="nav wrap"><a class="active" href="#">⌂ Accueil</a><a href="#annonces">📢 Annonces</a><a href="#publier" onclick="openModal(event)">⊕ Publier</a><a href="#" onclick="openProfile(event)">♟ Profil <span id="desktopUnreadBadge" class="nav-unread-badge" hidden>0</span></a></nav>
 <main class="wrap">
 <section class="hero"><div class="hero-content"><h1>Garango<span>Daaki</span><br>La marketplace du Centre-Est</h1><p>Achetez, vendez, publiez vos annonces<br>et trouvez des professionnels près de vous !</p><div class="search"><input id="searchInput" placeholder="Que recherchez-vous ? ex. maison, moto, service…" aria-label="Rechercher une annonce"><select id="cityFilter" aria-label="Choisir une localité"><option value="">Toute la région</option><option>Garango</option><option>Tenkodogo</option><option>Koupéla</option><option>Bitou</option><option>Ouargaye</option><option>Ouédraogo</option></select><button onclick="filterListings()">Rechercher</button></div></div></section>
