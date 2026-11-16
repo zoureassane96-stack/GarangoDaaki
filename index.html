@@ -618,11 +618,31 @@ alert('Notifications activées avec succès !')
 setInterval(refreshUnreadCount,15000);
 window.addEventListener('focus',refreshUnreadCount);
 
-async function initialize(){
-await syncSession();
-await loadListings()
+
+async function syncSession(){
+  const { data, error } = await supabaseClient.auth.getSession();
+
+  if(error) throw error;
+
+  currentUser = data.session?.user || null;
+
+  await updateAccountButtons();
+  await refreshUnreadCount();
+  await loadFavorites();
 }
+
+async function initialize(){
+  try{
+    await syncSession();
+  }catch(error){
+    console.error('Erreur de session :', error);
+  }
+
+  await loadListings();
+}
+
 initialize();
+
 
 if('serviceWorker'in navigator&&location.protocol.startsWith('http'))window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(err=>console.warn('Service worker non enregistré:',err)));
 </script>
