@@ -177,6 +177,68 @@
   }
 }
 
+/* ===== SIGNALEMENT D'ANNONCE ===== */
+.detail-report{
+  background:#fff;
+  border:1px solid #f0dada;
+  border-radius:14px;
+  padding:15px;
+  margin:14px 0;
+}
+.detail-report button{
+  cursor:pointer;
+}
+.report-toggle{
+  width:100%;
+  border:1px solid #e8caca;
+  background:#fff5f5;
+  color:#a32929;
+  padding:12px;
+  border-radius:10px;
+  font-weight:800;
+}
+.report-form{
+  display:none;
+  margin-top:14px;
+}
+.report-form.open{
+  display:block;
+}
+.report-form label{
+  display:block;
+  font-weight:700;
+  margin:12px 0 6px;
+}
+.report-form select,
+.report-form textarea{
+  width:100%;
+  box-sizing:border-box;
+  padding:12px;
+  border:1px solid #d9e1dc;
+  border-radius:9px;
+  font:inherit;
+  background:white;
+}
+.report-form textarea{
+  min-height:95px;
+  resize:vertical;
+}
+.report-submit{
+  width:100%;
+  margin-top:12px;
+  padding:13px;
+  border:0;
+  border-radius:10px;
+  background:#a32929;
+  color:white;
+  font-weight:800;
+}
+.report-message{
+  font-size:13px;
+  margin-top:10px;
+  line-height:1.5;
+}
+
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
