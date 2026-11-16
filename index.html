@@ -39,6 +39,144 @@
 [hidden]{display:none!important}
 @media(max-width:760px){.wrap{width:min(100% - 22px,600px)}.topin{min-height:70px;gap:8px;flex-wrap:wrap;padding:9px 0}.brand{min-width:0;flex:1}.brand svg{width:48px;height:42px}.brandname{font-size:23px}.tag{font-size:10px}.place{display:none}.actions .btn{padding:9px 11px;font-size:12px}.nav{display:none}.hero{margin-top:10px;min-height:320px;padding:23px 17px;background-position:center}.hero-content{max-width:100%}.search{grid-template-columns:1fr 1fr}.search input{grid-column:1/-1}.search button{min-height:46px}.categories{grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}.cat{border-radius:10px}.cat img{height:76px}.cat strong{font-size:11px;padding:8px 3px;line-height:1.15}.section{padding-top:22px}.sectionhead h2{font-size:20px}.trust{grid-template-columns:repeat(2,1fr);padding:12px;gap:8px}.trust div{justify-content:flex-start;border:0;padding:7px;font-size:12px}.trust b{font-size:20px}.cards{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.listing img.mainphoto{height:135px}.listingbody{padding:9px}.listing h3{font-size:13px}.price{font-size:15px}.publishband{padding:22px 18px;display:block}.publishband .btn{margin-top:15px}.mobilebar{display:flex;position:fixed;bottom:0;left:0;right:0;background:#064b35;color:white;z-index:10;justify-content:space-around;padding:8px 4px calc(8px + env(safe-area-inset-bottom));box-shadow:0 -5px 20px #0002}.mobilebar a,.mobilebar button{color:white;text-decoration:none;background:none;border:0;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:11px;font-weight:800;min-width:55px}.mobilebar span{font-size:21px}.formgrid{grid-template-columns:1fr}.field.full{grid-column:auto}.profile-row{align-items:flex-start;flex-wrap:wrap}}
 @media(max-width:380px){.cat img{height:64px}.cat strong{font-size:10px}.brandname{font-size:20px}.actions{gap:5px}.actions .btn{padding:8px}.listing-actions{gap:5px}.listing-actions a,.listing-actions button{font-size:11px;padding:9px 5px}}
+
+/* ===== PAGE DÉTAILS PROFESSIONNELLE ===== */
+.detail-page{
+  color:#26352e;
+  padding:4px 0 20px;
+}
+.detail-back{
+  border:0;
+  background:#edf4ef;
+  color:#064b35;
+  padding:11px 15px;
+  border-radius:10px;
+  font-weight:800;
+  cursor:pointer;
+  margin:5px 0 15px;
+}
+.detail-gallery{
+  display:flex;
+  gap:10px;
+  overflow-x:auto;
+  padding:4px 0 12px;
+}
+.detail-gallery img{
+  width:190px;
+  height:175px;
+  object-fit:cover;
+  border-radius:13px;
+  flex:none;
+  cursor:zoom-in;
+  background:#edf1ed;
+}
+.detail-category{
+  display:inline-block;
+  background:#e8f3ec;
+  color:#07563c;
+  padding:6px 11px;
+  border-radius:20px;
+  font-size:12px;
+  font-weight:800;
+  margin:8px 0;
+}
+.detail-title{
+  font-size:25px;
+  line-height:1.25;
+  margin:8px 0;
+  color:#173b2d;
+}
+.detail-price{
+  color:#e87512;
+  font-size:25px;
+  font-weight:900;
+  margin:10px 0;
+}
+.detail-meta{
+  display:flex;
+  flex-wrap:wrap;
+  gap:9px 16px;
+  color:#65736b;
+  font-size:13px;
+  margin:12px 0 18px;
+}
+.detail-section{
+  background:#fff;
+  border:1px solid #e5ece7;
+  border-radius:14px;
+  padding:15px;
+  margin:14px 0;
+}
+.detail-section h3{
+  color:#064b35;
+  margin:0 0 12px;
+  font-size:17px;
+}
+.detail-description{
+  white-space:pre-wrap;
+  line-height:1.75;
+  overflow-wrap:anywhere;
+  color:#34443b;
+}
+.detail-seller{
+  background:#f0f7f2;
+  border:1px solid #dcebe0;
+}
+.detail-seller-name{
+  font-size:17px;
+  font-weight:900;
+  color:#064b35;
+  margin-bottom:5px;
+}
+.detail-contact{
+  display:grid;
+  gap:10px;
+  margin-top:14px;
+}
+.detail-contact .btn{
+  width:100%;
+  box-sizing:border-box;
+  text-align:center;
+  justify-content:center;
+}
+.detail-safety{
+  background:#fff8e9;
+  border:1px solid #f3d69a;
+  border-left:5px solid #e98a16;
+}
+.detail-safety h3{
+  color:#8b4b00;
+}
+.detail-safety ul{
+  padding-left:20px;
+  margin:8px 0 0;
+  line-height:1.7;
+}
+.detail-safety p{
+  line-height:1.6;
+}
+.detail-no-photo{
+  min-width:190px;
+  height:175px;
+  display:grid;
+  place-items:center;
+  background:#edf3ef;
+  color:#65736b;
+  border-radius:13px;
+}
+@media(max-width:520px){
+  .detail-gallery img{
+    width:165px;
+    height:155px;
+  }
+  .detail-title{
+    font-size:22px;
+  }
+  .detail-section{
+    padding:13px;
+  }
+}
+
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
