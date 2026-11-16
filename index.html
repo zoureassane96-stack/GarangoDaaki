@@ -218,7 +218,25 @@ async function updateAccountButtons(){
   badge.hidden=!admin;
   link.hidden=!admin;
 }
+async function signOut(){
+  const { error } = await supabaseClient.auth.signOut();
 
+  if(error){
+    alert('Erreur de déconnexion : ' + error.message);
+    return;
+  }
+
+  currentUser = null;
+  favoriteIds.clear();
+
+  await updateAccountButtons();
+  await refreshUnreadCount();
+
+  closeProfile();
+  closeAuth();
+
+  alert('Déconnexion réussie.');
+}
 // Gérer la connexion et l'inscription
 document.getElementById('authForm').addEventListener('submit', async (e) => {
   e.preventDefault();
