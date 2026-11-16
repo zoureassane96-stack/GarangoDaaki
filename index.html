@@ -624,7 +624,12 @@ if(!('serviceWorker'in navigator)||!('PushManager'in window)){alert('Les notific
 const permission=await Notification.requestPermission();
 if(permission!=='granted'){alert('Autorisez les notifications dans les paramètres du navigateur.');return}
 const registration=await navigator.serviceWorker.ready;
-const subscription=await registration.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:urlBase64ToUint8Array('BG2k0GzlyakK6bk2mmZTHifox8rDPbDs8Jidg0_TNT9tfFZ_tdnlLnVxx1lSneYj-ocZv6PZ0OjeSnFD3qnJe2I')});
+const oldSubscription = await registration.pushManager.getSubscription();
+
+if(oldSubscription){
+  await oldSubscription.unsubscribe();
+                       }
+  const subscription=await registration.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:urlBase64ToUint8Array('BG2k0GzlyakK6bk2mmZTHifox8rDPbDs8Jidg0_TNT9tfFZ_tdnlLnVxx1lSneYj-ocZv6PZ0OjeSnFD3qnJe2I')});
 const json=subscription.toJSON();
 const {error}=await supabaseClient.from('push_subscriptions').upsert({user_id:currentUser.id,endpoint:json.endpoint,p256dh:json.keys.p256dh,auth:json.keys.auth},{onConflict:'endpoint'});
 if(error){alert('Erreur lors de l’enregistrement : '+error.message);return}
