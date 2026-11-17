@@ -1284,6 +1284,163 @@ $('reportsRefreshBtn').addEventListener('click',async()=>{
     note('message','Erreur signalements : '+err.message,true);
   }
 });
+/* ==========================================
+   GESTION DES AVIS DES UTILISATEURS
+========================================== */
+
+async function loadSiteReviews(){
+  const root=$('reviewsList');
+
+  root.replaceChildren(
+    make('div','empty','Chargement des avis…')
+  );
+
+  const {data,error}=await db
+    .from('site_reviews')
+    .select('id,user_id,author_name,rating,comment,status,admin_reply,replied_at,created_at')
+    .order('created_at',{ascending:false})
+    .limit(200);
+
+  if(error)throw error;
+
+  allReviews=data||[];
+  renderSiteReviews();
+}
+
+function renderSiteReviews(){
+  const root=$('reviewsList');
+  const term=$('reviewSearch').value.trim().toLowerCase();
+  const status=$('reviewFilter').value;
+
+  const filtered=allReviews.filter(review=>{
+    const matchesStatus=status==='all'||review.status===status;
+
+    const searchable=[
+      review.author_name,
+      review.comment,
+      review.admin_reply
+    ].join(' ').toLowerCase();
+
+    return matchesStatus&&searchable.includes(term);
+  });
+
+  const pendingCount=allReviews.filter(
+    review=>review.status==='pending'
+  ).length;
+
+  $('reviewCount').textContent=
+    pendingCount+' en attente · '+allReviews.length+' au total';
+
+  root.replaceChildren();
+
+  if(!filtered.length){
+    root.append(
+      make('div','panel empty',
+        allReviews.length
+          ?'Aucun avis ne correspond à cette recherche.'
+          :'Aucun avis reçu pour le moment.'
+      )
+    );
+    return;
+  }
+
+  filtered.forEach(review=>{
+    const card=make('article','listing');
+
+    const statusNames={
+      pending:'EN ATTENTE',
+      published:'PUBLIÉ',
+      hidden:'MASQUÉ'
+    };
+
+    const statusClasses={
+      pending:'status',
+      published:'report-tag report-reviewed',
+      hidden:'report-tag report-dismissed'
+    };
+
+    const head=make('div','topline');
+
+    head.append(
+      make('span',statusClasses[review.status]||'status',
+        statusNames[review.status]||review.status
+      ),
+      make('span','muted',
+        new Date(review.created_at).toLocaleString('fr-FR')
+      )
+    );
+
+    card.append(head);
+
+    card.append(
+      make('h3','',
+        review.author_name||'Utilisateur'
+      )
+    );
+
+    card.append(
+      make('div','review-stars',
+        '★'.repeat(Math.max(0,Math.min(5,Number(review.rating)||0)))+
+        '☆'.repeat(5-Math.max(0,Math.min(5,Number(review.rating)||0)))+
+        ' ('+(Number(review.rating)||0)+'/5)'
+      )
+    );
+
+    const comment=make('p','',review.comment||'');
+    comment.style.whiteSpace='pre-wrap';
+    comment.style.overflowWrap='anywhere';
+    card.append(comment);
+
+    if(review.admin_reply){
+      const replyBox=make('div','notice');
+
+      replyBox.append(
+        make('strong','','Réponse officielle de GarangoDaaki')
+      );
+
+      const replyText=make('p','',review.admin_reply);
+      replyText.style.whiteSpace='pre-wrap';
+      replyBox.append(replyText);
+
+      if(review.replied_at){
+        replyBox.append(
+          make('small','muted',
+            'Réponse du '+new Date(review.replied_at).toLocaleString('fr-FR')
+          )
+        );
+      }
+
+      card.append(replyBox);
+    }
+
+    const label=make('label','','Réponse officielle');
+
+    const textarea=document.createElement('textarea');
+    textarea.value=review.admin_reply||'';
+    textarea.placeholder='Écris ici la réponse officielle de GarangoDaaki…';
+    textarea.maxLength=1000;
+    textarea.style.width='100%';
+    textarea.style.minHeight='100px';
+    textarea.style.padding='12px';
+    textarea.style.border='1px solid #cbd8d0';
+    textarea.style.borderRadius='9px';
+    textarea.style.font='inherit';
+
+    card.append(label,textarea);
+
+    const actions=make('div','actions');
+
+    if(review.status!=='published'){
+      const publish=make('button','approve','Publier avec réponse');
+      publish.type='button';
+
+      publish.addEventListener('click',()=>{
+        updateSiteReview(
+          review.id,
+          'published',
+          textarea.value,
+          publish
+        );
 
 $('listingSearch').addEventListener('input',renderAllListings);
 $('listingFilter').addEventListener('change',renderAllListings);
