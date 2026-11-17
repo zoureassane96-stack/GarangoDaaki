@@ -339,7 +339,39 @@ Administration
 <a class="cat" href="#annonces" data-cat="Alimentation et autres"><img src="https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=600&q=80" alt="Alimentation"><strong>🛒 Alimentation et autres</strong></a>
 </div></section>
 
-<div class="trust"><div><b>✓</b><span>Sécurité<br>des utilisateurs</span></div><div><b>♧</b><span>Annonces gratuites<br>(pour tous)</span></div><div><b>★</b><span>Profils professionnels<br>(payant)</span></div><div><b>☏</b><span>Assistance<br>et contact</span></div></div>
+
+<div class="trust">
+  <div><b>✓</b><span>Sécurité<br>des utilisateurs</span></div>
+  <div><b>♧</b><span>Annonces gratuites<br>(pour tous)</span></div>
+  <div><b>★</b><span>Profils professionnels<br>(payant)</span></div>
+  <div><b>☏</b><span>Assistance<br>et contact</span></div>
+</div>
+
+<section class="section" id="annonces">
+  <div class="sectionhead">
+    <h2>📢 Annonces récentes</h2>
+    <a class="textlink" href="#publier" onclick="openModal(event)">
+      Déposer une annonce →
+    </a>
+  </div>
+
+  <div class="cards" id="listingGrid"></div>
+
+  <div class="empty" id="empty">
+    Aucune annonce publiée pour le moment.
+    Revenez bientôt ou soyez le premier à publier.
+  </div>
+</section>
+
+<section class="publishband" id="publier">
+  <div>
+    <h2>Publiez facilement vos annonces et vos produits !</h2>
+    <p>Produits, services, locations et annonces avec photos.</p>
+  </div>
+  <button class="btn btn-orange" onclick="openModal()">
+    ＋ Publier une annonce →
+  </button>
+</section>
 
 </main>
 
