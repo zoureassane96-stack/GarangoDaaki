@@ -1538,49 +1538,198 @@ btn.disabled=false
 }
 });
 
+
 async function openProfile(e){
 if(e)e.preventDefault();
 if(!currentUser){openAuth('login');return}
+
 const box=document.getElementById('profileContent');
 box.innerHTML='<p>Chargement de votre espace…</p>';
 profileModal.classList.add('open');
-const {data,error}=await supabaseClient.from('listings').select('id,user_id,title,description,category,listing_type,price,negotiable,city,phone,status,created_at').eq('user_id',currentUser.id).order('created_at',{ascending:false});
-if(error){box.textContent='Impossible de charger vos annonces : '+error.message;return}
-box.innerHTML=`<p><strong>${safeText(currentUser.email||'Compte connecté')}</strong></p><h3>Mes annonces</h3>`;
-if(!data?.length)box.innerHTML+='<p>Vous n’avez pas encore publié d’annonce.</p>';
-else data.forEach(item=>{
+
+try{
+const {data:profile,error:profileError}=await supabaseClient
+.from('profiles')
+.select('full_name,city,avatar_url')
+.eq('id',currentUser.id)
+.maybeSingle();
+
+if(profileError)throw profileError;
+
+const {data,error}=await supabaseClient
+.from('listings')
+.select('id,user_id,title,description,category,listing_type,price,negotiable,city,phone,status,created_at')
+.eq('user_id',currentUser.id)
+.order('created_at',{ascending:false});
+
+if(error)throw error;
+
+box.innerHTML='';
+
+const avatarBox=document.createElement('div');
+avatarBox.style.cssText='text-align:center;padding:18px;background:#f3f6f4;border-radius:14px;margin-bottom:18px';
+
+const avatar=document.createElement('img');
+avatar.alt='Photo de profil';
+avatar.style.cssText='width:105px;height:105px;border-radius:50%;object-fit:cover;border:3px solid #08734d;background:#fff';
+
+if(profile?.avatar_url){
+const {data:urlData,error:urlError}=await supabaseClient.storage
+.from('seller-avatars')
+.createSignedUrl(profile.avatar_url,3600);
+
+if(!urlError&&urlData?.signedUrl){
+avatar.src=urlData.signedUrl;
+}else{
+avatar.src='';
+}
+}
+
+if(!avatar.src){
+avatar.style.display='none';
+}
+
+const name=document.createElement('h3');
+name.textContent=profile?.full_name||'Mon profil';
+
+const city=document.createElement('p');
+city.textContent='📍 '+(profile?.city||'Localité non renseignée');
+
+const email=document.createElement('p');
+email.textContent=currentUser.email||'Compte connecté';
+
+const photoInput=document.createElement('input');
+photoInput.type='file';
+photoInput.accept='image/jpeg,image/png,image/webp';
+photoInput.style.cssText='display:block;width:100%;margin:12px 0';
+
+const uploadBtn=document.createElement('button');
+uploadBtn.type='button';
+uploadBtn.className='btn btn-green';
+uploadBtn.textContent='Ajouter ou modifier ma photo';
+
+const photoStatus=document.createElement('p');
+photoStatus.style.cssText='font-size:13px;margin-top:8px';
+
+uploadBtn.onclick=async()=>{
+const file=photoInput.files?.[0];
+
+if(!file){
+photoStatus.textContent='Choisissez d’abord une photo.';
+return;
+}
+
+if(!['image/jpeg','image/png','image/webp'].includes(file.type)){
+photoStatus.textContent='Format accepté : JPG, PNG ou WebP.';
+return;
+}
+
+if(file.size>2*1024*1024){
+photoStatus.textContent='La photo ne doit pas dépasser 2 Mo.';
+return;
+}
+
+uploadBtn.disabled=true;
+photoStatus.textContent='Envoi de votre photo…';
+
+let newPath=null;
+
+try{
+const ext=file.type==='image/png'?'png':file.type==='image/webp'?'webp':'jpg';
+newPath=`${currentUser.id}/${crypto.randomUUID()}.${ext}`;
+
+const {error:uploadError}=await supabaseClient.storage
+.from('seller-avatars')
+.upload(newPath,file,{
+contentType:file.type,
+upsert:false
+});
+
+if(uploadError)throw uploadError;
+
+const {error:updateError}=await supabaseClient
+.from('profiles')
+.update({avatar_url:newPath})
+.eq('id',currentUser.id);
+
+if(updateError)throw updateError;
+
+if(profile?.avatar_url){
+await supabaseClient.storage
+.from('seller-avatars')
+.remove([profile.avatar_url]);
+}
+
+alert('Votre photo de profil a été mise à jour.');
+await openProfile();
+
+}catch(err){
+if(newPath){
+await supabaseClient.storage
+.from('seller-avatars')
+.remove([newPath]);
+}
+photoStatus.textContent='Erreur : '+(err.message||'Envoi impossible.');
+uploadBtn.disabled=false;
+}
+};
+
+avatarBox.append(avatar,name,city,email,photoInput,uploadBtn,photoStatus);
+box.appendChild(avatarBox);
+
+const heading=document.createElement('h3');
+heading.textContent='Mes annonces';
+box.appendChild(heading);
+
+if(!data?.length){
+box.innerHTML+='<p>Vous n’avez pas encore publié d’annonce.</p>';
+}else{
+data.forEach(item=>{
 const row=document.createElement('div');
 row.className='profile-row';
+
 const info=document.createElement('span');
 info.textContent=item.title+' — '+({pending:'En attente de validation',published:'Publiée',rejected:'Refusée',sold:'Vendue'}[item.status]||item.status);
+
 const controls=document.createElement('div');
 controls.style.cssText='display:flex;gap:6px;flex-wrap:wrap';
+
 const edit=document.createElement('button');
 edit.type='button';
 edit.className='btn btn-green';
 edit.textContent='Modifier';
 edit.onclick=()=>openEditListing(item);
+
 const del=document.createElement('button');
 del.type='button';
 del.className='btn btn-danger';
 del.textContent='Supprimer';
 del.onclick=()=>deleteOwnListing(item);
+
 controls.append(edit,del);
 row.append(info,controls);
-box.appendChild(row)
+box.appendChild(row);
 });
+}
+
 const messagesBtn=document.createElement('button');
 messagesBtn.className='btn btn-green';
 messagesBtn.textContent='Mes messages';
 messagesBtn.style.margin='10px 0';
 messagesBtn.onclick=()=>openInbox();
 box.appendChild(messagesBtn);
+
 const out=document.createElement('button');
 out.className='btn btn-outline';
 out.textContent='Se déconnecter';
 out.style.margin='10px';
 out.onclick=signOut;
-box.appendChild(out)
+box.appendChild(out);
+
+}catch(err){
+console.error('Erreur espace personnel :',err);
+box.textContent='Impossible de charger votre espace : '+err.message;
+}
 }
 
 async function deleteOwnListing(item){
