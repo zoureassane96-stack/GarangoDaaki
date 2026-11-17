@@ -1448,6 +1448,109 @@ function renderSiteReviews(){
           textarea.value,
           publish
         );
+      });
+
+      actions.append(publish);
+    }else{
+      const saveReply=make('button','primary','Enregistrer la réponse');
+      saveReply.type='button';
+
+      saveReply.addEventListener('click',()=>{
+        updateSiteReview(
+          review.id,
+          'published',
+          textarea.value,
+          saveReply
+        );
+      });
+
+      actions.append(saveReply);
+    }
+
+    const hide=make(
+      'button',
+      'reject',
+      review.status==='hidden'?'Avis déjà masqué':'Masquer l’avis'
+    );
+
+    hide.type='button';
+    hide.disabled=review.status==='hidden';
+
+    hide.addEventListener('click',()=>{
+      updateSiteReview(
+        review.id,
+        'hidden',
+        textarea.value,
+        hide
+      );
+    });
+
+    actions.append(hide);
+    card.append(actions);
+    root.append(card);
+  });
+}
+
+async function updateSiteReview(id,status,reply,button){
+  const cleanReply=String(reply||'').trim();
+
+  if(status==='published'&&!cleanReply){
+    alert('Écris une réponse officielle avant de publier cet avis.');
+    return;
+  }
+
+  const action=status==='published'?'publier cet avis':'masquer cet avis';
+
+  if(!confirm('Confirmer : '+action+' ?'))return;
+
+  button.disabled=true;
+
+  try{
+    const update={
+      status:status,
+      admin_reply:cleanReply||null,
+      replied_at:cleanReply?new Date().toISOString():null,
+      replied_by:cleanReply?currentAdmin.id:null
+    };
+
+    const {data,error}=await db
+      .from('site_reviews')
+      .update(update)
+      .eq('id',id)
+      .select('id');
+
+    if(error)throw error;
+
+    if(!data||data.length===0){
+      throw new Error('Aucun avis modifié. Vérifie les droits administrateur.');
+    }
+
+    note(
+      'message',
+      status==='published'
+        ?'Avis publié avec la réponse officielle de GarangoDaaki.'
+        :'Avis masqué avec succès.'
+    );
+
+    await loadSiteReviews();
+
+  }catch(err){
+    note('message','Erreur de traitement de l’avis : '+err.message,true);
+    button.disabled=false;
+  }
+}
+
+$('reviewSearch').addEventListener('input',renderSiteReviews);
+$('reviewFilter').addEventListener('change',renderSiteReviews);
+
+$('reviewsRefreshBtn').addEventListener('click',async()=>{
+  try{
+    await loadSiteReviews();
+    note('message','Avis actualisés.');
+  }catch(err){
+    note('message','Erreur avis : '+err.message,true);
+  }
+});
 
 $('listingSearch').addEventListener('input',renderAllListings);
 $('listingFilter').addEventListener('change',renderAllListings);
