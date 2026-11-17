@@ -637,7 +637,11 @@ document.getElementById('reviewForm').addEventListener('submit', async e=>{
     button.textContent = 'Envoyer mon avis';
   }
 });
-  if(e.target===reviewModal)closeReviewForm();
+
+reviewModal.addEventListener('click',e=>{
+  if(e.target===reviewModal){
+    closeReviewForm();
+  }
 });
 function setStatus(id,msg,isError=false){const el=document.getElementById(id);el.textContent=msg;el.style.color=isError?'#b42318':'var(--green)'}
 
