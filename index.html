@@ -653,9 +653,11 @@ async function loadSiteReviews(){
 document.getElementById('reviewForm').addEventListener('submit', async e=>{
   e.preventDefault();
 
+  const form = document.getElementById('reviewForm');
   const button = document.getElementById('reviewSubmit');
   const rating = Number(document.getElementById('reviewRating').value);
   const comment = document.getElementById('reviewComment').value.trim();
+  const reviewId = form.dataset.reviewId;
 
   if(!currentUser){
     setStatus('reviewStatus','Connectez-vous pour donner votre avis.',true);
@@ -671,35 +673,59 @@ document.getElementById('reviewForm').addEventListener('submit', async e=>{
   button.textContent = 'Envoi en cours...';
 
   try{
-    const authorName =
-      currentUser.user_metadata?.full_name ||
-      currentUser.email?.split('@')[0] ||
-      'Utilisateur';
+    if(reviewId){
+      const {data,error} = await supabaseClient
+        .from('site_reviews')
+        .update({
+          rating:rating,
+          comment:comment,
+          status:'pending',
+          admin_reply:null,
+          replied_at:null,
+          replied_by:null
+        })
+        .eq('id',reviewId)
+        .eq('user_id',currentUser.id)
+        .select('id')
+        .maybeSingle();
 
-    const {error} = await supabaseClient
-      .from('site_reviews')
-      .insert({
-        user_id: currentUser.id,
-        author_name: authorName,
-        rating: rating,
-        comment: comment,
-        status: 'pending'
-      });
+      if(error) throw error;
+      if(!data) throw new Error('La modification de votre avis a échoué.');
 
-    if(error) throw error;
+    }else{
+      const authorName =
+        currentUser.user_metadata?.full_name ||
+        currentUser.email?.split('@')[0] ||
+        'Utilisateur';
 
-    document.getElementById('reviewForm').reset();
-    document.getElementById('reviewForm').style.display = 'none';
+      const {error} = await supabaseClient
+        .from('site_reviews')
+        .insert({
+          user_id:currentUser.id,
+          author_name:authorName,
+          rating:rating,
+          comment:comment,
+          status:'pending'
+        });
+
+      if(error) throw error;
+    }
+
+    form.reset();
+    form.dataset.reviewId = '';
+    form.style.display = 'none';
 
     setStatus(
       'reviewStatus',
-      'Merci ! Votre avis a été envoyé et attend la validation de l’administration.'
+      reviewId
+        ? 'Votre avis a été modifié. Il attend une nouvelle validation de l’administration.'
+        : 'Merci ! Votre avis a été envoyé et attend la validation de l’administration.'
     );
 
   }catch(error){
     setStatus(
       'reviewStatus',
-      error.message || 'Impossible d’envoyer votre avis.',
+      error.message || 'Impossible d’enregistrer votre avis.',
       true
     );
   }finally{
@@ -707,7 +733,6 @@ document.getElementById('reviewForm').addEventListener('submit', async e=>{
     button.textContent = 'Envoyer mon avis';
   }
 });
-
 reviewModal.addEventListener('click',e=>{
   if(e.target===reviewModal){
     closeReviewForm();
