@@ -987,6 +987,7 @@ function closeSellerProfile(){
   document.getElementById('sellerModal').classList.remove('open');
 }
 
+
 async function openSellerProfile(userId){
   const modal = document.getElementById('sellerModal');
   const box = document.getElementById('sellerContent');
@@ -998,7 +999,128 @@ async function openSellerProfile(userId){
 
   box.innerHTML = '<p>Chargement du profil vendeur…</p>';
   modal.classList.add('open');
+
+  try{
+    const {data:sellerData,error:sellerError} =
+      await supabaseClient.rpc('get_garangodaaki_seller',{
+        p_user_id:userId
+      });
+
+    if(sellerError) throw sellerError;
+
+    const seller = sellerData?.[0];
+
+    if(!seller){
+      box.textContent = 'Profil vendeur indisponible.';
+      return;
+    }
+
+    const {data:listings,error:listingsError} =
+      await supabaseClient
+        .from('listings')
+        .select('id,user_id,title,description,category,listing_type,price,negotiable,city,phone,status,created_at,is_featured')
+        .eq('user_id',userId)
+        .eq('status','published')
+        .order('created_at',{ascending:false});
+
+    if(listingsError) throw listingsError;
+
+    const items = listings || [];
+
+    if(items.length){
+      const ids = items.map(item=>item.id);
+
+      const {data:imgs,error:imgError} =
+        await supabaseClient
+          .from('listing_images')
+          .select('listing_id,image_url,position')
+          .in('listing_id',ids)
+          .order('position',{ascending:true});
+
+      const imagesById = {};
+
+      if(!imgError){
+        (imgs || []).forEach(img=>{
+          (imagesById[img.listing_id] ||= []).push(img.image_url);
+        });
+      }
+
+      items.forEach(item=>{
+        item.images = imagesById[item.id] || [];
+        item.seller = seller;
+      });
+    }
+
+    box.innerHTML = '';
+
+    const heading = document.createElement('div');
+    heading.style.cssText = 'padding:12px;background:#f3f6f4;border-radius:12px;margin-bottom:18px';
+
+    const name = document.createElement('h3');
+    name.textContent = seller.full_name || 'Vendeur GarangoDaaki';
+
+    const city = document.createElement('p');
+    city.textContent = '📍 ' + (seller.city || 'Localité non renseignée');
+
+    const count = document.createElement('p');
+    count.textContent = items.length + ' annonce(s) publiée(s)';
+
+    heading.append(name,city,count);
+    box.appendChild(heading);
+
+    const title = document.createElement('h3');
+    title.textContent = 'Annonces de ce vendeur';
+    box.appendChild(title);
+
+    if(!items.length){
+      const empty = document.createElement('p');
+      empty.textContent = 'Ce vendeur n’a aucune annonce publiée pour le moment.';
+      box.appendChild(empty);
+      return;
+    }
+
+    items.forEach(item=>{
+      const card = document.createElement('div');
+      card.style.cssText = 'border:1px solid #dce5df;border-radius:12px;padding:12px;margin:12px 0';
+
+      if(item.images?.length){
+        const img = document.createElement('img');
+        img.src = item.images[0];
+        img.alt = item.title || 'Photo de l’annonce';
+        img.style.cssText = 'width:100%;max-height:190px;object-fit:cover;border-radius:9px';
+        card.appendChild(img);
+      }
+
+      const itemTitle = document.createElement('h4');
+      itemTitle.textContent = item.title || 'Annonce sans titre';
+
+      const price = document.createElement('p');
+      price.textContent = item.price !== null && item.price !== ''
+        ? Number(item.price).toLocaleString('fr-FR') + ' FCFA'
+        : 'Prix à discuter';
+
+      const location = document.createElement('p');
+      location.textContent = '📍 ' + (item.city || 'Localité non renseignée');
+
+      const details = document.createElement('button');
+      details.type = 'button';
+      details.className = 'btn btn-green';
+      details.textContent = 'Voir cette annonce';
+      details.addEventListener('click',()=>{
+        closeSellerProfile();
+        showDetails(item);
+      });
+
+      card.append(itemTitle,price,location,details);
+      box.appendChild(card);
+    });
+
+  }catch(error){
+    console.error('Erreur profil vendeur :',error);
+    box.textContent = 'Impossible de charger ce profil. Réessayez.';
+  }
 }
+
 function showDetails(item){
   const box = document.getElementById('detailsContent');
   const photos = Array.isArray(item.images) ? item.images : [];
