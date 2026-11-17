@@ -483,7 +483,7 @@ let currentAdmin=null;
 let allUsers=[];
 let allRows=[];
 let allReports=[];
-
+let allReviews=[];
 async function verifyAdmin(){
   const {data,error}=await db.rpc('is_garangodaaki_admin');
   if(error)throw error;
