@@ -238,7 +238,76 @@
   margin-top:10px;
   line-height:1.5;
 }
-
+/* ===== AVIS DES UTILISATEURS ===== */
+.reviews-section{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:20px;
+  margin:28px 0;
+  box-shadow:var(--shadow);
+}
+.reviews-summary{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+  flex-wrap:wrap;
+  background:#f0f7f3;
+  padding:16px;
+  border-radius:13px;
+  margin-bottom:18px;
+}
+.reviews-average{
+  color:var(--green);
+  font-size:28px;
+  font-weight:900;
+}
+.review-stars{
+  color:#f5a623;
+  letter-spacing:2px;
+  font-size:19px;
+}
+.review-card{
+  border:1px solid var(--line);
+  border-radius:13px;
+  padding:15px;
+  margin:12px 0;
+  background:#fff;
+}
+.review-author{
+  font-weight:900;
+  color:var(--green);
+}
+.review-date{
+  color:var(--muted);
+  font-size:12px;
+  margin-top:4px;
+}
+.review-comment{
+  line-height:1.6;
+  overflow-wrap:anywhere;
+  margin:12px 0;
+}
+.review-reply{
+  background:#edf7f1;
+  border-left:4px solid var(--green);
+  padding:12px;
+  border-radius:8px;
+  margin-top:12px;
+  line-height:1.6;
+}
+.review-reply strong{
+  color:var(--green);
+  display:block;
+  margin-bottom:5px;
+}
+.review-action{
+  margin-top:14px;
+}
+.review-action button{
+  width:100%;
+}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
