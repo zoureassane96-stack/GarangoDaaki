@@ -1067,7 +1067,38 @@ async function openSellerProfile(userId){
 
     heading.append(name,city,count);
     box.appendChild(heading);
+const contactBox = document.createElement('div');
+contactBox.style.cssText = 'display:flex;gap:10px;flex-wrap:wrap;margin:15px 0';
 
+if(items.length){
+  const messageBtn = document.createElement('button');
+  messageBtn.type = 'button';
+  messageBtn.className = 'btn btn-green';
+  messageBtn.textContent = '✉ Envoyer un message privé';
+
+  messageBtn.addEventListener('click',()=>{
+    closeSellerProfile();
+    openConversation(items[0]);
+  });
+
+  contactBox.appendChild(messageBtn);
+
+  const phoneItem = items.find(item=>item.phone);
+
+  if(phoneItem){
+    const whatsappBtn = document.createElement('a');
+    whatsappBtn.className = 'btn';
+    whatsappBtn.textContent = 'Contacter sur WhatsApp';
+    whatsappBtn.href = 'https://wa.me/' + String(phoneItem.phone).replace(/\D/g,'');
+    whatsappBtn.target = '_blank';
+    whatsappBtn.rel = 'noopener noreferrer';
+    whatsappBtn.style.cssText = 'background:#168b4c;color:white';
+
+    contactBox.appendChild(whatsappBtn);
+  }
+}
+
+box.appendChild(contactBox);
     const title = document.createElement('h3');
     title.textContent = 'Annonces de ce vendeur';
     box.appendChild(title);
