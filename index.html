@@ -578,19 +578,7 @@ async function loadSiteReviews(){
   stats.textContent =
     `⭐ ${average.toFixed(1)}/5 — ${count} avis sur GarangoDaaki`;
 }
-    await loadSiteReviews();
 
-  }catch(error){
-    setStatus(
-      'reviewStatus',
-      error.message||'Impossible d’envoyer votre avis.',
-      true
-    );
-  }finally{
-    button.disabled=false;
-    button.textContent='Envoyer mon avis';
-  }
-});
 
 document.getElementById('reviewForm').addEventListener('submit', async e=>{
   e.preventDefault();
