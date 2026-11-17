@@ -521,35 +521,45 @@ async function openReviewForm(){
   }
 
   const status = document.getElementById('reviewStatus');
-  status.textContent = 'Vérification de votre compte...';
+  const form = document.getElementById('reviewForm');
 
+  status.textContent = 'Vérification de votre compte...';
   reviewModal.classList.add('open');
 
   const {data,error} = await supabaseClient
     .from('site_reviews')
-    .select('id,status')
+    .select('id,status,rating,comment')
     .eq('user_id',currentUser.id)
     .maybeSingle();
 
   if(error){
-    status.textContent = 'Impossible de vérifier votre avis : '+error.message;
+    status.textContent =
+      'Impossible de vérifier votre avis : '+error.message;
     return;
   }
 
   if(data){
-    document.getElementById('reviewForm').style.display='none';
+    form.dataset.reviewId = data.id;
 
-    status.textContent = data.status==='published'
-      ? 'Vous avez déjà publié un avis sur GarangoDaaki.'
-      : 'Votre avis a déjà été envoyé. Il est en attente de traitement par l’administration.';
+    document.getElementById('reviewRating').value =
+      String(data.rating);
+
+    document.getElementById('reviewComment').value =
+      data.comment || '';
+
+    form.style.display = 'block';
+
+    status.textContent =
+      'Vous pouvez modifier votre avis. Il sera soumis à une nouvelle validation par l’administration.';
 
     return;
   }
 
-  document.getElementById('reviewForm').style.display='block';
-  status.textContent='';
+  form.reset();
+  form.dataset.reviewId = '';
+  form.style.display = 'block';
+  status.textContent = '';
 }
-
 
 async function loadSiteReviews(){
   const stats = document.getElementById('footerReviewStats');
