@@ -983,7 +983,22 @@ function changePhoto(direction){if(!galleryPhotos.length)return;galleryIndex=(ga
 document.getElementById('largePhoto').addEventListener('touchstart',e=>{touchStartX=e.changedTouches[0].screenX},{passive:true});
 document.getElementById('largePhoto').addEventListener('touchend',e=>{const d=e.changedTouches[0].screenX-touchStartX;if(Math.abs(d)>45)changePhoto(d<0?1:-1)},{passive:true});
 
+function closeSellerProfile(){
+  document.getElementById('sellerModal').classList.remove('open');
+}
 
+async function openSellerProfile(userId){
+  const modal = document.getElementById('sellerModal');
+  const box = document.getElementById('sellerContent');
+
+  if(!userId){
+    alert('Profil du vendeur introuvable.');
+    return;
+  }
+
+  box.innerHTML = '<p>Chargement du profil vendeur…</p>';
+  modal.classList.add('open');
+}
 function showDetails(item){
   const box = document.getElementById('detailsContent');
   const photos = Array.isArray(item.images) ? item.images : [];
