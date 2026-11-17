@@ -410,7 +410,43 @@ nav button.active{background:var(--green);color:#fff}
     </div>
 
   </section>
+  <!-- GESTION DES AVIS -->
+  <section id="reviewsPage" class="hidden">
 
+    <div class="topline">
+      <div>
+        <h2>⭐ Avis des utilisateurs</h2>
+        <p class="muted">
+          Consulte les avis et réponds officiellement au nom de GarangoDaaki.
+        </p>
+      </div>
+      <span class="status" id="reviewCount">0 avis</span>
+    </div>
+
+    <div class="toolbar">
+      <input
+        id="reviewSearch"
+        type="search"
+        placeholder="Rechercher un auteur ou un commentaire"
+      >
+
+      <select id="reviewFilter">
+        <option value="all">Tous les avis</option>
+        <option value="pending">En attente</option>
+        <option value="published">Publiés</option>
+        <option value="hidden">Masqués</option>
+      </select>
+
+      <button class="secondary" id="reviewsRefreshBtn" type="button">
+        Actualiser
+      </button>
+    </div>
+
+    <div id="reviewsList">
+      <div class="empty">Chargement des avis…</div>
+    </div>
+
+  </section>
 </section>
 </main>
 
