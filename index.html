@@ -613,7 +613,8 @@ async function loadSiteReviews(){
 
     const comment = document.createElement('p');
     comment.textContent = review.comment || '';
-    comment.style.cssText = 'margin:8px 0;';
+    comment.style.cssText =
+  'margin:12px 0;color:#172b21;font-size:17px;font-weight:500;line-height:1.8;overflow-wrap:anywhere;';
 
     card.append(author,stars,comment);
 
