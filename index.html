@@ -1323,6 +1323,7 @@ function showDetails(item){
 const sellerProfileBtn = document.getElementById('viewSellerProfileBtn');
 
 sellerProfileBtn.addEventListener('click',()=>{
+  closeDetails();
   openSellerProfile(item.user_id);
 });
   backBtn.addEventListener('click',()=>{
