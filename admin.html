@@ -623,12 +623,13 @@ $('adminNav').addEventListener('click',e=>{
   });
 
   [
-    'overview',
-    'users',
-    'allListings',
-    'pending',
-    'reports'
-  ].forEach(page=>{
+  'overview',
+  'users',
+  'allListings',
+  'pending',
+  'reports',
+  'reviews'
+].forEach(page=>{
     show(page+'Page',page===btn.dataset.page);
   });
 
