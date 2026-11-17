@@ -340,7 +340,33 @@ Administration
 </div></section>
 
 <div class="trust"><div><b>✓</b><span>Sécurité<br>des utilisateurs</span></div><div><b>♧</b><span>Annonces gratuites<br>(pour tous)</span></div><div><b>★</b><span>Profils professionnels<br>(payant)</span></div><div><b>☏</b><span>Assistance<br>et contact</span></div></div>
+<section class="section reviews-section" id="siteReviews">
+  <div class="sectionhead">
+    <h2>⭐ Avis sur GarangoDaaki</h2>
+  </div>
 
+  <p class="hint">
+    Votre expérience compte. Partagez votre avis pour aider
+    à améliorer GarangoDaaki.
+  </p>
+
+  <div class="reviews-summary">
+    <div>
+      <div class="reviews-average" id="reviewsAverage">— / 5</div>
+      <div class="review-stars" id="reviewsAverageStars">☆☆☆☆☆</div>
+      <div class="hint" id="reviewsCount">Aucun avis publié</div>
+    </div>
+
+    <button class="btn btn-orange" type="button"
+      onclick="openReviewForm()">
+      ✍️ Donner mon avis
+    </button>
+  </div>
+
+  <div id="reviewsList">
+    <p class="hint">Chargement des avis...</p>
+  </div>
+</section>
 <section class="section" id="annonces"><div class="sectionhead"><h2>📢 Annonces récentes</h2><a class="textlink" href="#publier" onclick="openModal(event)">Déposer une annonce →</a></div><div class="cards" id="listingGrid"></div><div class="empty" id="empty">Aucune annonce publiée pour le moment. Revenez bientôt ou soyez le premier à publier.</div></section>
 
 <section class="publishband" id="publier"><div><h2>Publiez facilement vos annonces et vos produits !</h2><p>Produits, services, locations et annonces avec photos.</p></div><button class="btn btn-orange" onclick="openModal()">＋ Publier une annonce →</button></section>
