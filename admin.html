@@ -639,17 +639,18 @@ $('adminNav').addEventListener('click',e=>{
     show(page+'Page',page===btn.dataset.page);
   });
 
-  if(btn.dataset.page==='reports'){
+    if(btn.dataset.page==='reports'){
     loadReports().catch(err=>{
       note('message','Erreur des signalements : '+err.message,true);
     });
   }
+
+  if(btn.dataset.page==='reviews'){
+    loadSiteReviews().catch(err=>{
+      note('message','Erreur des avis : '+err.message,true);
+    });
+  }
 });
-if(btn.dataset.page==='reviews'){
-  loadSiteReviews().catch(err=>{
-    note('message','Erreur des avis : '+err.message,true);
-  });
-                     }
 (async()=>{
   const {data:{session},error}=await db.auth.getSession();
   if(error)return;
