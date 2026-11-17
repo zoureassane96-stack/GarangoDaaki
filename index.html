@@ -486,7 +486,17 @@ Profil
 </div></form></div></div>
 
 <div class="modal" id="profileModal" role="dialog" aria-modal="true" aria-labelledby="profileTitle"><div class="dialog"><div class="dialoghead"><h2 id="profileTitle">Mon espace</h2><button class="close" onclick="closeProfile()" aria-label="Fermer">×</button></div><div id="profileContent"></div><button class="btn btn-green" type="button" onclick="activateNotifications()" style="margin-top:15px">Activer les notifications</button></div></div>
-
+<div class="modal" id="sellerModal" role="dialog" aria-modal="true" aria-labelledby="sellerTitle">
+  <div class="dialog" style="width:min(750px,100%)">
+    <div class="dialoghead">
+      <h2 id="sellerTitle">Profil du vendeur</h2>
+      <button class="close" onclick="closeSellerProfile()" aria-label="Fermer">×</button>
+    </div>
+    <div id="sellerContent">
+      <p>Chargement du profil vendeur…</p>
+    </div>
+  </div>
+</div>
 <div class="modal" id="photoModal" role="dialog" aria-modal="true" aria-label="Galerie de photos"><div class="dialog" style="width:min(900px,100%);text-align:center"><div class="dialoghead"><strong>Photos de l'annonce</strong><button class="close" onclick="closePhoto()" aria-label="Fermer">×</button></div><div style="display:flex;align-items:center;justify-content:center;gap:10px;margin-top:15px"><button class="btn btn-green" onclick="changePhoto(-1)" aria-label="Photo précédente">❮</button><img id="largePhoto" alt="Photo agrandie" style="max-width:75%;max-height:65vh;object-fit:contain"><button class="btn btn-green" onclick="changePhoto(1)" aria-label="Photo suivante">❯</button></div><p id="photoCounter" style="font-weight:800;color:var(--green)">0 / 0</p></div></div>
 
 <div class="modal" id="detailsModal" role="dialog" aria-modal="true" aria-label="Détails de l'annonce"><div class="dialog" style="width:min(750px,100%)"><div class="dialoghead"><h2>Détails de l'annonce</h2><button class="close" onclick="closeDetails()" aria-label="Fermer">×</button></div><div id="detailsContent"></div></div></div>
