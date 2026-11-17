@@ -476,6 +476,184 @@ const modal=document.getElementById('publishModal'),authModal=document.getElemen
 let activeConversation=null,galleryPhotos=[],galleryIndex=0,touchStartX=0;
 
 function safeText(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+  /* ===== AVIS DE GARANGODAAKI ===== */
+
+const reviewModal = document.getElementById('reviewModal');
+
+function closeReviewForm(){
+  reviewModal.classList.remove('open');
+}
+
+async function openReviewForm(){
+  if(!currentUser){
+    openAuth('login');
+    setStatus('authStatus','Connectez-vous pour donner votre avis.');
+    return;
+  }
+
+  const status = document.getElementById('reviewStatus');
+  status.textContent = 'Vérification de votre compte...';
+
+  reviewModal.classList.add('open');
+
+  const {data,error} = await supabaseClient
+    .from('site_reviews')
+    .select('id,status')
+    .eq('user_id',currentUser.id)
+    .maybeSingle();
+
+  if(error){
+    status.textContent = 'Impossible de vérifier votre avis : '+error.message;
+    return;
+  }
+
+  if(data){
+    document.getElementById('reviewForm').style.display='none';
+
+    status.textContent = data.status==='published'
+      ? 'Vous avez déjà publié un avis sur GarangoDaaki.'
+      : 'Votre avis a déjà été envoyé. Il est en attente de traitement par l’administration.';
+
+    return;
+  }
+
+  document.getElementById('reviewForm').style.display='block';
+  status.textContent='';
+}
+
+async function loadSiteReviews(){
+  const list = document.getElementById('reviewsList');
+
+  const {data,error} = await supabaseClient
+    .from('site_reviews')
+    .select('id,author_name,rating,comment,admin_reply,replied_at,created_at')
+    .eq('status','published')
+    .order('created_at',{ascending:false});
+
+  if(error){
+    list.innerHTML='<p class="hint">Impossible de charger les avis pour le moment.</p>';
+    console.error('Chargement des avis :',error.message);
+    return;
+  }
+
+  const reviews=data||[];
+
+  if(!reviews.length){
+    document.getElementById('reviewsAverage').textContent='— / 5';
+    document.getElementById('reviewsAverageStars').textContent='☆☆☆☆☆';
+    document.getElementById('reviewsCount').textContent='Aucun avis publié pour le moment.';
+    list.innerHTML='<p class="hint">Soyez le premier à partager votre expérience avec GarangoDaaki !</p>';
+    return;
+  }
+
+  const average=reviews.reduce((sum,r)=>sum+Number(r.rating),0)/reviews.length;
+  const rounded=Math.round(average);
+
+  document.getElementById('reviewsAverage').textContent=average.toFixed(1).replace('.',',')+' / 5';
+  document.getElementById('reviewsAverageStars').textContent='★'.repeat(rounded)+'☆'.repeat(5-rounded);
+  document.getElementById('reviewsCount').textContent=
+    reviews.length+' avis publié'+(reviews.length>1?'s':'');
+
+  list.innerHTML=reviews.map(review=>{
+    const stars='★'.repeat(Number(review.rating))+'☆'.repeat(5-Number(review.rating));
+    const date=review.created_at
+      ?new Date(review.created_at).toLocaleDateString('fr-FR')
+      :'';
+
+    return `
+      <article class="review-card">
+        <div class="review-author">${safeText(review.author_name)}</div>
+        <div class="review-stars">${stars}</div>
+        <div class="review-date">${safeText(date)}</div>
+        <div class="review-comment">${safeText(review.comment)}</div>
+
+        ${review.admin_reply ? `
+          <div class="review-reply">
+            <strong>Réponse officielle de GarangoDaaki</strong>
+            ${safeText(review.admin_reply)}
+          </div>
+        ` : ''}
+      </article>
+    `;
+  }).join('');
+}
+
+/* ENVOI D'UN AVIS */
+document.getElementById('reviewForm').addEventListener('submit',async e=>{
+  e.preventDefault();
+
+  if(!currentUser){
+    closeReviewForm();
+    openAuth('login');
+    return;
+  }
+
+  const button=document.getElementById('reviewSubmit');
+  const rating=Number(document.getElementById('reviewRating').value);
+  const comment=document.getElementById('reviewComment').value.trim();
+
+  if(!rating||rating<1||rating>5){
+    setStatus('reviewStatus','Veuillez choisir une note.',true);
+    return;
+  }
+
+  if(comment.length<5){
+    setStatus('reviewStatus','Votre commentaire doit contenir au moins 5 caractères.',true);
+    return;
+  }
+
+  const authorName=
+    currentUser.user_metadata?.full_name ||
+    currentUser.email?.split('@')[0] ||
+    'Utilisateur GarangoDaaki';
+
+  button.disabled=true;
+  button.textContent='Envoi en cours...';
+  setStatus('reviewStatus','Transmission de votre avis...');
+
+  try{
+    const {error}=await supabaseClient
+      .from('site_reviews')
+      .insert({
+        user_id:currentUser.id,
+        author_name:authorName,
+        rating:rating,
+        comment:comment,
+        status:'pending'
+      });
+
+    if(error){
+      if(error.code==='23505'){
+        throw new Error('Vous avez déjà envoyé un avis.');
+      }
+      throw error;
+    }
+
+    document.getElementById('reviewForm').reset();
+    document.getElementById('reviewForm').style.display='none';
+
+    setStatus(
+      'reviewStatus',
+      'Merci pour votre avis ! Il sera publié après vérification par notre équipe.'
+    );
+
+    await loadSiteReviews();
+
+  }catch(error){
+    setStatus(
+      'reviewStatus',
+      error.message||'Impossible d’envoyer votre avis.',
+      true
+    );
+  }finally{
+    button.disabled=false;
+    button.textContent='Envoyer mon avis';
+  }
+});
+
+reviewModal.addEventListener('click',e=>{
+  if(e.target===reviewModal)closeReviewForm();
+});
 function setStatus(id,msg,isError=false){const el=document.getElementById(id);el.textContent=msg;el.style.color=isError?'#b42318':'var(--green)'}
 
 /* COMPTEUR DES MESSAGES NON LUS */
