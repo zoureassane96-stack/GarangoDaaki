@@ -1198,7 +1198,11 @@ function showDetails(item){
   `;
 
   const backBtn = document.getElementById('detailBackBtn');
+const sellerProfileBtn = document.getElementById('viewSellerProfileBtn');
 
+sellerProfileBtn.addEventListener('click',()=>{
+  openSellerProfile(item.user_id);
+});
   backBtn.addEventListener('click',()=>{
     closeDetails();
     document.getElementById('annonces')?.scrollIntoView({
