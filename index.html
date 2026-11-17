@@ -383,7 +383,56 @@ Administration
 Profil
 </button>
 </nav>
+<div class="modal" id="reviewModal" role="dialog"
+  aria-modal="true" aria-labelledby="reviewTitle">
 
+  <div class="dialog">
+    <div class="dialoghead">
+      <h2 id="reviewTitle">Donner mon avis</h2>
+      <button class="close" type="button"
+        onclick="closeReviewForm()" aria-label="Fermer">×</button>
+    </div>
+
+    <p class="hint">
+      Votre avis sera vérifié par l'administration avant publication.
+    </p>
+
+    <form id="reviewForm">
+      <div class="formgrid">
+
+        <div class="field full">
+          <label for="reviewRating">Votre note *</label>
+          <select id="reviewRating" required>
+            <option value="">Choisir une note</option>
+            <option value="5">★★★★★ — Excellent</option>
+            <option value="4">★★★★☆ — Très bien</option>
+            <option value="3">★★★☆☆ — Bien</option>
+            <option value="2">★★☆☆☆ — Moyen</option>
+            <option value="1">★☆☆☆☆ — À améliorer</option>
+          </select>
+        </div>
+
+        <div class="field full">
+          <label for="reviewComment">Votre commentaire *</label>
+          <textarea id="reviewComment" required
+            minlength="5" maxlength="1000"
+            placeholder="Racontez votre expérience avec GarangoDaaki..."></textarea>
+          <span class="hint">Entre 5 et 1 000 caractères.</span>
+        </div>
+
+        <div class="field full">
+          <button class="btn btn-orange" id="reviewSubmit"
+            type="submit">
+            Envoyer mon avis
+          </button>
+          <div class="statusline" id="reviewStatus"
+            role="status"></div>
+        </div>
+
+      </div>
+    </form>
+  </div>
+</div>
 <div class="modal" id="publishModal" role="dialog" aria-modal="true" aria-labelledby="formTitle"><div class="dialog"><div class="dialoghead"><h2 id="formTitle">Publier une annonce</h2><button class="close" onclick="closeModal()" aria-label="Fermer">×</button></div><p class="hint" id="publishHint">Connectez-vous pour publier. Votre annonce sera vérifiée avant sa mise en ligne.</p>
 <form id="publishForm"><div class="formgrid">
 <div class="field full"><label for="title">Titre de l'annonce *</label><input id="title" required maxlength="90" placeholder="Ex. Tracteur à vendre à Garango"></div>
