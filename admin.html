@@ -810,11 +810,13 @@ function renderListing(row,showActions,photos=[]){
   const card=make('article','listing');
   const top=make('div','topline');
 
-  const statusLabels={
-    pending:'EN ATTENTE',
-    published:'PUBLIÉE',
-    rejected:'REFUSÉE'
-  };
+const statusLabels={
+  pending:'EN ATTENTE',
+  published:'PUBLIÉE',
+  rejected:'REFUSÉE',
+  suspended:'SUSPENDUE',
+  sold:'VENDUE'
+};
 
   top.append(
     make('span','status',statusLabels[row.status]||row.status),
