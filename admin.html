@@ -728,6 +728,9 @@ $('usersRefreshBtn').addEventListener('click',async()=>{
     note('message','Erreur utilisateurs : '+err.message,true);
   }
 });
+  let historyRows=[];
+let historyListingNames={};
+let historyAdminEmails={};
 async function loadHistory(){
 
   const list=$('historyList');
