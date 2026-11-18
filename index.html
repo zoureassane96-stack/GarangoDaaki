@@ -1654,6 +1654,8 @@ upsert:false
 
 if(uploadError)throw uploadError;
 
+const oldPath=profile?.avatar_url||null;
+
 const {data:updatedProfile,error:updateError}=await supabaseClient
 .from('profiles')
 .update({avatar_url:newPath})
@@ -1663,21 +1665,24 @@ const {data:updatedProfile,error:updateError}=await supabaseClient
 if(updateError)throw updateError;
 
 if(!updatedProfile||updatedProfile.length===0){
-  throw new Error('Le chemin de la photo n’a pas été enregistré dans votre profil.');
+  throw new Error('Le chemin de la photo n’a pas été enregistré.');
 }
 
 if(!updatedProfile[0].avatar_url){
-  throw new Error('Le chemin de la photo est vide dans votre profil.');
+  throw new Error('Le chemin de la photo est vide.');
 }
 
 profile.avatar_url=updatedProfile[0].avatar_url;
-if(profile?.avatar_url){
-await supabaseClient.storage
-.from('seller-avatars')
-.remove([profile.avatar_url]);
-}
 
-alert('Votre photo de profil a été mise à jour.');
+if(oldPath && oldPath!==newPath){
+  const {error:removeError}=await supabaseClient.storage
+    .from('seller-avatars')
+    .remove([oldPath]);
+
+  if(removeError){
+    console.warn('Ancienne photo non supprimée :',removeError.message);
+  }
+}
 await openProfile();
 
 }catch(err){
