@@ -538,7 +538,41 @@ async function loadStats(){
   $('statPublished').textContent=data.published??0;
   $('statRejected').textContent=data.rejected??0;
 }
+async function setSellerVerification(userId,isVerified,button){
 
+  const action=isVerified
+    ?'attribuer le badge Vendeur vérifié'
+    :'retirer le badge Vendeur vérifié';
+
+  if(!confirm('Confirmer : '+action+' ?'))return;
+
+  button.disabled=true;
+
+  try{
+
+    const {error}=await db.rpc('admin_set_seller_verified',{
+      p_user_id:userId,
+      p_is_verified:isVerified
+    });
+
+    if(error)throw error;
+
+    note(
+      'message',
+      isVerified
+        ?'Vendeur vérifié avec succès.'
+        :'Vérification du vendeur retirée.'
+    );
+
+    await loadUsers();
+
+  }catch(err){
+
+    note('message','Erreur : '+err.message,true);
+    button.disabled=false;
+
+  }
+}
 async function loadUsers(){
   const root=$('usersList');
   root.replaceChildren(make('div','empty','Chargement des utilisateurs…'));
