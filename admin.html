@@ -791,8 +791,20 @@ const adminEmails={};
 const dateFilter=$('historyDateFilter').value;
 
 const filteredData=data.filter(item=>{
-  const actionOk=
-    actionFilter==='all'||item.action===actionFilter;
+const actionOk=
+  actionFilter==='all'||
+  item.action===actionFilter||
+  (actionFilter==='Suspension d’une annonce'&&
+   item.new_status==='suspended')||
+  (actionFilter==='Réactivation d’une annonce'&&
+   item.old_status==='suspended'&&
+   item.new_status==='published')||
+  (actionFilter==='Validation d’une annonce'&&
+   item.old_status==='pending'&&
+   item.new_status==='published')||
+  (actionFilter==='Refus d’une annonce'&&
+   item.old_status==='pending'&&
+   item.new_status==='rejected'); 
 
   const d=new Date(item.created_at);
   const itemDate=d.getFullYear()+'-'+
