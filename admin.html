@@ -1253,7 +1253,28 @@ function renderReportCard(report,listing,photos){
 
   // Actions administrateur
   const actions=make('div','report-actions');
+if(listing){
+  if(listing.status==='published'){
+    const suspend=make('button','reject','⛔ Suspendre l’annonce');
+    suspend.type='button';
 
+    suspend.addEventListener('click',()=>{
+      toggleListingSuspension(listing.id,true,suspend);
+    });
+
+    actions.append(suspend);
+
+  }else if(listing.status==='suspended'){
+    const reactivate=make('button','approve','✓ Réactiver l’annonce');
+    reactivate.type='button';
+
+    reactivate.addEventListener('click',()=>{
+      toggleListingSuspension(listing.id,false,reactivate);
+    });
+
+    actions.append(reactivate);
+  }
+}
   if(report.status==='pending'){
     const reviewed=make('button','approve','✓ Marquer comme traité');
     const dismissed=make('button','reject','Rejeter le signalement');
