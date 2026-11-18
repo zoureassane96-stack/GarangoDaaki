@@ -1054,6 +1054,31 @@ async function openSellerProfile(userId){
     box.innerHTML = '';
 
     const heading = document.createElement('div');
+    const avatar = document.createElement('img');
+
+avatar.alt = 'Photo du vendeur';
+avatar.style.cssText = `
+  width:90px;
+  height:90px;
+  border-radius:50%;
+  object-fit:cover;
+  display:none;
+  margin-bottom:12px;
+`;
+
+if(seller.avatar_url){
+  const {data:avatarData,error:avatarError} =
+    await supabaseClient.storage
+      .from('seller-avatars')
+      .createSignedUrl(seller.avatar_url,3600);
+
+  if(!avatarError && avatarData?.signedUrl){
+    avatar.src = avatarData.signedUrl;
+    avatar.style.display = 'block';
+  }else{
+    console.warn('Photo vendeur indisponible :',avatarError);
+  }
+}
     heading.style.cssText = 'padding:12px;background:#f3f6f4;border-radius:12px;margin-bottom:18px';
 
     const name = document.createElement('h3');
