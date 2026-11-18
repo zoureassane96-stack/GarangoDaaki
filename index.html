@@ -1651,13 +1651,23 @@ upsert:false
 
 if(uploadError)throw uploadError;
 
-const {error:updateError}=await supabaseClient
+const {data:updatedProfile,error:updateError}=await supabaseClient
 .from('profiles')
 .update({avatar_url:newPath})
-.eq('id',currentUser.id);
+.eq('id',currentUser.id)
+.select('avatar_url');
 
 if(updateError)throw updateError;
 
+if(!updatedProfile||updatedProfile.length===0){
+  throw new Error('Le chemin de la photo n’a pas été enregistré dans votre profil.');
+}
+
+if(!updatedProfile[0].avatar_url){
+  throw new Error('Le chemin de la photo est vide dans votre profil.');
+}
+
+profile.avatar_url=updatedProfile[0].avatar_url;
 if(profile?.avatar_url){
 await supabaseClient.storage
 .from('seller-avatars')
