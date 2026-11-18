@@ -476,8 +476,33 @@ nav button.active{background:var(--green);color:#fff}
     </div>
 
   </section>
+
+  <!-- HISTORIQUE DES ACTIONS -->
+  <section id="historyPage" class="hidden">
+
+    <div class="topline">
+      <div>
+        <h2>📋 Historique des actions</h2>
+        <p class="muted">
+          Consulte toutes les actions effectuées par les administrateurs.
+        </p>
+      </div>
+    </div>
+
+    <div class="toolbar">
+      <button class="secondary" id="historyRefreshBtn" type="button">
+        Actualiser
+      </button>
+    </div>
+
+    <div id="historyList">
+      <div class="empty">Chargement de l’historique…</div>
+    </div>
+
+  </section>
+
 </section>
-</main>
+</main>  
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
