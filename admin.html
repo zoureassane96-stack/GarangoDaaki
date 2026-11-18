@@ -712,7 +712,7 @@ async function loadHistory(){
 
   const {data,error}=await db
     .from('admin_activity_logs')
-    .select('id,admin_id,listing_id,action,old_status,new_status,created_at')
+    .select('id,admin_id,listing_id,listing_title,action,old_status,new_status,created_at')
     .order('created_at',{ascending:false})
     .limit(100);
 
