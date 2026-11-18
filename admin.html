@@ -741,7 +741,17 @@ async function loadHistory(){
   (listings||[]).forEach(item=>{
     listingNames[item.id]=item.title;
   });
+const {data:admins,error:adminsError}=await db.rpc(
+  'admin_get_activity_users'
+);
 
+if(adminsError)throw adminsError;
+
+const adminEmails={};
+
+(admins||[]).forEach(item=>{
+  adminEmails[item.id]=item.email;
+});
   const labels={
     pending:'En attente',
     published:'Publiée',
