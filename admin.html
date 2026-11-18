@@ -656,18 +656,24 @@ $('usersRefreshBtn').addEventListener('click',async()=>{
 async function refreshEverything(){
   clearNote('message');
 
-  try{
-    await loadStats();
-    await loadUsers();
-    await loadAllListings();
-    await loadPending();
-    await loadReports();
-    await loadSiteReviews();
-  }catch(err){
-    note('message','Erreur : '+err.message,true);
+  const tasks=[
+    ['Statistiques',loadStats],
+    ['Utilisateurs',loadUsers],
+    ['Toutes les annonces',loadAllListings],
+    ['Annonces en attente',loadPending],
+    ['Signalements',loadReports],
+    ['Avis',loadSiteReviews]
+  ];
+
+  for(const [name,task] of tasks){
+    try{
+      await task();
+    }catch(err){
+      console.error('Erreur '+name+':',err);
+      note('message','Erreur '+name+' : '+err.message,true);
+    }
   }
 }
-
 $('refreshBtn').addEventListener('click',refreshEverything);
 
 $('logoutBtn').addEventListener('click',async()=>{
