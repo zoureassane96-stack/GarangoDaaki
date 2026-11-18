@@ -983,6 +983,19 @@ card.querySelector('h3').textContent=item.title;
 card.querySelector('.price').textContent=item.price!==null&&item.price!==''?Number(item.price).toLocaleString('fr-FR')+' FCFA':(item.negotiable?'Prix à discuter':'Prix non précisé');
 card.querySelector('.city').textContent='📍 '+item.city;
 card.querySelector('.category').textContent=item.category;
+  const sellerInfo=document.createElement('div');
+sellerInfo.className='listing-seller';
+
+const sellerPhoto=item.seller?.avatarSignedUrl
+  ? `<img src="${item.seller.avatarSignedUrl}" alt="Photo du vendeur">`
+  : `<span class="seller-initial">${(item.seller?.full_name||'V').charAt(0).toUpperCase()}</span>`;
+
+sellerInfo.innerHTML=`
+  ${sellerPhoto}
+  <span>${safeText(item.seller?.full_name||'Vendeur')}</span>
+`;
+
+card.querySelector('.listingbody').appendChild(sellerInfo);
 card.querySelector('.fav').addEventListener('click',()=>toggleFavorite(item.id));
 card.querySelector('.detailsBtn').addEventListener('click',()=>showDetails(item));
 card.querySelector('.galleryBtn').addEventListener('click',()=>item.images?.length?showPhoto(item.images):alert('Aucune photo disponible pour cette annonce.'));
