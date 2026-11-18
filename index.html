@@ -1674,7 +1674,7 @@ if(!updatedProfile[0].avatar_url){
 }
 
 profile.avatar_url=updatedProfile[0].avatar_url;
-
+profileSaved=true;
 if(oldPath && oldPath!==newPath){
   const {error:removeError}=await supabaseClient.storage
     .from('seller-avatars')
