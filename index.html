@@ -1732,6 +1732,60 @@ name.textContent=profile?.full_name||'Mon profil';
 const city=document.createElement('p');
 city.textContent='📍 '+(profile?.city||'Localité non renseignée');
 
+const cityInput=document.createElement('input');
+cityInput.type='text';
+cityInput.value=profile?.city||'';
+cityInput.placeholder='Ex. Garango, Tenkodogo, Koupéla';
+cityInput.maxLength=80;
+cityInput.style.cssText='display:block;width:100%;padding:12px;margin:12px 0;border:1px solid #d8e2dc;border-radius:10px;box-sizing:border-box';
+
+const cityBtn=document.createElement('button');
+cityBtn.type='button';
+cityBtn.className='btn btn-green';
+cityBtn.textContent='Enregistrer ma localité';
+
+const cityStatus=document.createElement('p');
+cityStatus.style.cssText='font-size:13px;margin-top:8px';
+
+cityBtn.onclick=async()=>{
+  const newCity=cityInput.value.trim();
+
+  if(!newCity){
+    cityStatus.textContent='Veuillez saisir votre ville.';
+    cityStatus.style.color='#b42318';
+    return;
+  }
+
+  cityBtn.disabled=true;
+  cityStatus.textContent='Enregistrement en cours…';
+
+  try{
+    const {data,error}=await supabaseClient
+      .from('profiles')
+      .update({city:newCity})
+      .eq('id',currentUser.id)
+      .select('city')
+      .maybeSingle();
+
+    if(error)throw error;
+    if(!data)throw new Error('La localité n’a pas été enregistrée.');
+
+    profile.city=data.city;
+    city.textContent='📍 '+data.city;
+    cityInput.value=data.city;
+
+    cityStatus.textContent='Votre localité a été mise à jour avec succès.';
+    cityStatus.style.color='#08734d';
+
+  }catch(error){
+    cityStatus.textContent='Erreur : '+error.message;
+    cityStatus.style.color='#b42318';
+
+  }finally{
+    cityBtn.disabled=false;
+  }
+};
+
 const email=document.createElement('p');
 email.textContent=currentUser.email||'Compte connecté';
 
