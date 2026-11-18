@@ -773,10 +773,16 @@ const adminEmails={};
       (listingNames[item.listing_id]||item.listing_title||'Annonce introuvable');
 
     const status=document.createElement('p');
-    status.textContent=
-      'Ancien statut : '+(labels[item.old_status]||item.old_status)+
-      ' → Nouveau statut : '+(labels[item.new_status]||item.new_status);
 
+if(item.action==='Suppression définitive d’une annonce'){
+  status.textContent=
+    'Ancien statut : '+(labels[item.old_status]||item.old_status)+
+    ' → Annonce supprimée';
+}else{
+  status.textContent=
+    'Ancien statut : '+(labels[item.old_status]||item.old_status)+
+    ' → Nouveau statut : '+(labels[item.new_status]||item.new_status);
+}
     const date=document.createElement('p');
     date.className='muted';
     date.textContent='Date : '+
