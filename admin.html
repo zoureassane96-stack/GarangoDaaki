@@ -585,6 +585,19 @@ function renderUsers(){
   'details',
   u.is_verified ? '✓ Vendeur vérifié' : 'Vendeur non vérifié'
 ));
+   const verifyBtn=make(
+  'button',
+  u.is_verified?'reject':'approve',
+  u.is_verified?'Retirer la vérification':'✓ Vérifier le vendeur'
+);
+
+verifyBtn.type='button';
+
+verifyBtn.addEventListener('click',()=>{
+  setSellerVerification(u.id,!u.is_verified,verifyBtn);
+});
+
+card.append(verifyBtn); 
     root.append(card);
   });
 }
