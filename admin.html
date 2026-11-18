@@ -554,11 +554,19 @@ async function loadStats(){
   const {data,error}=await db.rpc('admin_dashboard_stats');
   if(error)throw error;
 
+  const {count,error:suspendedError}=await db
+    .from('listings')
+    .select('id',{count:'exact',head:true})
+    .eq('status','suspended');
+
+  if(suspendedError)throw suspendedError;
+
   $('statUsers').textContent=data.users??0;
   $('statListings').textContent=data.listings??0;
   $('statPending').textContent=data.pending??0;
   $('statPublished').textContent=data.published??0;
   $('statRejected').textContent=data.rejected??0;
+  $('statSuspended').textContent=count??0;
   $('statReviews').textContent=data.reviews??0;
   $('statPendingReports').textContent=data.reportsPending??0;
 }
