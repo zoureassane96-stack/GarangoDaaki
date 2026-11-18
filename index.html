@@ -1037,7 +1037,12 @@ sellerInfo.innerHTML=`
   ${sellerPhoto}
   <span>${safeText(item.seller?.full_name||'Vendeur')}</span>
 `;
-
+if(item.seller?.is_verified === true){
+  const verifiedBadge=document.createElement('span');
+  verifiedBadge.className='verified-badge';
+  verifiedBadge.textContent='✓ Vendeur vérifié';
+  sellerInfo.appendChild(verifiedBadge);
+}
 sellerInfo.style.cursor='pointer';
 sellerInfo.title='Voir le profil du vendeur';
 sellerInfo.setAttribute('role','button');
