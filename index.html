@@ -1653,7 +1653,14 @@ contentType:file.type,
 upsert:false
 });
 
-if(uploadError)throw uploadError;
+if(uploadError){
+  console.error('ERREUR STORAGE AVATAR :',uploadError);
+  photoStatus.textContent='Erreur Storage : '+uploadError.message;
+  uploadBtn.disabled=false;
+  return;
+}
+
+console.log('PHOTO ENVOYÉE AVEC SUCCÈS :',newPath);
 
 const oldPath=profile?.avatar_url||null;
 
