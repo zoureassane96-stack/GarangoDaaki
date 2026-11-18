@@ -821,26 +821,18 @@ $('adminNav').addEventListener('click',e=>{
   }
 
   if(btn.dataset.page==='reviews'){
-    loadSiteReviews().catch(err=>{
-      note('message','Erreur des avis : '+err.message,true);
-    });
-  }
+  loadSiteReviews().catch(err=>{
+    note('message','Erreur des avis : '+err.message,true);
+  });
+}
+
+if(btn.dataset.page==='history'){
+  loadHistory().catch(err=>{
+    note('message','Erreur historique : '+err.message,true);
+  });
+}
+
 });
-(async()=>{
-  const {data:{session},error}=await db.auth.getSession();
-  if(error)return;
-
-  if(session){
-    try{
-      await showDashboard(session.user);
-    }catch(err){
-      await db.auth.signOut();
-      show('loginPanel',true);
-      note('loginMessage',err.message||'Accès refusé.',true);
-    }
-  }
-})();
-
 async function loadAllListings(){
   const root=$('allListings');
   root.replaceChildren(make('div','empty','Chargement des annonces…'));
