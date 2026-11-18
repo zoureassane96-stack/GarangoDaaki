@@ -1822,7 +1822,24 @@ $('reviewsRefreshBtn').addEventListener('click',async()=>{
 
 $('listingSearch').addEventListener('input',renderAllListings);
 $('listingFilter').addEventListener('change',renderAllListings);
+(async function restoreAdminSession(){
+  try{
+    const {data,error}=await db.auth.getSession();
 
+    if(error)throw error;
+
+    const user=data.session?.user;
+
+    if(user){
+      await showDashboard(user);
+    }
+
+  }catch(err){
+    console.error('Récupération de session :',err);
+    show('dashboard',false);
+    show('loginPanel',true);
+  }
+})();
 </script>
 </body>
 </html>
