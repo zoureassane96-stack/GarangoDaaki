@@ -1713,7 +1713,9 @@ heading.textContent='Mes annonces';
 box.appendChild(heading);
 
 if(!data?.length){
-box.innerHTML+='<p>Vous n’avez pas encore publié d’annonce.</p>';
+const emptyMessage=document.createElement('p');
+emptyMessage.textContent='Vous n’avez pas encore publié d’annonce.';
+box.appendChild(emptyMessage);
 }else{
 data.forEach(item=>{
 const row=document.createElement('div');
