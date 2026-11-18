@@ -719,13 +719,14 @@ $('adminNav').addEventListener('click',e=>{
     b.classList.toggle('active',b===btn);
   });
 
-  [
+   [
   'overview',
   'users',
   'allListings',
   'pending',
   'reports',
-  'reviews'
+  'reviews',
+  'history'
 ].forEach(page=>{
     show(page+'Page',page===btn.dataset.page);
   });
