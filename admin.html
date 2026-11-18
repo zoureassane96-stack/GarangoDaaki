@@ -545,6 +545,8 @@ async function loadStats(){
   $('statPending').textContent=data.pending??0;
   $('statPublished').textContent=data.published??0;
   $('statRejected').textContent=data.rejected??0;
+  $('statReviews').textContent=data.reviews??0;
+  $('statPendingReports').textContent=data.reportsPending??0;
 }
 async function setSellerVerification(userId,isVerified,button){
 
