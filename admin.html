@@ -1059,9 +1059,9 @@ async function deleteListing(id,button){
   button.disabled=true;
 
   try{
-    const {error}=await db.from('listings')
-      .delete()
-      .eq('id',id);
+    const {error}=await db.rpc('admin_delete_listing',{
+  p_listing_id:id
+});
 
     if(error)throw error;
 
