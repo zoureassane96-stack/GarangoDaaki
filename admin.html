@@ -580,6 +580,11 @@ function renderUsers(){
     card.append(make('div','details',
       'Inscription : '+new Date(u.created_at).toLocaleDateString('fr-FR')
     ));
+    card.append(make(
+  'div',
+  'details',
+  u.is_verified ? '✓ Vendeur vérifié' : 'Vendeur non vérifié'
+));
     root.append(card);
   });
 }
