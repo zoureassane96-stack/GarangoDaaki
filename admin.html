@@ -1332,7 +1332,35 @@ async function updateReportStatus(id,status,...buttons){
     buttons.forEach(button=>button.disabled=false);
   }
 }
+async function toggleListingSuspension(id,suspend,button){
 
+  const action=suspend?'suspendre':'réactiver';
+
+  if(!confirm('Confirmer : '+action+' cette annonce ?'))return;
+
+  button.disabled=true;
+
+  try{
+    const {error}=await db.rpc('admin_suspend_listing',{
+      p_listing_id:id,
+      p_suspend:suspend
+    });
+
+    if(error)throw error;
+
+    note('message',
+      suspend
+        ?'Annonce suspendue. Elle est maintenant invisible aux visiteurs.'
+        :'Annonce réactivée avec succès.'
+    );
+
+    await refreshEverything();
+
+  }catch(err){
+    note('message','Erreur : '+err.message,true);
+    button.disabled=false;
+  }
+}
 $('reportSearch').addEventListener('input',()=>{
   loadReports().catch(err=>{
     note('message','Erreur : '+err.message,true);
