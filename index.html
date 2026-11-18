@@ -1576,17 +1576,20 @@ avatar.style.cssText='width:105px;height:105px;border-radius:50%;object-fit:cove
 if(profile?.avatar_url){
 const {data:urlData,error:urlError}=await supabaseClient.storage
 .from('seller-avatars')
+const {data:urlData,error:urlError} =
+await supabaseClient.storage
+.from('seller-avatars')
 .createSignedUrl(profile.avatar_url,3600);
 
-if(!urlError&&urlData?.signedUrl){
-avatar.src=urlData.signedUrl;
+if(urlError){
+  console.error('Erreur photo profil :',urlError);
+  photoStatus.textContent='Erreur photo : '+urlError.message;
+  avatar.style.display='none';
+}else if(urlData?.signedUrl){
+  avatar.src=urlData.signedUrl;
+  avatar.style.display='block';
 }else{
-avatar.src='';
-}
-}
-
-if(!avatar.src){
-avatar.style.display='none';
+  avatar.style.display='none';
 }
 
 const name=document.createElement('h3');
