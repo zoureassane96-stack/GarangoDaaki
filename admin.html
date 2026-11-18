@@ -770,7 +770,7 @@ const adminEmails={};
 
     const listing=document.createElement('p');
     listing.textContent='Annonce : '+
-      (listingNames[item.listing_id]||'Annonce introuvable');
+      (listingNames[item.listing_id]||item.listing_title||'Annonce introuvable');
 
     const status=document.createElement('p');
     status.textContent=
