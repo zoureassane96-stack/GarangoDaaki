@@ -494,7 +494,22 @@ nav button.active{background:var(--green);color:#fff}
         Actualiser
       </button>
     </div>
+<div class="toolbar">
+  <select id="historyActionFilter">
+    <option value="all">Toutes les actions</option>
+    <option value="Validation d’une annonce">Validations</option>
+    <option value="Refus d’une annonce">Refus</option>
+    <option value="Suspension d’une annonce">Suspensions</option>
+    <option value="Réactivation d’une annonce">Réactivations</option>
+    <option value="Suppression définitive d’une annonce">Suppressions</option>
+  </select>
 
+  <input type="date" id="historyDateFilter">
+
+  <button type="button" class="secondary" id="historyFilterReset">
+    Réinitialiser les filtres
+  </button>
+</div>
     <div id="historyList">
       <div class="empty">Chargement de l’historique…</div>
     </div>
