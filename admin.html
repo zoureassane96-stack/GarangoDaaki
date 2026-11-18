@@ -725,6 +725,23 @@ async function loadHistory(){
     return;
   }
 
+  const listingIds=[...new Set(
+    data.map(item=>item.listing_id).filter(Boolean)
+  )];
+
+  const {data:listings,error:listError}=await db
+    .from('listings')
+    .select('id,title')
+    .in('id',listingIds);
+
+  if(listError)throw listError;
+
+  const listingNames={};
+
+  (listings||[]).forEach(item=>{
+    listingNames[item.id]=item.title;
+  });
+
   const labels={
     pending:'En attente',
     published:'Publiée',
@@ -741,6 +758,10 @@ async function loadHistory(){
     const title=document.createElement('h3');
     title.textContent=item.action;
 
+    const listing=document.createElement('p');
+    listing.textContent='Annonce : '+
+      (listingNames[item.listing_id]||'Annonce introuvable');
+
     const status=document.createElement('p');
     status.textContent=
       'Ancien statut : '+(labels[item.old_status]||item.old_status)+
@@ -755,11 +776,7 @@ async function loadHistory(){
     admin.className='muted';
     admin.textContent='Administrateur : '+(item.admin_id||'Non renseigné');
 
-    const listing=document.createElement('p');
-    listing.className='muted';
-    listing.textContent='ID de l’annonce : '+item.listing_id;
-
-    card.append(title,status,date,admin,listing);
+    card.append(title,listing,status,date,admin);
     list.append(card);
   });
 }
