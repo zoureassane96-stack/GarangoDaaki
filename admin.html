@@ -887,6 +887,99 @@ $('historyFilterReset').addEventListener('click',()=>{
     note('message','Erreur historique : '+err.message,true);
   });
 });
+  $('historyExportBtn').addEventListener('click',async()=>{
+
+  try{
+
+    const actionFilter=$('historyActionFilter').value;
+    const dateFilter=$('historyDateFilter').value;
+
+    const rows=historyRows.filter(item=>{
+
+      const actionOk=
+        actionFilter==='all'||
+        item.action===actionFilter||
+        (actionFilter==='Suspension d’une annonce'&&
+          item.new_status==='suspended')||
+        (actionFilter==='Réactivation d’une annonce'&&
+          item.old_status==='suspended'&&
+          item.new_status==='published')||
+        (actionFilter==='Validation d’une annonce'&&
+          item.old_status==='pending'&&
+          item.new_status==='published')||
+        (actionFilter==='Refus d’une annonce'&&
+          item.old_status==='pending'&&
+          item.new_status==='rejected');
+
+      const d=new Date(item.created_at);
+      const itemDate=d.getFullYear()+'-'+
+        String(d.getMonth()+1).padStart(2,'0')+'-'+
+        String(d.getDate()).padStart(2,'0');
+
+      return actionOk&&(!dateFilter||itemDate===dateFilter);
+    });
+
+    if(!rows.length){
+      note('message','Aucune action à exporter.',true);
+      return;
+    }
+
+    const {data:admins,error}=await db.rpc(
+      'admin_get_activity_users'
+    );
+
+    if(error)throw error;
+
+    const emails={};
+    (admins||[]).forEach(admin=>{
+      emails[admin.id]=admin.email;
+    });
+
+    const labels={
+      pending:'En attente',
+      published:'Publiée',
+      rejected:'Refusée',
+      suspended:'Suspendue',
+      sold:'Vendue'
+    };
+
+    const csvRows=[
+      ['Date','Action','Annonce','Ancien statut','Nouveau statut','Administrateur'],
+      ...rows.map(item=>[
+        new Date(item.created_at).toLocaleString('fr-FR'),
+        item.action,
+        item.listing_title||'Annonce introuvable',
+        labels[item.old_status]||item.old_status||'',
+        item.new_status===null?'Annonce supprimée':
+          labels[item.new_status]||item.new_status||'',
+        emails[item.admin_id]||item.admin_id||''
+      ])
+    ];
+
+    const csv='\uFEFF'+csvRows.map(row=>
+      row.map(value=>'"'+String(value??'').replace(/"/g,'""')+'"').join(';')
+    ).join('\r\n');
+
+    const blob=new Blob([csv],{
+      type:'text/csv;charset=utf-8;'
+    });
+
+    const url=URL.createObjectURL(blob);
+    const link=document.createElement('a');
+
+    link.href=url;
+    link.download='GarangoDaaki-historique.csv';
+    link.click();
+
+    URL.revokeObjectURL(url);
+
+    note('message','Exportation CSV terminée.');
+
+  }catch(err){
+    note('message','Erreur exportation : '+err.message,true);
+  }
+
+});
 async function refreshEverything(){
   clearNote('message');
 
