@@ -852,7 +852,26 @@ $('historyRefreshBtn').addEventListener('click',async()=>{
   }catch(err){
     note('message','Erreur historique : '+err.message,true);
   }
-});  
+}); 
+  $('historyActionFilter').addEventListener('change',()=>{
+  loadHistory().catch(err=>{
+    note('message','Erreur historique : '+err.message,true);
+  });
+});
+
+$('historyDateFilter').addEventListener('change',()=>{
+  loadHistory().catch(err=>{
+    note('message','Erreur historique : '+err.message,true);
+  });
+});
+
+$('historyFilterReset').addEventListener('click',()=>{
+  $('historyActionFilter').value='all';
+  $('historyDateFilter').value='';
+  loadHistory().catch(err=>{
+    note('message','Erreur historique : '+err.message,true);
+  });
+});
 async function refreshEverything(){
   clearNote('message');
 
