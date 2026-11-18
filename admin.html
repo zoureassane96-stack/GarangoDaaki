@@ -784,8 +784,8 @@ const adminEmails={};
 
     const admin=document.createElement('p');
     admin.className='muted';
-    admin.textContent='Administrateur : '+(item.admin_id||'Non renseigné');
-
+   admin.textContent='Administrateur : '+
+  (adminEmails[item.admin_id]||item.admin_id||'Non renseigné'); 
     card.append(title,listing,status,date,admin);
     list.append(card);
   });
