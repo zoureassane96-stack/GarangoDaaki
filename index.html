@@ -1024,6 +1024,22 @@ sellerInfo.innerHTML=`
   <span>${safeText(item.seller?.full_name||'Vendeur')}</span>
 `;
 
+sellerInfo.style.cursor='pointer';
+sellerInfo.title='Voir le profil du vendeur';
+sellerInfo.setAttribute('role','button');
+sellerInfo.setAttribute('tabindex','0');
+
+sellerInfo.addEventListener('click',()=>{
+  openSellerProfile(item.user_id);
+});
+
+sellerInfo.addEventListener('keydown',e=>{
+  if(e.key==='Enter' || e.key===' '){
+    e.preventDefault();
+    openSellerProfile(item.user_id);
+  }
+});
+
 card.querySelector('.listingbody').appendChild(sellerInfo);
 card.querySelector('.fav').addEventListener('click',()=>toggleFavorite(item.id));
 card.querySelector('.detailsBtn').addEventListener('click',()=>showDetails(item));
