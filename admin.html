@@ -704,7 +704,65 @@ $('usersRefreshBtn').addEventListener('click',async()=>{
     note('message','Erreur utilisateurs : '+err.message,true);
   }
 });
+async function loadHistory(){
 
+  const list=$('historyList');
+
+  list.textContent='Chargement de l’historique…';
+
+  const {data,error}=await db
+    .from('admin_activity_logs')
+    .select('id,admin_id,listing_id,action,old_status,new_status,created_at')
+    .order('created_at',{ascending:false})
+    .limit(100);
+
+  if(error)throw error;
+
+  list.replaceChildren();
+
+  if(!data || data.length===0){
+    list.textContent='Aucune action enregistrée pour le moment.';
+    return;
+  }
+
+  const labels={
+    pending:'En attente',
+    published:'Publiée',
+    rejected:'Refusée',
+    suspended:'Suspendue',
+    sold:'Vendue'
+  };
+
+  data.forEach(item=>{
+
+    const card=document.createElement('div');
+    card.className='panel';
+
+    const title=document.createElement('h3');
+    title.textContent=item.action;
+
+    const status=document.createElement('p');
+    status.textContent=
+      'Ancien statut : '+(labels[item.old_status]||item.old_status)+
+      ' → Nouveau statut : '+(labels[item.new_status]||item.new_status);
+
+    const date=document.createElement('p');
+    date.className='muted';
+    date.textContent='Date : '+
+      new Date(item.created_at).toLocaleString('fr-FR');
+
+    const admin=document.createElement('p');
+    admin.className='muted';
+    admin.textContent='Administrateur : '+(item.admin_id||'Non renseigné');
+
+    const listing=document.createElement('p');
+    listing.className='muted';
+    listing.textContent='ID de l’annonce : '+item.listing_id;
+
+    card.append(title,status,date,admin,listing);
+    list.append(card);
+  });
+}
 async function refreshEverything(){
   clearNote('message');
 
