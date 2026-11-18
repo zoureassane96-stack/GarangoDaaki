@@ -787,7 +787,29 @@ const adminEmails={};
     sold:'Vendue'
   };
 
-  data.forEach(item=>{
+  const actionFilter=$('historyActionFilter').value;
+const dateFilter=$('historyDateFilter').value;
+
+const filteredData=data.filter(item=>{
+  const actionOk=
+    actionFilter==='all'||item.action===actionFilter;
+
+  const d=new Date(item.created_at);
+  const itemDate=d.getFullYear()+'-'+
+    String(d.getMonth()+1).padStart(2,'0')+'-'+
+    String(d.getDate()).padStart(2,'0');
+
+  const dateOk=!dateFilter||itemDate===dateFilter;
+
+  return actionOk&&dateOk;
+});
+
+if(filteredData.length===0){
+  list.textContent='Aucune action ne correspond aux filtres.';
+  return;
+}
+
+filteredData.forEach(item=>{
 
     const card=document.createElement('div');
     card.className='panel';
