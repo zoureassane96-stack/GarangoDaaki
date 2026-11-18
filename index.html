@@ -1177,7 +1177,12 @@ if(seller.avatar_url){
 
     const name = document.createElement('h3');
     name.textContent = seller.full_name || 'Vendeur GarangoDaaki';
-
+if(seller.is_verified === true){
+  const verifiedBadge=document.createElement('span');
+  verifiedBadge.className='verified-badge';
+  verifiedBadge.textContent='✓ Vendeur vérifié';
+  name.appendChild(verifiedBadge);
+}
     const city = document.createElement('p');
     city.textContent = '📍 ' + (seller.city || 'Localité non renseignée');
 
