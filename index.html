@@ -1586,6 +1586,8 @@ console.log('PHOTO URL ERROR :',urlError);
     avatar.style.display='none';
   }else if(urlData?.signedUrl){
     avatar.src=urlData.signedUrl;
+    avatar.onload=()=>console.log('PHOTO CHARGÉE AVEC SUCCÈS');
+avatar.onerror=()=>console.error('ÉCHEC DU CHARGEMENT DE LA PHOTO');
     avatar.style.display='block';
   }else{
     avatar.style.display='none';
