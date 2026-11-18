@@ -1687,7 +1687,7 @@ if(oldPath && oldPath!==newPath){
 await openProfile();
 
 }catch(err){
-if(newPath){
+if(newPath && !profileSaved){
 await supabaseClient.storage
 .from('seller-avatars')
 .remove([newPath]);
