@@ -934,7 +934,24 @@ const {data,error}=await supabaseClient.rpc('get_garangodaaki_seller',{p_user_id
 return [id,!error&&data?.length?data[0]:null]
 }));
 const sellersById=Object.fromEntries(sellerResults);
-allListings.forEach(x=>x.seller=sellersById[x.user_id]||null);
+
+await Promise.all(
+  Object.values(sellersById).map(async seller=>{
+    if(!seller?.avatar_url)return;
+
+    const {data,error}=await supabaseClient.storage
+      .from('seller-avatars')
+      .createSignedUrl(seller.avatar_url,3600);
+
+    if(!error && data?.signedUrl){
+      seller.avatarSignedUrl=data.signedUrl;
+    }
+  })
+);
+
+allListings.forEach(x=>{
+  x.seller=sellersById[x.user_id]||null;
+});
 const ids=allListings.map(x=>x.id);
 const {data:imgs,error:imgErr}=await supabaseClient.from('listing_images').select('listing_id,image_url,position').in('listing_id',ids).order('position',{ascending:true});
 if(!imgErr){
