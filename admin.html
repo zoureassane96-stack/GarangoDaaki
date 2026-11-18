@@ -763,6 +763,14 @@ async function loadHistory(){
     list.append(card);
   });
 }
+$('historyRefreshBtn').addEventListener('click',async()=>{
+  try{
+    await loadHistory();
+    note('message','Historique actualisé.');
+  }catch(err){
+    note('message','Erreur historique : '+err.message,true);
+  }
+});  
 async function refreshEverything(){
   clearNote('message');
 
