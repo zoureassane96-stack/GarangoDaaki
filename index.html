@@ -1634,21 +1634,64 @@ function showDetails(item){
   if(item.listing_type === 'product'){
 
     if(item.product_type === 'stock'){
-      const quantity = Number(item.stock_quantity || 0);
+  const quantity = Number(item.stock_quantity || 0);
 
-      productAvailabilityHtml = `
-        <section class="detail-section">
-          <h3>📦 Disponibilité du produit</h3>
-          <p>
-            Quantité disponible :
-            <strong>${quantity.toLocaleString('fr-FR')}</strong>
-          </p>
-          <p>
-            ${quantity > 0 ? '✅ En stock' : '❌ Rupture de stock'}
-          </p>
-        </section>
-            `;
+  productAvailabilityHtml = `
+    <section class="detail-section">
+      <h3>📦 Disponibilité du produit</h3>
+      <p>
+        Quantité disponible :
+        <strong>${quantity.toLocaleString('fr-FR')}</strong>
+      </p>
+      <p>
+        ${quantity > 0 ? '✅ En stock' : '❌ Rupture de stock'}
+      </p>
+    </section>
+  `;
+}
+
+if(item.product_type === 'variants'){
+
+  let variants = item.product_variants || [];
+
+  if(typeof variants === 'string'){
+    try{
+      variants = JSON.parse(variants);
+    }catch(error){
+      variants = [];
     }
+  }
+
+  if(!Array.isArray(variants)){
+    variants = [];
+  }
+
+  const total = variants.reduce(
+    (sum, variant) => sum + Number(variant.quantity || 0),
+    0
+  );
+
+  productAvailabilityHtml = `
+    <section class="detail-section">
+      <h3>🎨 Modèles et disponibilités</h3>
+      <p>
+        Quantité totale :
+        <strong>${total.toLocaleString('fr-FR')}</strong>
+      </p>
+
+      ${variants.map(variant => `
+        <div style="padding:10px;margin:8px 0;border:1px solid #e1e9e4;border-radius:10px">
+          <strong>${safeText(variant.color || 'Couleur non précisée')}</strong>
+          <span> — ${safeText(variant.size || 'Modèle non précisé')}</span>
+          <p style="margin:5px 0 0">
+            Quantité :
+            ${Number(variant.quantity || 0).toLocaleString('fr-FR')}
+          </p>
+        </div>
+      `).join('')}
+    </section>
+  `;
+}
 
   }
 
