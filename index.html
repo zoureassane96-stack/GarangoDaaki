@@ -2405,6 +2405,21 @@ del.className='btn btn-danger';
 del.textContent='Supprimer';
 del.onclick=()=>deleteOwnListing(item);
 
+if(
+  item.listing_type === 'product' &&
+  (item.product_type === 'stock' ||
+   item.product_type === 'variants')
+){
+  const stockBtn = document.createElement('button');
+  stockBtn.type = 'button';
+  stockBtn.className = 'btn btn-outline';
+  stockBtn.textContent = '📦 Gestion du stock';
+
+  stockBtn.onclick = () => openStockManager(item);
+
+  controls.appendChild(stockBtn);
+}
+
 controls.append(edit,del);
 row.append(info,controls);
 box.appendChild(row);
