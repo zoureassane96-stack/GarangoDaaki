@@ -755,7 +755,30 @@ Profil
 <div class="field"><label for="price">Prix (FCFA)</label><input id="price" type="number" min="0" step="1" placeholder="Laisser vide si à discuter"></div>
 <div class="field"><label for="city">Ville / localité *</label><input id="city" required placeholder="Ex. Garango"></div>
 <div class="field"><label for="phone">Téléphone / WhatsApp</label><input id="phone" type="tel" placeholder="+226 …"></div>
-<div class="field"><label class="checkrow"><input id="negotiable" type="checkbox"> Prix négociable</label><span class="hint">Cochez si le prix peut être discuté.</span></div>
+<div class="field"><label class="checkrow"><input id="negotiable" type="checkbox"> Prix négociable</label>
+<div class="field full" id="productTypeField" style="display:none">
+  <label for="productType">Type de produit</label>
+  <select id="productType">
+    <option value="unique">Produit unique</option>
+    <option value="stock">Produit en stock</option>
+    <option value="variants">Produit avec variantes</option>
+  </select>
+  <span class="hint">Choisissez comment votre produit est disponible.</span>
+</div>
+
+<div class="field full" id="stockQuantityField" style="display:none">
+  <label for="stockQuantity">Quantité disponible</label>
+  <input id="stockQuantity" type="number" min="0" step="1" placeholder="Ex. 50">
+</div>
+
+<div class="field full" id="productVariantsField" style="display:none">
+  <label>Modèles, couleurs et tailles</label>
+  <div id="productVariantsList"></div>
+  <button type="button" class="btn btn-outline" id="addProductVariant">
+    + Ajouter un modèle
+  </button>
+</div>
+  <span class="hint">Cochez si le prix peut être discuté.</span></div>
 <div class="field full" id="photoField"><label for="photos">Photos de l'annonce</label><input id="photos" type="file" accept="image/jpeg,image/png,image/webp" multiple><span class="hint" id="photoHint">JPG, PNG ou WebP. Maximum 5 photos de 2 Mo chacune.</span><div class="preview" id="preview"></div></div>
 <div class="field full"><label for="description">Description *</label><textarea id="description" required maxlength="1500" placeholder="Décrivez votre produit, service ou annonce…"></textarea></div>
 <div class="field full"><button class="btn btn-orange" id="publishSubmit" type="submit">Publier l'annonce</button><div class="statusline" id="publishStatus" role="status"></div></div>
