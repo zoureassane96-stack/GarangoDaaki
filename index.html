@@ -1882,7 +1882,73 @@ btn.disabled=true;
 setStatus('publishStatus',editingListingId?'Enregistrement des modifications…':'Enregistrement de votre annonce…');
 try{
 const title=document.getElementById('title').value.trim(),description=document.getElementById('description').value.trim(),category=document.getElementById('category').value,listing_type=document.getElementById('listingType').value,priceValue=document.getElementById('price').value,city=document.getElementById('city').value.trim(),phone=document.getElementById('phone').value.trim();
-const payload={title,description,category,listing_type,price:priceValue===''?null:Number(priceValue),negotiable:document.getElementById('negotiable').checked,city,phone:phone||null};
+
+const productType =
+  listing_type === 'product'
+    ? document.getElementById('productType').value
+    : 'unique';
+
+let stockQuantity = null;
+let productVariants = [];
+
+if(productType === 'stock'){
+  const value = document.getElementById('stockQuantity').value;
+
+  if(value === '' || !Number.isInteger(Number(value)) || Number(value) < 0){
+    throw new Error('Veuillez saisir une quantité de stock valide.');
+  }
+
+  stockQuantity = Number(value);
+}
+
+if(productType === 'variants'){
+  const rows = [
+    ...document.querySelectorAll('.product-variant-row')
+  ];
+
+  if(rows.length === 0){
+    throw new Error('Ajoutez au moins un modèle.');
+  }
+
+  productVariants = rows.map(row => {
+    const color = row.querySelector('.variant-color').value.trim();
+    const size = row.querySelector('.variant-size').value.trim();
+    const quantityValue = row.querySelector('.variant-quantity').value;
+
+    if(!color && !size){
+      throw new Error('Indiquez une couleur ou une taille pour chaque modèle.');
+    }
+
+    if(
+      quantityValue === '' ||
+      !Number.isInteger(Number(quantityValue)) ||
+      Number(quantityValue) < 0
+    ){
+      throw new Error('Vérifiez la quantité de chaque modèle.');
+    }
+
+    return {
+      color,
+      size,
+      quantity: Number(quantityValue)
+    };
+  });
+}
+
+const payload = {
+  title,
+  description,
+  category,
+  listing_type,
+  price: priceValue === '' ? null : Number(priceValue),
+  negotiable: document.getElementById('negotiable').checked,
+  city,
+  phone: phone || null,
+  product_type: productType,
+  stock_quantity: stockQuantity,
+  product_variants: productVariants
+};
+
 if(!title||!category||!city||!listing_type||!description)throw new Error('Veuillez remplir tous les champs obligatoires.');
 if(editingListingId){
 const id=editingListingId;
