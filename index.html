@@ -1299,7 +1299,148 @@ document.getElementById('authForm').addEventListener('submit', async (e) => {
     button.disabled = false;
   }
 });
+function openStockManager(item){
 
+  const box = document.getElementById('profileContent');
+
+  document.getElementById('stockManagerPanel')?.remove();
+
+  const panel = document.createElement('div');
+  panel.id = 'stockManagerPanel';
+  panel.style.cssText =
+    'margin-top:18px;padding:16px;background:#f3f6f4;border:1px solid #d8e2dc;border-radius:14px';
+
+  const title = document.createElement('h3');
+  title.textContent = '📦 Gestion du stock : ' + item.title;
+  panel.appendChild(title);
+
+  const fields = [];
+
+  if(item.product_type === 'stock'){
+
+    const label = document.createElement('label');
+    label.textContent = 'Quantité disponible';
+
+    const input = document.createElement('input');
+    input.type = 'number';
+    input.min = '0';
+    input.step = '1';
+    input.value = item.stock_quantity ?? '';
+    input.style.cssText =
+      'display:block;width:100%;padding:12px;margin:8px 0;box-sizing:border-box';
+
+    panel.append(label,input);
+    fields.push(input);
+  }
+
+  if(item.product_type === 'variants'){
+
+    let variants = item.product_variants || [];
+
+    if(typeof variants === 'string'){
+      try{
+        variants = JSON.parse(variants);
+      }catch(error){
+        variants = [];
+      }
+    }
+
+    variants.forEach((variant,index)=>{
+
+      const label = document.createElement('label');
+      label.textContent =
+        (variant.color || 'Couleur non précisée') +
+        ' — ' + (variant.size || 'Modèle non précisé');
+
+      const input = document.createElement('input');
+      input.type = 'number';
+      input.min = '0';
+      input.step = '1';
+      input.value = variant.quantity ?? 0;
+      input.style.cssText =
+        'display:block;width:100%;padding:12px;margin:8px 0 14px;box-sizing:border-box';
+
+      panel.append(label,input);
+      fields.push(input);
+    });
+  }
+
+  const save = document.createElement('button');
+  save.type = 'button';
+  save.className = 'btn btn-green';
+  save.textContent = 'Enregistrer les quantités';
+
+  const status = document.createElement('p');
+
+  save.onclick = async()=>{
+
+    const quantities = fields.map(input=>input.value);
+
+    if(quantities.some(value =>
+      value === '' ||
+      !Number.isInteger(Number(value)) ||
+      Number(value) < 0
+    )){
+      status.textContent = 'Vérifiez les quantités saisies.';
+      status.style.color = '#b42318';
+      return;
+    }
+
+    save.disabled = true;
+    status.textContent = 'Enregistrement en cours…';
+
+    try{
+
+      let changes = {};
+
+      if(item.product_type === 'stock'){
+        changes.stock_quantity = Number(quantities[0]);
+      }
+
+      if(item.product_type === 'variants'){
+        const variants = item.product_variants;
+
+        changes.product_variants = variants.map((variant,index)=>({
+          ...variant,
+          quantity: Number(quantities[index])
+        }));
+      }
+
+      const {data,error} = await supabaseClient
+        .from('listings')
+        .update(changes)
+        .eq('id',item.id)
+        .eq('user_id',currentUser.id)
+        .select('id')
+        .maybeSingle();
+
+      if(error) throw error;
+      if(!data) throw new Error('Modification non enregistrée.');
+
+      if(item.product_type === 'stock'){
+        item.stock_quantity = changes.stock_quantity;
+      }
+
+      if(item.product_type === 'variants'){
+        item.product_variants = changes.product_variants;
+      }
+
+      status.textContent = '✅ Quantités mises à jour avec succès.';
+      status.style.color = '#08734d';
+
+    }catch(error){
+      status.textContent = 'Erreur : ' + error.message;
+      status.style.color = '#b42318';
+
+    }finally{
+      save.disabled = false;
+    }
+  };
+
+  panel.append(save,status);
+  box.appendChild(panel);
+  panel.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
 async function loadFavorites(){favoriteIds.clear();if(currentUser){const {data,error}=await supabaseClient.from('favorites').select('listing_id').eq('user_id',currentUser.id);if(!error)(data||[]).forEach(x=>favoriteIds.add(x.listing_id))}renderListings()}
 
 async function toggleFavorite(id){if(!currentUser){openAuth('login');setStatus('authStatus','Connectez-vous pour enregistrer vos favoris.');return}if(favoriteIds.has(id)){const {error}=await supabaseClient.from('favorites').delete().eq('user_id',currentUser.id).eq('listing_id',id);if(error){alert('Impossible de retirer ce favori : '+error.message);return}favoriteIds.delete(id)}else{const {error}=await supabaseClient.from('favorites').insert({user_id:currentUser.id,listing_id:id});if(error){alert('Impossible d’ajouter ce favori : '+error.message);return}favoriteIds.add(id)}renderListings()}
