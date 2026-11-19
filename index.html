@@ -2393,6 +2393,35 @@ initialize();
 
 
 if('serviceWorker'in navigator&&location.protocol.startsWith('http'))window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(err=>console.warn('Service worker non enregistré:',err)));
+  
+function updateProductFields(){
+  const listingType = document.getElementById('listingType').value;
+  const productType = document.getElementById('productType').value;
+
+  const productField = document.getElementById('productTypeField');
+  const stockField = document.getElementById('stockQuantityField');
+  const variantsField = document.getElementById('productVariantsField');
+
+  productField.style.display =
+    listingType === 'product' ? 'block' : 'none';
+
+  stockField.style.display =
+    listingType === 'product' && productType === 'stock'
+      ? 'block' : 'none';
+
+  variantsField.style.display =
+    listingType === 'product' && productType === 'variants'
+      ? 'block' : 'none';
+}
+
+document.getElementById('listingType')
+  .addEventListener('change', updateProductFields);
+
+document.getElementById('productType')
+  .addEventListener('change', updateProductFields);
+
+updateProductFields();
+
 </script>
 </body>
 </html>
