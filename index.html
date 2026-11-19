@@ -357,6 +357,122 @@
   overflow-wrap:anywhere;
   vertical-align:middle;
 } 
+  /* ===== NOUVEAU DESIGN DES ANNONCES ===== */
+
+.cards{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:16px;
+}
+
+.listing{
+  background:#fff;
+  border:1px solid #e5ece7;
+  border-radius:16px;
+  overflow:hidden;
+  box-shadow:0 3px 12px #064b3510;
+  position:relative;
+  transition:transform .2s,box-shadow .2s;
+}
+
+.listing:hover{
+  transform:translateY(-3px);
+  box-shadow:0 8px 22px #064b351c;
+}
+
+.listing img.mainphoto{
+  width:100%;
+  height:190px;
+  object-fit:cover;
+  display:block;
+  background:#e8efeb;
+  cursor:zoom-in;
+}
+
+.listingbody{padding:12px}
+
+.listing h3{
+  font-size:15px;
+  font-weight:800;
+  margin:0 0 9px;
+  line-height:1.4;
+  color:#263b30;
+  min-height:42px;
+}
+
+.price{
+  color:#e87512;
+  font-size:19px;
+  font-weight:900;
+  margin-bottom:10px;
+}
+
+.meta{
+  font-size:12px;
+  color:#68776e;
+  display:flex;
+  justify-content:space-between;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+.fav{
+  position:absolute;
+  right:10px;
+  top:10px;
+  border:0;
+  border-radius:50%;
+  width:38px;
+  height:38px;
+  background:#ffffffed;
+  color:#d24c43;
+  font-size:22px;
+  z-index:2;
+  box-shadow:0 2px 8px #0002;
+}
+
+.featured{
+  position:absolute;
+  left:9px;
+  top:10px;
+  background:#078a42;
+  color:white;
+  font-weight:850;
+  font-size:11px;
+  padding:6px 10px;
+  border-radius:20px;
+  z-index:1;
+}
+
+.listing-actions{
+  display:flex;
+  gap:7px;
+  margin-top:12px;
+  flex-wrap:wrap;
+}
+
+.listing-actions a,
+.listing-actions button{
+  border:0;
+  border-radius:9px;
+  background:#e9f4ee;
+  color:#064b35;
+  font-size:12px;
+  font-weight:800;
+  padding:11px 8px;
+  text-decoration:none;
+  text-align:center;
+  flex:1 1 auto;
+  min-width:0;
+  line-height:1.3;
+}
+
+/* Tablettes : 3 annonces par ligne */
+@media(min-width:761px) and (max-width:1050px){
+  .cards{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+  }
+}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
