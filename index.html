@@ -473,6 +473,40 @@
     grid-template-columns:repeat(3,minmax(0,1fr));
   }
 }
+  /* ===== CORRECTION AFFICHAGE MOBILE ===== */
+@media(max-width:760px){
+  .cards{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:10px;
+  }
+
+  .listing img.mainphoto{
+    height:150px;
+  }
+
+  .listingbody{
+    padding:9px;
+  }
+
+  .listing h3{
+    font-size:13px;
+    min-height:0;
+  }
+
+  .price{
+    font-size:16px;
+  }
+
+  .listing-actions{
+    gap:5px;
+  }
+
+  .listing-actions a,
+  .listing-actions button{
+    padding:9px 6px;
+    font-size:11px;
+  }
+}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
