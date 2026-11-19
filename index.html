@@ -1097,7 +1097,66 @@ function closeMessageModal(){messageModal.classList.remove('open');activeConvers
 
 function resetPublishForm(){editingListingId=null;document.getElementById('publishForm').reset();document.getElementById('preview').innerHTML='';document.getElementById('formTitle').textContent='Publier une annonce';document.getElementById('publishSubmit').textContent='Publier l’annonce';document.getElementById('publishHint').textContent='Connectez-vous pour publier. Votre annonce sera vérifiée avant sa mise en ligne.';document.getElementById('photoField').style.display='';document.getElementById('photos').disabled=false;setStatus('publishStatus','')}
 
-function openEditListing(item){if(!currentUser||item.user_id!==currentUser.id){alert('Vous ne pouvez modifier que vos propres annonces.');return}editingListingId=item.id;document.getElementById('title').value=item.title||'';document.getElementById('listingType').value=item.listing_type||'product';document.getElementById('category').value=item.category||'';document.getElementById('price').value=item.price??'';document.getElementById('city').value=item.city||'';document.getElementById('phone').value=item.phone||'';document.getElementById('negotiable').checked=!!item.negotiable;document.getElementById('description').value=item.description||'';document.getElementById('photos').value='';document.getElementById('photos').disabled=true;document.getElementById('photoField').style.display='none';document.getElementById('formTitle').textContent='Modifier mon annonce';document.getElementById('publishSubmit').textContent='Enregistrer les modifications';document.getElementById('publishHint').textContent='Modifiez les informations ci-dessous. Les photos déjà publiées seront conservées.';setStatus('publishStatus','');profileModal.classList.remove('open');modal.classList.add('open')}
+ function openEditListing(item){
+  if(!currentUser || item.user_id!==currentUser.id){
+    alert('Vous ne pouvez modifier que vos propres annonces.');
+    return;
+  }
+
+  editingListingId=item.id;
+
+  document.getElementById('title').value=item.title||'';
+  document.getElementById('listingType').value=item.listing_type||'product';
+  document.getElementById('category').value=item.category||'';
+  document.getElementById('price').value=item.price??'';
+  document.getElementById('city').value=item.city||'';
+  document.getElementById('phone').value=item.phone||'';
+  document.getElementById('negotiable').checked=!!item.negotiable;
+  document.getElementById('description').value=item.description||'';
+
+  document.getElementById('productType').value=
+    item.product_type||'unique';
+
+  document.getElementById('stockQuantity').value=
+    item.stock_quantity??'';
+
+  const variantsList=document.getElementById('productVariantsList');
+  variantsList.innerHTML='';
+
+  let variants=item.product_variants||[];
+
+  if(typeof variants==='string'){
+    try{
+      variants=JSON.parse(variants);
+    }catch(error){
+      variants=[];
+    }
+  }
+
+  if(Array.isArray(variants)){
+    variants.forEach(variant=>{
+      addProductVariantRow(
+        variant.color||'',
+        variant.size||'',
+        variant.quantity??''
+      );
+    });
+  }
+
+  updateProductFields();
+
+  document.getElementById('photos').value='';
+  document.getElementById('photos').disabled=true;
+  document.getElementById('photoField').style.display='none';
+
+  document.getElementById('formTitle').textContent='Modifier mon annonce';
+  document.getElementById('publishSubmit').textContent='Enregistrer les modifications';
+  document.getElementById('publishHint').textContent='Modifiez les informations ci-dessous. Les photos déjà publiées seront conservées.';
+
+  setStatus('publishStatus','');
+  profileModal.classList.remove('open');
+  modal.classList.add('open');
+}
 
 [modal,authModal,profileModal,photoModal,detailsModal,messageModal].forEach(m=>m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('open')}));
 
