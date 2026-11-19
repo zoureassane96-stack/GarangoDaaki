@@ -1095,7 +1095,29 @@ function closePhoto(){photoModal.classList.remove('open')}
 function closeDetails(){detailsModal.classList.remove('open')}
 function closeMessageModal(){messageModal.classList.remove('open');activeConversation=null}
 
-function resetPublishForm(){editingListingId=null;document.getElementById('publishForm').reset();document.getElementById('preview').innerHTML='';document.getElementById('formTitle').textContent='Publier une annonce';document.getElementById('publishSubmit').textContent='Publier l’annonce';document.getElementById('publishHint').textContent='Connectez-vous pour publier. Votre annonce sera vérifiée avant sa mise en ligne.';document.getElementById('photoField').style.display='';document.getElementById('photos').disabled=false;setStatus('publishStatus','')}
+function resetPublishForm(){
+  editingListingId=null;
+
+  document.getElementById('publishForm').reset();
+
+  document.getElementById('preview').innerHTML='';
+
+  document.getElementById('productVariantsList').innerHTML='';
+
+  document.getElementById('stockQuantity').value='';
+
+  updateProductFields();
+
+  document.getElementById('formTitle').textContent='Publier une annonce';
+  document.getElementById('publishSubmit').textContent='Publier l’annonce';
+
+  document.getElementById('publishHint').textContent='Connectez-vous pour publier. Votre annonce sera vérifiée avant sa mise en ligne.';
+
+  document.getElementById('photoField').style.display='';
+  document.getElementById('photos').disabled=false;
+
+  setStatus('publishStatus','');
+}
 
  function openEditListing(item){
   if(!currentUser || item.user_id!==currentUser.id){
