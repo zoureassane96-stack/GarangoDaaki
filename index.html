@@ -2422,6 +2422,50 @@ document.getElementById('productType')
 
 updateProductFields();
 
+function addProductVariantRow(color='',size='',quantity=''){
+  const list = document.getElementById('productVariantsList');
+
+  const row = document.createElement('div');
+  row.className = 'product-variant-row';
+  row.style.cssText =
+    'display:grid;grid-template-columns:1fr 1fr 90px auto;gap:8px;align-items:end;margin:10px 0;padding:10px;border:1px solid #d8e2dc;border-radius:10px';
+
+  row.innerHTML = `
+    <div>
+      <label>Couleur</label>
+      <input class="variant-color" maxlength="40"
+        placeholder="Ex. Bleu">
+    </div>
+    <div>
+      <label>Taille / modèle</label>
+      <input class="variant-size" maxlength="40"
+        placeholder="Ex. XL">
+    </div>
+    <div>
+      <label>Quantité</label>
+      <input class="variant-quantity" type="number"
+        min="0" step="1" placeholder="0">
+    </div>
+    <button type="button" class="btn btn-outline remove-variant"
+      aria-label="Supprimer ce modèle">×</button>
+  `;
+
+  row.querySelector('.variant-color').value = color;
+  row.querySelector('.variant-size').value = size;
+  row.querySelector('.variant-quantity').value = quantity;
+
+  row.querySelector('.remove-variant').addEventListener('click',()=>{
+    row.remove();
+  });
+
+  list.appendChild(row);
+}
+
+document.getElementById('addProductVariant')
+  .addEventListener('click',()=>{
+    addProductVariantRow();
+  });
+
 </script>
 </body>
 </html>
