@@ -1017,7 +1017,40 @@ const supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 let currentUser=null,favoriteIds=new Set(),allListings=[],authMode='login',editingListingId=null;
 let unreadCount=0;
+function updateCategoryCounters(){
+  const aliases = {
+    'Mode et accessoires': ['Mode'],
+    'Maison et électroménager': ['Maison', 'Électroménager'],
+    'Véhicules et pièces': ['Engins et véhicules', 'Véhicules'],
+    'Immobilier et terrains': ['Immobilier'],
+    'Agriculture et matériel agricole': ['Agriculture'],
+    'Élevage et animaux': ['Élevage'],
+    'Construction et matériaux': ['Construction'],
+    'Électricité et énergie': ['Électricité'],
+    'Services et professionnels': ['Services'],
+    'Alimentation et boissons': ['Alimentation et autres', 'Alimentation']
+  };
 
+  document.querySelectorAll('.categories-slider .cat').forEach(cat=>{
+    const category = cat.dataset.cat;
+    const accepted = [category, ...(aliases[category] || [])];
+
+    const count = allListings.filter(item =>
+      accepted.includes(item.category) &&
+      item.availability_status === 'available'
+    ).length;
+
+    let counter = cat.querySelector('.category-count');
+
+    if(!counter){
+      counter = document.createElement('span');
+      counter.className = 'category-count';
+      cat.appendChild(counter);
+    }
+
+    counter.textContent = count + (count > 1 ? ' annonces' : ' annonce');
+  });
+}
 const modal=document.getElementById('publishModal'),authModal=document.getElementById('authModal'),profileModal=document.getElementById('profileModal'),photoModal=document.getElementById('photoModal'),detailsModal=document.getElementById('detailsModal'),messageModal=document.getElementById('messageModal');
 let activeConversation=null,galleryPhotos=[],galleryIndex=0,touchStartX=0;
 
