@@ -931,6 +931,17 @@ async function loadSiteReviews(){
 
     const author = document.createElement('strong');
     author.textContent = review.author_name || 'Utilisateur';
+    const date = document.createElement('small');
+date.textContent = review.created_at
+  ? new Date(review.created_at).toLocaleDateString('fr-FR',{
+      day:'numeric',
+      month:'long',
+      year:'numeric'
+    })
+  : '';
+
+date.style.cssText =
+  'display:block;margin-top:3px;color:#78877f;font-size:12px;';
 
     const stars = document.createElement('p');
     stars.textContent =
