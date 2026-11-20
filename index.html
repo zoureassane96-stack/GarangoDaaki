@@ -1821,7 +1821,9 @@ const q=(document.getElementById('searchInput')?.value||'').trim().toLowerCase()
 };
 allListings.forEach(item=>{
 const text=[item.title,item.description,item.category,item.city,item.listing_type].join(' ').toLowerCase();
-if((q&&!text.includes(q))||(city&&String(item.city).toLowerCase()!==city)||(selected&&item.category!==selected))return;
+const acceptedCategories = categoryAliases[selected] || [selected];
+
+if((q&&!text.includes(q))||(city&&String(item.city).toLowerCase()!==city)||(selected&&!acceptedCategories.includes(item.category)))return;
 shown++;
 const card=document.createElement('article');
 card.className='listing';
