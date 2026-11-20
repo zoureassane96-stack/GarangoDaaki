@@ -937,7 +937,7 @@ async function loadSiteReviews(){
       '⭐'.repeat(Number(review.rating)) +
       '☆'.repeat(5-Number(review.rating));
    stars.style.cssText =
-  'color:#e99a00;margin:10px 0;font-size:23px;letter-spacing:2px;'; 
+  'color:#e99a00;margin:6px 0;font-size:17px;letter-spacing:2px;'
 
     const comment = document.createElement('p');
     comment.textContent = review.comment || '';
