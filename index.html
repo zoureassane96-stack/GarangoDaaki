@@ -663,16 +663,63 @@ Administration
 <main class="wrap">
 <section class="hero"><div class="hero-content"><h1>Garango<span>Daaki</span><br>La marketplace du Centre-Est</h1><p>Achetez, vendez, publiez vos annonces<br>et trouvez des professionnels près de vous !</p><div class="search"><input id="searchInput"placeholder="Que recherchez-vous ?"aria-label="Rechercher une annonce"><select id="cityFilter" aria-label="Choisir une localité"><option value="">Toute la région</option><option>Garango</option><option>Tenkodogo</option><option>Koupéla</option><option>Bitou</option><option>Ouargaye</option><option>Ouédraogo</option></select><button onclick="filterListings()">Rechercher</button></div></div></section>
 
-<section class="section" id="categories"><div class="sectionhead"><h2>▦ Nos 8 catégories</h2><a class="textlink" href="#annonces">Voir toutes les catégories →</a></div><div class="categories">
-<a class="cat" href="#annonces" data-cat="Agriculture"><img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=600&q=80" alt="Champ agricole"><strong>🌱 Agriculture</strong></a>
-<a class="cat" href="#annonces" data-cat="Élevage"><img src="https://images.unsplash.com/photo-1524024973431-2ad916746881?auto=format&fit=crop&w=600&q=80" alt="Élevage"><strong>🐄 Élevage</strong></a>
-<a class="cat" href="#annonces" data-cat="Immobilier"><img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=600&q=80" alt="Maison"><strong>⌂ Immobilier</strong></a>
-<a class="cat" href="#annonces" data-cat="Mode"><img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=600&q=80" alt="Mode"><strong>♟ Mode</strong></a>
-<a class="cat" href="#annonces" data-cat="Services"><img src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=600&q=80" alt="Services"><strong>🔧 Services</strong></a>
-<a class="cat" href="#annonces" data-cat="Construction"><img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=600&q=80" alt="Construction"><strong>🏗 Construction</strong></a>
-<a class="cat" href="#annonces" data-cat="Engins et véhicules"><img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3e?auto=format&fit=crop&w=600&q=80" alt="Véhicule"><strong>🚗 Engins et véhicules</strong></a>
-<a class="cat" href="#annonces" data-cat="Alimentation et autres"><img src="https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=600&q=80" alt="Alimentation"><strong>🛒 Alimentation et autres</strong></a>
-</div></section>
+
+<section class="section" id="categories">
+  <div class="sectionhead">
+    <h2>▦ Nos 9 catégories</h2>
+    <a class="textlink" href="#annonces">Voir toutes les catégories →</a>
+  </div>
+
+  <div class="categories">
+
+    <a class="cat" href="#annonces" data-cat="Agriculture">
+      <img loading="lazy" src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=600&q=85" alt="Agriculture">
+      <strong>🌱 Agriculture</strong>
+    </a>
+
+    <a class="cat" href="#annonces" data-cat="Élevage">
+      <img loading="lazy" src="https://images.unsplash.com/photo-1524024973431-2ad916746881?auto=format&fit=crop&w=600&q=85" alt="Élevage">
+      <strong>🐄 Élevage</strong>
+    </a>
+
+    <a class="cat" href="#annonces" data-cat="Immobilier">
+      <img loading="lazy" src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=600&q=85" alt="Immobilier">
+      <strong>⌂ Immobilier</strong>
+    </a>
+
+    <a class="cat" href="#annonces" data-cat="Mode">
+      <img loading="lazy" src="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=600&q=85" alt="Mode">
+      <strong>♟ Mode</strong>
+    </a>
+
+    <a class="cat" href="#annonces" data-cat="Services">
+      <img loading="lazy" src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=600&q=85" alt="Services">
+      <strong>🔧 Services</strong>
+    </a>
+
+    <a class="cat" href="#annonces" data-cat="Construction">
+      <img loading="lazy" src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=600&q=85" alt="Construction">
+      <strong>🏗 Construction</strong>
+    </a>
+
+    <a class="cat" href="#annonces" data-cat="Engins et véhicules">
+      <img loading="lazy" src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=600&q=85" alt="Véhicules">
+      <strong>🚗 Engins et véhicules</strong>
+    </a>
+
+    <a class="cat" href="#annonces" data-cat="Alimentation et autres">
+      <img loading="lazy" src="https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=600&q=85" alt="Alimentation">
+      <strong>🛒 Alimentation et autres</strong>
+    </a>
+
+    <a class="cat" href="#annonces" data-cat="Électricité">
+      <img loading="lazy" src="https://cdn.prod.website-files.com/673ba0a4a909072c90210d82/679351fe56c775d6e3dc6817_e4f8ea79ab914f2a44f7b171016b6f16_maintenance%20electrique%201-min.webp" alt="Installation électrique">
+      <strong>⚡ Électricité</strong>
+    </a>
+
+  </div>
+</section>
+
 
 
 <div class="trust">
