@@ -1820,19 +1820,30 @@ if(item.product_type === 'variants'){
         <strong>${total.toLocaleString('fr-FR')}</strong>
       </p>
 
-      ${variants.map(variant => `
-        <div style="padding:10px;margin:8px 0;border:1px solid #e1e9e4;border-radius:10px">
-          <strong>${safeText(variant.color || 'Couleur non précisée')}</strong>
-          <span> — ${safeText(variant.size || 'Modèle non précisé')}</span>
-          <p style="margin:5px 0 0">
-            Quantité :
-            ${Number(variant.quantity || 0).toLocaleString('fr-FR')}
-          </p>
-        </div>
-      `).join('')}
-    </section>
+      ${variants.map(variant => {
+  const quantity = Number(variant.quantity || 0);
+
+  let stockStatus = '';
+
+  if(quantity === 0){
+    stockStatus = '<span style="color:#b42318;font-weight:700">❌ Épuisé actuellement</span>';
+  }else if(quantity <= 3){
+    stockStatus = '<span style="color:#b7791f;font-weight:700">⚠️ Stock limité</span>';
+  }else{
+    stockStatus = '<span style="color:#08734d;font-weight:700">✅ Disponible</span>';
+  }
+
+  return `
+    <div style="padding:10px;margin:8px 0;border:1px solid #e1e9e4;border-radius:10px">
+      <strong>${safeText(variant.color || 'Couleur non précisée')}</strong>
+      <span> — ${safeText(variant.size || 'Modèle non précisé')}</span>
+      <p style="margin:5px 0">
+        Quantité : ${quantity.toLocaleString('fr-FR')}
+      </p>
+      <p style="margin:5px 0">${stockStatus}</p>
+    </div>
   `;
-}
+}).join('')}
 
   }
 
