@@ -888,8 +888,7 @@ async function loadSiteReviews(){
   const {data,error} = await supabaseClient
     .from('site_reviews')
     .select('rating,author_name,comment,admin_reply,created_at')
-    .eq('status','published')
-.eq('availability_status','available')
+.eq('status','published')
 .order('created_at',{ascending:false});
 
   if(error){
