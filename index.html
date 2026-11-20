@@ -923,7 +923,58 @@ async function loadSiteReviews(){
   if(!container) return;
 
   container.replaceChildren();
+// Répartition des notes
+const ratingSummary = document.createElement('div');
 
+ratingSummary.style.cssText =
+  'background:#fff;border:1px solid #e5ece8;border-radius:14px;padding:16px;margin:12px 0 18px;';
+
+const ratingTitle = document.createElement('strong');
+ratingTitle.textContent = 'Répartition des évaluations';
+ratingTitle.style.cssText =
+  'display:block;color:#173b2d;font-size:15px;margin-bottom:14px;';
+
+ratingSummary.appendChild(ratingTitle);
+
+[5,4,3,2,1].forEach(rating => {
+
+  const number = reviews.filter(
+    review => Number(review.rating) === rating
+  ).length;
+
+  const percentage = count
+    ? (number / count) * 100
+    : 0;
+
+  const line = document.createElement('div');
+  line.style.cssText =
+    'display:flex;align-items:center;gap:10px;margin:9px 0;';
+
+  const label = document.createElement('span');
+  label.textContent = rating + ' ★';
+  label.style.cssText =
+    'width:38px;color:#53665c;font-size:13px;';
+
+  const track = document.createElement('div');
+  track.style.cssText =
+    'flex:1;height:9px;background:#edf1ee;border-radius:20px;overflow:hidden;';
+
+  const fill = document.createElement('div');
+  fill.style.cssText =
+    `height:100%;width:${percentage}%;background:#e9a400;border-radius:20px;`;
+
+  track.appendChild(fill);
+
+  const total = document.createElement('span');
+  total.textContent = number;
+  total.style.cssText =
+    'width:22px;text-align:right;color:#53665c;font-size:13px;';
+
+  line.append(label,track,total);
+  ratingSummary.appendChild(line);
+});
+
+container.appendChild(ratingSummary);
   reviews.forEach(review=>{
     const card = document.createElement('div');
     card.style.cssText =
