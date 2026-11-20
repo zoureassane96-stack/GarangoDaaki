@@ -2296,7 +2296,49 @@ setStatus('publishStatus',err.message||'Une erreur est survenue.',true)
 btn.disabled=false
 }
 });
+async function updateOwnListingAvailability(item,newStatus,button){
 
+  const messages = {
+    sold: 'Marquer cette annonce comme vendue ?',
+    unavailable: 'Marquer cette annonce comme indisponible ?',
+    available: 'Remettre cette annonce en vente ?'
+  };
+
+  if(!confirm(messages[newStatus])) return;
+
+  button.disabled = true;
+  button.textContent = 'Mise à jour…';
+
+  try{
+    const {data,error} = await supabaseClient
+      .from('listings')
+      .update({
+        availability_status: newStatus
+      })
+      .eq('id',item.id)
+      .eq('user_id',currentUser.id)
+      .eq('status','published')
+      .select('id,availability_status')
+      .maybeSingle();
+
+    if(error) throw error;
+    if(!data) throw new Error('Modification non enregistrée.');
+
+    item.availability_status = data.availability_status;
+
+    button.textContent =
+      newStatus === 'sold'
+        ? '✅ Annonce vendue'
+        : newStatus === 'unavailable'
+          ? '⏸️ Annonce indisponible'
+          : '✅ Annonce remise en vente';
+
+  }catch(error){
+    button.disabled = false;
+    button.textContent = 'Réessayer';
+    alert('Erreur : ' + error.message);
+  }
+}
 async function confirmListingAvailability(item,button){
 
   button.disabled = true;
