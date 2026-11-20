@@ -1807,6 +1807,18 @@ const grid=document.getElementById('listingGrid');
 grid.innerHTML='';
 let shown=0;
 const q=(document.getElementById('searchInput')?.value||'').trim().toLowerCase(),city=(document.getElementById('cityFilter')?.value||'').trim().toLowerCase(),selected=window.selectedCategory||'';
+  const categoryAliases = {
+  'Mode et accessoires': ['Mode'],
+  'Maison et électroménager': ['Maison', 'Électroménager'],
+  'Véhicules et pièces': ['Engins et véhicules', 'Véhicules'],
+  'Immobilier et terrains': ['Immobilier'],
+  'Agriculture et matériel agricole': ['Agriculture'],
+  'Élevage et animaux': ['Élevage'],
+  'Construction et matériaux': ['Construction'],
+  'Électricité et énergie': ['Électricité'],
+  'Services et professionnels': ['Services'],
+  'Alimentation et boissons': ['Alimentation et autres', 'Alimentation']
+};
 allListings.forEach(item=>{
 const text=[item.title,item.description,item.category,item.city,item.listing_type].join(' ').toLowerCase();
 if((q&&!text.includes(q))||(city&&String(item.city).toLowerCase()!==city)||(selected&&item.category!==selected))return;
