@@ -2316,7 +2316,7 @@ if(profileError)throw profileError;
 
 const {data,error}=await supabaseClient
 .from('listings')
-.select('id,user_id,title,description,category,listing_type,price,negotiable,city,phone,status,created_at,product_type,stock_quantity,product_variants')
+.select('id,user_id,title,description,category,listing_type,price,negotiable,city,phone,status,created_at,product_type,stock_quantity,product_variants,availability_confirmed_at')
 .eq('user_id',currentUser.id)
 .order('created_at',{ascending:false});
 
