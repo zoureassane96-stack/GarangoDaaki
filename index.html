@@ -915,7 +915,22 @@ Profil
 <form id="publishForm"><div class="formgrid">
 <div class="field full"><label for="title">Titre de l'annonce *</label><input id="title" required maxlength="90" placeholder="Ex. Tracteur à vendre à Garango"></div>
 <div class="field"><label for="listingType">Type d'annonce *</label><select id="listingType" required><option value="">Choisir…</option><option value="product">Produit / Annonce</option><option value="service">Service</option></select></div>
-<div class="field"><label for="category">Catégorie *</label><select id="category" required><option value="">Choisir…</option><option>Agriculture</option><option>Élevage</option><option>Immobilier</option><option>Mode</option><option>Services</option><option>Construction</option><option>Engins et véhicules</option><option>Alimentation et autres</option><option>Location</option><option>Autres</option></select></div>
+<div class="field"><label for="category">Catégorie *</label> <select id="category" required>
+  <option value="">Choisir une catégorie…</option>
+  <option>Téléphones et électronique</option>
+  <option>Mode et accessoires</option>
+  <option>Maison et électroménager</option>
+  <option>Véhicules et pièces</option>
+  <option>Immobilier et terrains</option>
+  <option>Agriculture et matériel agricole</option>
+  <option>Élevage et animaux</option>
+  <option>Construction et matériaux</option>
+  <option>Électricité et énergie</option>
+  <option>Services et professionnels</option>
+  <option>Alimentation et boissons</option>
+  <option>Beauté et bien-être</option>
+  <option>Sports, loisirs et enfants</option>
+</select> </div>
 <div class="field"><label for="price">Prix (FCFA)</label><input id="price" type="number" min="0" step="1" placeholder="Laisser vide si à discuter"></div>
 <div class="field"><label for="city">Ville / localité *</label><input id="city" required placeholder="Ex. Garango"></div>
 <div class="field"><label for="phone">Téléphone / WhatsApp</label><input id="phone" type="tel" placeholder="+226 …"></div>
