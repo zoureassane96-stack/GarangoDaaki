@@ -2296,7 +2296,38 @@ btn.disabled=false
 }
 });
 
+async function confirmListingAvailability(item,button){
 
+  button.disabled = true;
+  button.textContent = 'Confirmation en cours…';
+
+  try{
+    const {data,error} = await supabaseClient
+      .from('listings')
+      .update({
+        availability_confirmed_at: new Date().toISOString()
+      })
+      .eq('id',item.id)
+      .eq('user_id',currentUser.id)
+      .eq('status','published')
+      .select('id,availability_confirmed_at')
+      .maybeSingle();
+
+    if(error) throw error;
+    if(!data) throw new Error('Confirmation non enregistrée.');
+
+    item.availability_confirmed_at = data.availability_confirmed_at;
+
+    button.textContent = '✅ Disponibilité confirmée';
+    button.style.background = '#08734d';
+    button.style.color = '#fff';
+
+  }catch(error){
+    button.disabled = false;
+    button.textContent = 'Confirmer la disponibilité';
+    alert('Erreur : ' + error.message);
+  }
+}
 async function openProfile(e){
 if(e)e.preventDefault();
 if(!currentUser){openAuth('login');return}
