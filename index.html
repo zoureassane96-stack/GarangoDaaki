@@ -2665,7 +2665,39 @@ del.type='button';
 del.className='btn btn-danger';
 del.textContent='Supprimer';
 del.onclick=()=>deleteOwnListing(item);
+if(item.status === 'published'){
 
+  if(item.availability_status === 'available'){
+
+    const soldBtn = document.createElement('button');
+    soldBtn.type = 'button';
+    soldBtn.className = 'btn btn-outline';
+    soldBtn.textContent = '✅ Marquer comme vendu';
+    soldBtn.onclick = () =>
+      updateOwnListingAvailability(item,'sold',soldBtn);
+
+    const unavailableBtn = document.createElement('button');
+    unavailableBtn.type = 'button';
+    unavailableBtn.className = 'btn btn-outline';
+    unavailableBtn.textContent = '⏸️ Indisponible';
+    unavailableBtn.onclick = () =>
+      updateOwnListingAvailability(item,'unavailable',unavailableBtn);
+
+    controls.append(soldBtn,unavailableBtn);
+
+  }else{
+
+    const restoreBtn = document.createElement('button');
+    restoreBtn.type = 'button';
+    restoreBtn.className = 'btn btn-green';
+    restoreBtn.textContent = '↩️ Remettre en vente';
+
+    restoreBtn.onclick = () =>
+      updateOwnListingAvailability(item,'available',restoreBtn);
+
+    controls.appendChild(restoreBtn);
+  }
+}
 if(
   item.listing_type === 'product' &&
   (item.product_type === 'stock' ||
