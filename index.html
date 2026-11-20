@@ -2579,6 +2579,36 @@ const info=document.createElement('span');
 info.textContent=item.title+' — '+({pending:'En attente de validation',published:'Publiée',rejected:'Refusée',sold:'Vendue'}[item.status]||item.status);
 
 const controls=document.createElement('div');
+  const confirmedAt = item.availability_confirmed_at
+  ? new Date(item.availability_confirmed_at)
+  : new Date(item.created_at);
+
+const daysSinceConfirmation = Math.floor(
+  (Date.now() - confirmedAt.getTime()) / 86400000
+);
+
+if(
+  item.status === 'published' &&
+  daysSinceConfirmation >= 30
+){
+  const reminder = document.createElement('div');
+  reminder.style.cssText =
+    'width:100%;padding:10px;margin:8px 0;background:#fff4e5;border:1px solid #f58216;border-radius:10px;color:#854d0e';
+
+  reminder.textContent =
+    '⚠️ Votre annonce a 30 jours ou plus. Confirmez qu’elle est toujours disponible.';
+
+  const confirmBtn = document.createElement('button');
+  confirmBtn.type = 'button';
+  confirmBtn.className = 'btn btn-green';
+  confirmBtn.textContent = '✅ Toujours disponible';
+
+  confirmBtn.onclick = () =>
+    confirmListingAvailability(item,confirmBtn);
+
+  reminder.appendChild(confirmBtn);
+  row.appendChild(reminder);
+}
 controls.style.cssText='display:flex;gap:6px;flex-wrap:wrap';
 
 const edit=document.createElement('button');
