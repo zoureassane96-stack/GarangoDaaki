@@ -889,7 +889,8 @@ async function loadSiteReviews(){
     .from('site_reviews')
     .select('rating,author_name,comment,admin_reply,created_at')
     .eq('status','published')
-    .order('created_at',{ascending:false});
+.eq('availability_status','available')
+.order('created_at',{ascending:false});
 
   if(error){
     stats.textContent = 'Avis momentanément indisponibles.';
