@@ -1799,6 +1799,7 @@ console.error(error);
 return
 }
 allListings=data||[];
+  updateCategoryCounters();
 if(allListings.length){
 const sellerIds=[...new Set(allListings.map(x=>x.user_id).filter(Boolean))];
 const sellerResults=await Promise.all(sellerIds.map(async id=>{
