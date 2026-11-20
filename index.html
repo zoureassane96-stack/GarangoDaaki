@@ -1028,6 +1028,53 @@ date.style.cssText =
 
     container.append(card);
   });
+  // Affichage progressif des avis
+const reviewCards = Array.from(container.children)
+  .filter(card => card !== ratingSummary);
+
+let shownReviews = 3;
+
+reviewCards.forEach((card,index)=>{
+  if(index >= shownReviews){
+    card.style.display = 'none';
+  }
+});
+
+if(reviewCards.length > 3){
+
+  const moreButton = document.createElement('button');
+  moreButton.type = 'button';
+
+  moreButton.className = 'btn btn-outline';
+  moreButton.style.cssText =
+    'display:block;width:100%;margin:18px 0;padding:13px;border-radius:12px;font-weight:700;';
+
+  const updateButton = ()=>{
+    const remaining = reviewCards.length - shownReviews;
+    moreButton.textContent =
+      'Voir plus d’avis (' + Math.min(3,remaining) + ')';
+  };
+
+  updateButton();
+
+  moreButton.onclick = ()=>{
+    shownReviews += 3;
+
+    reviewCards.forEach((card,index)=>{
+      if(index < shownReviews){
+        card.style.display = '';
+      }
+    });
+
+    if(shownReviews >= reviewCards.length){
+      moreButton.remove();
+    }else{
+      updateButton();
+    }
+  };
+
+  container.appendChild(moreButton);
+}
 }
 
 
