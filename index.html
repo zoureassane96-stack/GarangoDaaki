@@ -1449,7 +1449,7 @@ async function toggleFavorite(id){if(!currentUser){openAuth('login');setStatus('
 async function loadListings(){
 const grid=document.getElementById('listingGrid');
 grid.innerHTML='<div class="empty" style="display:block;grid-column:1/-1">Chargement des annonces…</div>';
-const {data,error}=await supabaseClient.from('listings').select('id,user_id,title,description,category,listing_type,price,negotiable,city,phone,status,created_at,is_featured,product_type,stock_quantity,product_variants').eq('status','published').order('created_at',{ascending:false});
+const {data,error}=await supabaseClient.from('listings').select('id,user_id,title,description,category,listing_type,price,negotiable,city,phone,status,created_at,is_featured,product_type,stock_quantity,product_variants,availability_status').eq('status','published').eq('availability_status','available').order('created_at',{ascending:false});
 if(error){
 grid.innerHTML='';
 document.getElementById('empty').style.display='block';
