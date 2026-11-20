@@ -1815,35 +1815,40 @@ if(item.product_type === 'variants'){
   productAvailabilityHtml = `
     <section class="detail-section">
       <h3>🎨 Modèles et disponibilités</h3>
+
       <p>
         Quantité totale :
         <strong>${total.toLocaleString('fr-FR')}</strong>
       </p>
 
       ${variants.map(variant => {
-  const quantity = Number(variant.quantity || 0);
+        const quantity = Number(variant.quantity || 0);
 
-  let stockStatus = '';
+        let stockStatus = '';
 
-  if(quantity === 0){
-    stockStatus = '<span style="color:#b42318;font-weight:700">❌ Épuisé actuellement</span>';
-  }else if(quantity <= 3){
-    stockStatus = '<span style="color:#b7791f;font-weight:700">⚠️ Stock limité</span>';
-  }else{
-    stockStatus = '<span style="color:#08734d;font-weight:700">✅ Disponible</span>';
-  }
+        if(quantity === 0){
+          stockStatus = '<span style="color:#b42318;font-weight:700">❌ Épuisé actuellement</span>';
+        }else if(quantity <= 3){
+          stockStatus = '<span style="color:#b7791f;font-weight:700">⚠️ Stock limité</span>';
+        }else{
+          stockStatus = '<span style="color:#08734d;font-weight:700">✅ Disponible</span>';
+        }
 
-  return `
-    <div style="padding:10px;margin:8px 0;border:1px solid #e1e9e4;border-radius:10px">
-      <strong>${safeText(variant.color || 'Couleur non précisée')}</strong>
-      <span> — ${safeText(variant.size || 'Modèle non précisé')}</span>
-      <p style="margin:5px 0">
-        Quantité : ${quantity.toLocaleString('fr-FR')}
-      </p>
-      <p style="margin:5px 0">${stockStatus}</p>
-    </div>
+        return `
+          <div style="padding:10px;margin:8px 0;border:1px solid #e1e9e4;border-radius:10px">
+            <strong>${safeText(variant.color || 'Couleur non précisée')}</strong>
+            <span> — ${safeText(variant.size || 'Modèle non précisé')}</span>
+            <p style="margin:5px 0">
+              Quantité : ${quantity.toLocaleString('fr-FR')}
+            </p>
+            <p style="margin:5px 0">${stockStatus}</p>
+          </div>
+        `;
+      }).join('')}
+
+    </section>
   `;
-}).join('')}
+}
 
   }
 
