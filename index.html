@@ -2100,9 +2100,17 @@ const contact=card.querySelector('.contactBtn');
 if(contact)contact.href='https://wa.me/'+String(item.phone).replace(/\D/g,'');
 grid.appendChild(card)
 });
-document.getElementById('empty').style.display=shown?'none':'block';
-document.getElementById('empty').textContent=allListings.length?'Aucune annonce ne correspond à votre recherche.':'Aucune annonce publiée pour le moment. Revenez bientôt ou soyez le premier à publier.';
+const emptyMessage=document.getElementById('empty');
 
+emptyMessage.style.display=shown?'none':'block';
+
+if(allListings.length===0){
+  emptyMessage.textContent='📦 Aucune annonce publiée pour le moment. Revenez bientôt ou soyez le premier à publier !';
+}else if(shown===0){
+  emptyMessage.textContent='🔎 Aucun résultat trouvé. Essayez de modifier votre recherche ou vos filtres.';
+}else{
+  emptyMessage.style.display='none';
+}
 let loadMoreBtn = document.getElementById('loadMoreListings');
 if(!loadMoreBtn){
   loadMoreBtn = document.createElement('button');
