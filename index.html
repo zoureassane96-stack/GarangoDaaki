@@ -1936,7 +1936,18 @@ function openStockManager(item){
 async function loadFavorites(){favoriteIds.clear();if(currentUser){const {data,error}=await supabaseClient.from('favorites').select('listing_id').eq('user_id',currentUser.id);if(!error)(data||[]).forEach(x=>favoriteIds.add(x.listing_id))}renderListings()}
 
 async function toggleFavorite(id){if(!currentUser){openAuth('login');setStatus('authStatus','Connectez-vous pour enregistrer vos favoris.');return}if(favoriteIds.has(id)){const {error}=await supabaseClient.from('favorites').delete().eq('user_id',currentUser.id).eq('listing_id',id);if(error){alert('Impossible de retirer ce favori : '+error.message);return}favoriteIds.delete(id)}else{const {error}=await supabaseClient.from('favorites').insert({user_id:currentUser.id,listing_id:id});if(error){alert('Impossible d’ajouter ce favori : '+error.message);return}favoriteIds.add(id)}renderListings()}
+const backToTop=document.getElementById('backToTop');
 
+window.addEventListener('scroll',()=>{
+  backToTop.style.display=window.scrollY>400?'block':'none';
+});
+
+backToTop.addEventListener('click',()=>{
+  window.scrollTo({
+    top:0,
+    behavior:'smooth'
+  });
+});
 async function loadListings(){
 const grid=document.getElementById('listingGrid');
 grid.innerHTML='<div class="empty" style="display:block;grid-column:1/-1">Chargement des annonces…</div>';
