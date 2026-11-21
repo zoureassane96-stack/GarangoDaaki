@@ -1617,7 +1617,20 @@ function closeModal(){modal.classList.remove('open');if(!editingListingId)resetP
 function closeAuth(){authModal.classList.remove('open')}
 function closeProfile(){profileModal.classList.remove('open')}
 function closePhoto(){photoModal.classList.remove('open')}
-function closeDetails(){detailsModal.classList.remove('open')}
+function closeDetails(){
+  detailsModal.classList.remove('open');
+
+  document.title = 'GarangoDaaki — Toutes les opportunités du Centre-Est';
+
+  const descriptionTag = document.querySelector('meta[name="description"]');
+
+  if(descriptionTag){
+    descriptionTag.setAttribute(
+      'content',
+      'GarangoDaaki, la marketplace du Centre-Est du Burkina Faso : produits, annonces, services et professionnels.'
+    );
+  }
+}
 function closeMessageModal(){messageModal.classList.remove('open');activeConversation=null}
 
 function resetPublishForm(){
