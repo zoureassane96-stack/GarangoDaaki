@@ -2136,8 +2136,8 @@ const price=Number(item.price);
 const noPrice=item.price===null||item.price===''||!Number.isFinite(price);
 
 if(
-  (q&&!text.includes(q))||
-  (city&&String(item.city).toLowerCase()!==city)||
+  (q&&!q.split(/\s+/).every(term=>text.includes(term)))||
+(city&&normalizeSearchText(item.city)!==city)||
   (selected&&!acceptedCategories.includes(item.category))||
   (minPrice!==''&&(noPrice||price<Number(minPrice)))||
   (maxPrice!==''&&(noPrice||price>Number(maxPrice)))
