@@ -1961,7 +1961,7 @@ maxPrice=document.getElementById('maxPrice')?.value||'';
   'Services et professionnels': ['Services'],
   'Alimentation et boissons': ['Alimentation et autres', 'Alimentation']
 };
-allListings.forEach(item=>{
+const sortedListings = allListings.filter(item=>{
 const text=[item.title,item.description,item.category,item.city,item.listing_type].join(' ').toLowerCase();
 const acceptedCategories = categoryAliases[selected] || [selected];
 
