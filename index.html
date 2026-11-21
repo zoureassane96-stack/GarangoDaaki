@@ -2535,6 +2535,9 @@ detailsModal.classList.add('open');
 
 
 function filterListings(cat=''){window.selectedCategory=cat;renderListings()}
+  document.getElementById('searchBtn').addEventListener('click',()=>{
+  renderListings();
+});
 document.getElementById('searchInput').addEventListener('input',()=>renderListings());
 document.getElementById('cityFilter').addEventListener('change',()=>renderListings());
 document.querySelectorAll('.cat').forEach(el=>el.addEventListener('click',()=>{document.querySelectorAll('.cat').forEach(x=>x.style.outline='');el.style.outline='3px solid #f58216';filterListings(el.dataset.cat)}));
