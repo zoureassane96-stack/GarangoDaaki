@@ -2004,7 +2004,21 @@ sortedListings.sort((a,b)=>{
 
 shown = sortedListings.length;
 
-sortedListings.forEach(item=>{
+const filterSignature = JSON.stringify([
+  q, city, selected, minPrice, maxPrice, sortMode
+]);
+
+if(window.listingsFilterSignature !== filterSignature){
+  window.listingsFilterSignature = filterSignature;
+  window.listingsVisibleCount = 8;
+}
+
+const visibleListings = sortedListings.slice(
+  0,
+  window.listingsVisibleCount || 8
+);
+
+visibleListings.forEach(item=>{
 const card=document.createElement('article');
 card.className='listing';
 const img=item.images?.[0]||'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=700&q=80';
