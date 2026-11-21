@@ -2460,6 +2460,26 @@ box.appendChild(contactBox);
 }
 
 function showDetails(item){
+    // Mise à jour du référencement de l'annonce
+  const originalTitle = 'GarangoDaaki — Toutes les opportunités du Centre-Est';
+
+  const seoTitle = `${item.title || 'Annonce'} — GarangoDaaki`;
+
+  const seoDescription = [
+    item.description || 'Découvrez cette annonce sur GarangoDaaki.',
+    item.city || 'Centre-Est',
+    item.price != null
+      ? Number(item.price).toLocaleString('fr-FR') + ' FCFA'
+      : 'Prix à discuter'
+  ].join(' · ').slice(0, 300);
+
+  document.title = seoTitle;
+
+  let descriptionTag = document.querySelector('meta[name="description"]');
+
+  if(descriptionTag){
+    descriptionTag.setAttribute('content', seoDescription);
+  }
   const box = document.getElementById('detailsContent');
   const photos = Array.isArray(item.images) ? item.images : [];
 
