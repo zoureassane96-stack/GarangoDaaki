@@ -2111,8 +2111,8 @@ if(!listingCount){
 }
 grid.innerHTML='';
 let shown=0;
-const q=(document.getElementById('searchInput')?.value||'').trim().toLowerCase(),
-city=(document.getElementById('cityFilter')?.value||'').trim().toLowerCase(),
+const q=normalizeSearchText(document.getElementById('searchInput')?.value||''),
+city=normalizeSearchText(document.getElementById('cityFilter')?.value||''),
 selected=window.selectedCategory||'',
 minPrice=document.getElementById('minPrice')?.value||'',
 maxPrice=document.getElementById('maxPrice')?.value||'';
