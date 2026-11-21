@@ -2162,7 +2162,7 @@ card.querySelector('.fav').addEventListener('click',()=>toggleFavorite(item.id))
 card.querySelector('.detailsBtn').addEventListener('click',()=>showDetails(item));
 card.querySelector('.galleryBtn').addEventListener('click',()=>item.images?.length?showPhoto(item.images):alert('Aucune photo disponible pour cette annonce.'));
   card.querySelector('.shareBtn').addEventListener('click',async()=>{
-  const shareUrl=window.location.origin+window.location.pathname+'?annonce='+encodeURIComponent(item.id);
+  const shareUrl=window.location.origin+'/api/share?id='+encodeURIComponent(item.id);
 
   const shareData={
     title:item.title,
