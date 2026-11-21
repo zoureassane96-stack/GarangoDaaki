@@ -1905,7 +1905,11 @@ function renderListings(){
 const grid=document.getElementById('listingGrid');
 grid.innerHTML='';
 let shown=0;
-const q=(document.getElementById('searchInput')?.value||'').trim().toLowerCase(),city=(document.getElementById('cityFilter')?.value||'').trim().toLowerCase(),selected=window.selectedCategory||'';
+const q=(document.getElementById('searchInput')?.value||'').trim().toLowerCase(),
+city=(document.getElementById('cityFilter')?.value||'').trim().toLowerCase(),
+selected=window.selectedCategory||'',
+minPrice=document.getElementById('minPrice')?.value||'',
+maxPrice=document.getElementById('maxPrice')?.value||'';
   const categoryAliases = {
   'Mode et accessoires': ['Mode'],
   'Maison et électroménager': ['Maison', 'Électroménager'],
