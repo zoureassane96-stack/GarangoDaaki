@@ -1976,6 +1976,35 @@ if(
   (maxPrice!==''&&(noPrice||price>Number(maxPrice)))
 )return;
 shown++;
+return true;
+});
+
+const sortMode = document.getElementById('sortListings')?.value || 'recent';
+
+sortedListings.sort((a,b)=>{
+  const priceA = Number(a.price);
+  const priceB = Number(b.price);
+  const hasPriceA = a.price !== null && a.price !== '' && Number.isFinite(priceA);
+  const hasPriceB = b.price !== null && b.price !== '' && Number.isFinite(priceB);
+
+  if(sortMode === 'priceAsc'){
+    if(!hasPriceA) return 1;
+    if(!hasPriceB) return -1;
+    return priceA - priceB;
+  }
+
+  if(sortMode === 'priceDesc'){
+    if(!hasPriceA) return 1;
+    if(!hasPriceB) return -1;
+    return priceB - priceA;
+  }
+
+  return new Date(b.created_at) - new Date(a.created_at);
+});
+
+shown = sortedListings.length;
+
+sortedListings.forEach(item=>{
 const card=document.createElement('article');
 card.className='listing';
 const img=item.images?.[0]||'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=700&q=80';
