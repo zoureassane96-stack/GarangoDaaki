@@ -2093,10 +2093,9 @@ if(contact)contact.href='https://wa.me/'+String(item.phone).replace(/\D/g,'');
 grid.appendChild(card)
 });
 document.getElementById('empty').style.display=shown?'none':'block';
-document.getElementById('empty').textContent=allListings.length?'Aucune annonce ne correspond à votre recherche.':'Aucune annonce publiée pour le moment. Revenez bientôt ou soyez le premier à publier.'
-}
-let loadMoreBtn = document.getElementById('loadMoreListings');
+document.getElementById('empty').textContent=allListings.length?'Aucune annonce ne correspond à votre recherche.':'Aucune annonce publiée pour le moment. Revenez bientôt ou soyez le premier à publier.';
 
+let loadMoreBtn = document.getElementById('loadMoreListings');
 if(!loadMoreBtn){
   loadMoreBtn = document.createElement('button');
   loadMoreBtn.id = 'loadMoreListings';
