@@ -820,6 +820,29 @@
   background: #f58216;
   transform: scale(.98);
 }
+  #backToTop{
+  position:fixed;
+  right:18px;
+  bottom:25px;
+  width:48px;
+  height:48px;
+  border:none;
+  border-radius:50%;
+  background:#08734d;
+  color:white;
+  font-size:26px;
+  font-weight:bold;
+  cursor:pointer;
+  box-shadow:0 4px 14px rgba(0,0,0,.22);
+  display:none;
+  z-index:9999;
+  transition:.2s;
+}
+
+#backToTop:hover{
+  background:#f58216;
+  transform:translateY(-3px);
+}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
