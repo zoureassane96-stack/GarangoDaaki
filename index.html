@@ -2620,6 +2620,19 @@ function filterListings(cat=''){window.selectedCategory=cat;renderListings()}
     block:'start'
   });
 }); 
+  document.getElementById('resetFiltersBtn').addEventListener('click',()=>{
+  document.getElementById('searchInput').value='';
+  document.getElementById('cityFilter').value='';
+  document.getElementById('minPrice').value='';
+  document.getElementById('maxPrice').value='';
+  window.selectedCategory='';
+  document.querySelectorAll('.categories-slider .cat').forEach(x=>x.style.outline='');
+  renderListings();
+  document.getElementById('annonces')?.scrollIntoView({
+    behavior:'smooth',
+    block:'start'
+  });
+});
   document.getElementById('searchInput').addEventListener('keydown',e=>{
   if(e.key==='Enter'){
     e.preventDefault();
