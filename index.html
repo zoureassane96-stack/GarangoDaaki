@@ -2014,7 +2014,17 @@ allListings.forEach(x=>x.images=byId[x.id]||[])
 }
 renderListings()
 }
+const sharedListingId=new URLSearchParams(window.location.search).get('annonce');
 
+if(sharedListingId){
+  const sharedListing=allListings.find(
+    item=>String(item.id)===sharedListingId
+  );
+
+  if(sharedListing){
+    showDetails(sharedListing);
+  }
+}
 function renderListings(){
 const grid=document.getElementById('listingGrid');
   let listingCount=document.getElementById('listingCount');
