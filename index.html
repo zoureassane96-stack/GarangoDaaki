@@ -768,6 +768,24 @@
     grid-template-columns: 1fr;
   }
 }
+  #resetFiltersBtn {
+  grid-column: 1 / -1;
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #08734d;
+  border-radius: 10px;
+  background: #edf6f0;
+  color: #064b35;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: .2s;
+}
+
+#resetFiltersBtn:active {
+  background: #f58216;
+  color: white;
+}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
