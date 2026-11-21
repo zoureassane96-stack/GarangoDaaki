@@ -75,11 +75,19 @@ ${urls.map(item => `
 `).join('')}
 </urlset>`;
 
-    return res
-      .status(200)
-      .setHeader('Content-Type', 'application/xml; charset=utf-8')
-      .setHeader('Cache-Control', 'public, s-maxage=300, stale-while-revalidate=600')
-      .send(xml);
+    res.status(200);
+
+res.setHeader(
+  'Content-Type',
+  'application/xml; charset=utf-8'
+);
+
+res.setHeader(
+  'Cache-Control',
+  'public, s-maxage=300, stale-while-revalidate=600'
+);
+
+return res.send(xml);
 
   } catch (error) {
     console.error(error);
