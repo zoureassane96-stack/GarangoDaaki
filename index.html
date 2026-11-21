@@ -2667,6 +2667,9 @@ function filterListings(cat=''){window.selectedCategory=cat;renderListings()}
     block:'start'
   });
 }); 
+  document.getElementById('sortListings').addEventListener('change',()=>{
+  renderListings();
+});
   document.getElementById('resetFiltersBtn').addEventListener('click',()=>{
   document.getElementById('searchInput').value='';
   document.getElementById('cityFilter').value='';
