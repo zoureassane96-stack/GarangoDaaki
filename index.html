@@ -1959,6 +1959,13 @@ backToTop.addEventListener('click',()=>{
     behavior:'smooth'
   });
 });
+  const readingProgress=document.getElementById('readingProgress');
+
+window.addEventListener('scroll',()=>{
+  const scrollable=document.documentElement.scrollHeight-window.innerHeight;
+  const progress=scrollable>0?(window.scrollY/scrollable)*100:0;
+  readingProgress.style.width=progress+'%';
+});
 async function loadListings(){
 const grid=document.getElementById('listingGrid');
 grid.innerHTML='<div class="empty" style="display:block;grid-column:1/-1">Chargement des annonces…</div>';
