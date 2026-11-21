@@ -2543,6 +2543,12 @@ function filterListings(cat=''){window.selectedCategory=cat;renderListings()}
     block:'start'
   });
 }); 
+  document.getElementById('searchInput').addEventListener('keydown',e=>{
+  if(e.key==='Enter'){
+    e.preventDefault();
+    document.getElementById('searchBtn').click();
+  }
+});
 document.getElementById('searchInput').addEventListener('input',()=>renderListings());
 document.getElementById('cityFilter').addEventListener('change',()=>renderListings());
 document.querySelectorAll('.cat').forEach(el=>el.addEventListener('click',()=>{document.querySelectorAll('.cat').forEach(x=>x.style.outline='');el.style.outline='3px solid #f58216';filterListings(el.dataset.cat)}));
