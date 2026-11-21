@@ -733,6 +733,41 @@
   object-position: center;
   background: #fff;
 }
+  .price-filters {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 12px;
+  padding: 12px;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 4px 14px rgba(0,0,0,.08);
+}
+
+.price-filters input {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  height: 46px;
+  padding: 0 12px;
+  border: 1px solid #dce6df;
+  border-radius: 9px;
+  background: #f8faf8;
+  color: #064b35;
+  font-size: 14px;
+  outline: none;
+}
+
+.price-filters input:focus {
+  border-color: #08734d;
+  box-shadow: 0 0 0 2px rgba(8,115,77,.12);
+}
+
+@media(max-width:480px) {
+  .price-filters {
+    grid-template-columns: 1fr;
+  }
+}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
