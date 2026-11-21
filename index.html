@@ -1926,7 +1926,16 @@ allListings.forEach(item=>{
 const text=[item.title,item.description,item.category,item.city,item.listing_type].join(' ').toLowerCase();
 const acceptedCategories = categoryAliases[selected] || [selected];
 
-if((q&&!text.includes(q))||(city&&String(item.city).toLowerCase()!==city)||(selected&&!acceptedCategories.includes(item.category)))return;
+const price=Number(item.price);
+const noPrice=item.price===null||item.price===''||!Number.isFinite(price);
+
+if(
+  (q&&!text.includes(q))||
+  (city&&String(item.city).toLowerCase()!==city)||
+  (selected&&!acceptedCategories.includes(item.category))||
+  (minPrice!==''&&(noPrice||price<Number(minPrice)))||
+  (maxPrice!==''&&(noPrice||price>Number(maxPrice)))
+)return;
 shown++;
 const card=document.createElement('article');
 card.className='listing';
