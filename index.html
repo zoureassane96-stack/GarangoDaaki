@@ -2493,6 +2493,29 @@ function showDetails(item){
   if(descriptionTag){
     descriptionTag.setAttribute('content', seoDescription);
   }
+   const setMeta = (property, content) => {
+    let tag = document.querySelector(`meta[property="${property}"]`);
+
+    if(!tag){
+      tag = document.createElement('meta');
+      tag.setAttribute('property', property);
+      document.head.appendChild(tag);
+    }
+
+    tag.setAttribute('content', content);
+  };
+
+  setMeta('og:title', seoTitle);
+  setMeta('og:description', seoDescription);
+  setMeta('og:type', 'product');
+  setMeta(
+    'og:url',
+    window.location.origin + '/?annonce=' + encodeURIComponent(item.id)
+  );
+
+  if(Array.isArray(item.images) && item.images.length){
+    setMeta('og:image', item.images[0]);
+  } 
   const box = document.getElementById('detailsContent');
   const photos = Array.isArray(item.images) ? item.images : [];
 
