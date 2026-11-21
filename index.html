@@ -2170,7 +2170,22 @@ card.querySelector('.galleryBtn').addEventListener('click',()=>item.images?.leng
     text:'Découvrez cette annonce sur GarangoDaaki : '+item.title,
     url:shareUrl
   };
+card.querySelector('.copyLinkBtn').addEventListener('click',async()=>{
+  const shareUrl=window.location.origin+'/api/share?id='+encodeURIComponent(item.id);
 
+  try{
+    await navigator.clipboard.writeText(shareUrl);
+    alert('✅ Lien de l’annonce copié avec succès !');
+  }catch(error){
+    const temp=document.createElement('textarea');
+    temp.value=shareUrl;
+    document.body.appendChild(temp);
+    temp.select();
+    document.execCommand('copy');
+    temp.remove();
+    alert('✅ Lien de l’annonce copié !');
+  }
+});
   if(navigator.share){
     try{
       await navigator.share(shareData);
