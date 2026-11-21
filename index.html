@@ -1963,6 +1963,14 @@ renderListings()
 
 function renderListings(){
 const grid=document.getElementById('listingGrid');
+  let listingCount=document.getElementById('listingCount');
+
+if(!listingCount){
+  listingCount=document.createElement('div');
+  listingCount.id='listingCount';
+  listingCount.style.cssText='margin:12px 0;color:#064b35;font-size:14px;font-weight:700;';
+  grid.insertAdjacentElement('beforebegin',listingCount);
+}
 grid.innerHTML='';
 let shown=0;
 const q=(document.getElementById('searchInput')?.value||'').trim().toLowerCase(),
