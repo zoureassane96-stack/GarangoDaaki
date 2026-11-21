@@ -1631,6 +1631,23 @@ function closeDetails(){
     );
   }
 }
+  const homeUrl = 'https://garangodaaki.vercel.app/';
+
+  const restoreMeta = (property, content) => {
+    const tag = document.querySelector(`meta[property="${property}"]`);
+
+    if(tag){
+      tag.setAttribute('content', content);
+    }
+  };
+
+  restoreMeta('og:title', 'GarangoDaaki — La marketplace du Centre-Est');
+  restoreMeta(
+    'og:description',
+    'Achetez, vendez, publiez vos annonces et trouvez des professionnels dans le Centre-Est du Burkina Faso.'
+  );
+  restoreMeta('og:type', 'website');
+  restoreMeta('og:url', homeUrl);  
 function closeMessageModal(){messageModal.classList.remove('open');activeConversation=null}
 
 function resetPublishForm(){
