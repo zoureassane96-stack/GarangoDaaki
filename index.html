@@ -894,7 +894,11 @@ Administration
 </div></header>
 <nav class="nav wrap"><a class="active" href="#">⌂ Accueil</a><a href="#annonces">📢 Annonces</a><a href="#publier" onclick="openModal(event)">⊕ Publier</a><a href="#" onclick="openProfile(event)">♟ Profil <span id="desktopUnreadBadge" class="nav-unread-badge" hidden>0</span></a></nav>
 <main class="wrap">
-<section class="hero"><div class="hero-content"><h1>Garango<span>Daaki</span><br>La marketplace du Centre-Est</h1><p>Achetez, vendez, publiez vos annonces<br>et trouvez des professionnels près de vous !</p><div class="search"><input id="searchInput" list="searchSuggestions" autocomplete="off" placeholder="Ex. téléphone, terrain, maçon..." aria-label="Rechercher une annonce">
+<section class="hero"><div class="hero-content"><h1>Garango<span>Daaki</span><br>La marketplace du Centre-Est</h1><p>Achetez, vendez, publiez vos annonces<br>et trouvez des professionnels près de vous !</p><div class="search"<div class="searchbox">
+  <span class="search-icon">⌕</span>
+  <input id="searchInput" list="searchSuggestions" autocomplete="off" placeholder="Que recherchez-vous ? Ex. téléphone, terrain..." aria-label="Rechercher une annonce">
+  <button type="button" id="clearSearchBtn" aria-label="Effacer la recherche">✕</button>
+</div>
 <datalist id="searchSuggestions">
 <option value="Téléphone">
 <option value="Smartphone">
