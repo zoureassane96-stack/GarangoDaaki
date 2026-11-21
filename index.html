@@ -2129,7 +2129,7 @@ maxPrice=document.getElementById('maxPrice')?.value||'';
   'Alimentation et boissons': ['Alimentation et autres', 'Alimentation']
 };
 const sortedListings = allListings.filter(item=>{
-const text=[item.title,item.description,item.category,item.city,item.listing_type].join(' ').toLowerCase();
+const text=normalizeSearchText([item.title,item.description,item.category,item.city,item.listing_type].join(' '));
 const acceptedCategories = categoryAliases[selected] || [selected];
 
 const price=Number(item.price);
