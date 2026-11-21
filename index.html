@@ -2013,8 +2013,7 @@ allListings.forEach(x=>x.images=byId[x.id]||[])
 }else allListings.forEach(x=>x.images=[])
 }
 renderListings()
-}
-const sharedListingId=new URLSearchParams(window.location.search).get('annonce');
+ const sharedListingId=new URLSearchParams(window.location.search).get('annonce');
 
 if(sharedListingId){
   const sharedListing=allListings.find(
@@ -2024,7 +2023,9 @@ if(sharedListingId){
   if(sharedListing){
     showDetails(sharedListing);
   }
+} 
 }
+
 function renderListings(){
 const grid=document.getElementById('listingGrid');
   let listingCount=document.getElementById('listingCount');
