@@ -2074,7 +2074,24 @@ grid.appendChild(card)
 document.getElementById('empty').style.display=shown?'none':'block';
 document.getElementById('empty').textContent=allListings.length?'Aucune annonce ne correspond à votre recherche.':'Aucune annonce publiée pour le moment. Revenez bientôt ou soyez le premier à publier.'
 }
+let loadMoreBtn = document.getElementById('loadMoreListings');
 
+if(!loadMoreBtn){
+  loadMoreBtn = document.createElement('button');
+  loadMoreBtn.id = 'loadMoreListings';
+  loadMoreBtn.type = 'button';
+  loadMoreBtn.textContent = 'Voir plus d’annonces';
+  grid.insertAdjacentElement('afterend', loadMoreBtn);
+}
+
+loadMoreBtn.style.display =
+  shown > visibleListings.length ? 'block' : 'none';
+
+loadMoreBtn.onclick = ()=>{
+  window.listingsVisibleCount =
+    (window.listingsVisibleCount || 8) + 8;
+  renderListings();
+};
 function showPhoto(photos){galleryPhotos=(Array.isArray(photos)?photos:[photos]).filter(Boolean);if(!galleryPhotos.length)return;galleryIndex=0;updateGallery();photoModal.classList.add('open')}
 function updateGallery(){document.getElementById('largePhoto').src=galleryPhotos[galleryIndex];document.getElementById('photoCounter').textContent=(galleryIndex+1)+' / '+galleryPhotos.length}
 function changePhoto(direction){if(!galleryPhotos.length)return;galleryIndex=(galleryIndex+direction+galleryPhotos.length)%galleryPhotos.length;updateGallery()}
