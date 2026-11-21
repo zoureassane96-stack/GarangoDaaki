@@ -2046,7 +2046,7 @@ const visibleListings = sortedListings.slice(
   0,
   window.listingsVisibleCount || 8
 );
-
+listingCount.textContent = `${visibleListings.length} annonce(s) affichée(s) sur ${shown}`;
 visibleListings.forEach(item=>{
 const card=document.createElement('article');
 card.className='listing';
