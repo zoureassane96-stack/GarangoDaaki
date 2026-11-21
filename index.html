@@ -2112,6 +2112,7 @@ loadMoreBtn.onclick = ()=>{
     (window.listingsVisibleCount || 8) + 8;
   renderListings();
 };
+  }
 function showPhoto(photos){galleryPhotos=(Array.isArray(photos)?photos:[photos]).filter(Boolean);if(!galleryPhotos.length)return;galleryIndex=0;updateGallery();photoModal.classList.add('open')}
 function updateGallery(){document.getElementById('largePhoto').src=galleryPhotos[galleryIndex];document.getElementById('photoCounter').textContent=(galleryIndex+1)+' / '+galleryPhotos.length}
 function changePhoto(direction){if(!galleryPhotos.length)return;galleryIndex=(galleryIndex+direction+galleryPhotos.length)%galleryPhotos.length;updateGallery()}
