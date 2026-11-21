@@ -451,10 +451,13 @@
 }
 
 .listing-actions{
-  display:flex;
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
   gap:7px;
   margin-top:12px;
-  flex-wrap:wrap;
+}
+.listing-actions .contactBtn{
+  grid-column:1/-1;
 }
 
 .listing-actions a,
@@ -465,14 +468,14 @@
   color:#064b35;
   font-size:12px;
   font-weight:800;
-  padding:11px 8px;
+  padding:11px 5px;
   text-decoration:none;
   text-align:center;
-  flex:1 1 auto;
+  width:100%;
   min-width:0;
   line-height:1.3;
+  box-sizing:border-box;
 }
-
 /* Tablettes : 3 annonces par ligne */
 @media(min-width:761px) and (max-width:1050px){
   .cards{
