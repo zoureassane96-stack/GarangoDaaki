@@ -1035,14 +1035,16 @@ Administration
 <div class="price-filters">
   <input id="minPrice" type="number" min="0" placeholder="Prix minimum (FCFA)">
   <input id="maxPrice" type="number" min="0" placeholder="Prix maximum (FCFA)">
+
+  <select id="sortListings" aria-label="Trier les annonces">
+    <option value="recent">Plus récentes</option>
+    <option value="priceAsc">Prix : du moins cher au plus cher</option>
+    <option value="priceDesc">Prix : du plus cher au moins cher</option>
+  </select>
+
   <button type="button" id="resetFiltersBtn">
-   <select id="sortListings" aria-label="Trier les annonces">
-  <option value="recent">Plus récentes</option>
-  <option value="priceAsc">Prix : du moins cher au plus cher</option>
-  <option value="priceDesc">Prix : du plus cher au moins cher</option>
-</select> 
-  ↻ Réinitialiser les filtres
-</button>
+    ↻ Réinitialiser les filtres
+  </button>
 </div>
 
 </div></div></section>
