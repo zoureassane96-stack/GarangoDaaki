@@ -4042,6 +4042,14 @@ if(
 }
 
 controls.append(edit,del);
+  controls.querySelectorAll('button').forEach(btn=>{
+  btn.style.flex='1 1 130px';
+  btn.style.minHeight='42px';
+  btn.style.borderRadius='10px';
+  btn.style.padding='10px';
+  btn.style.fontSize='12px';
+  btn.style.fontWeight='800';
+});
 row.append(info,controls);
 box.appendChild(row);
 });
