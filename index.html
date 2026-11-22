@@ -4135,7 +4135,7 @@ if(listingIds.length){
 const {data,error}=await supabaseClient.from('listings').select('id,title,user_id').in('id',listingIds);
 if(!error)(data||[]).forEach(x=>{titles[x.id]=x.title;owners[x.id]=x.user_id})
 }
-box.innerHTML=`<p><strong>${safeText(currentUser.email||'Mon compte')}</strong></p><h3>Mes conversations</h3><button type="button" class="btn btn-green" id="backToProfile">Retour à mon espace</button><div id="inboxList"></div>`;
+box.innerHTML=`<p><strong>${safeText(currentUser.email||'Mon compte')}</strong></p><h3>Mes conversations (${unreadTotal} non lu${unreadTotal>1?'s':''})</h3><button type="button" class="btn btn-green" id="backToProfile">Retour à mon espace</button><div id="inboxList"></div>`;
 document.getElementById('backToProfile').onclick=()=>openProfile();
 const list=document.getElementById('inboxList');
 if(!threads.length){list.innerHTML='<p>Aucune conversation pour le moment.</p>';return}
