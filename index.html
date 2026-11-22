@@ -2628,7 +2628,7 @@ if(item.listing_type === 'product' && item.product_type === 'variants'){
     ? `<span class="stock-badge">📦 ${quantity} article(s) disponible(s)</span>`
     : '<span class="stock-badge stock-empty">Variantes épuisées</span>';
 }
-  card.innerHTML=`${item.is_featured?'<span class="featured">★ À la une</span>':''}${newListingBadge}${listingAgeBadge}<button class="fav" type="button" aria-label="Ajouter aux favoris">${favoriteIds.has(item.id)?'♥':'♡'}</button><img class="mainphoto" alt="Photo de l’annonce" loading="lazy"><div class="listingbody"><h3></h3><div class="price"></div><div class="meta"><span class="city"></span><span class="category"></span></div>${availabilityBadge}<div class="listing-actions">
+  card.innerHTML=`${item.is_featured?'<span class="featured">★ À la une</span>':''}${newListingBadge}${listingAgeBadge}<button class="fav" type="button" aria-label="Ajouter aux favoris">${favoriteIds.has(item.id)?'♥':'♡'}</button><img class="mainphoto" alt="Photo de l’annonce" loading="lazy"><div class="listingbody"><h3></h3><div class="price"></div><div class="meta"><span class="city"></span><span class="category"></span></div>${availabilityBadge}${stockBadge}<div class="listing-actions">
 <button type="button" class="detailsBtn">Détails</button>
 <button type="button" class="galleryBtn">Voir ${item.images?.length === 1 ? 'la photo' : 'les photos'} (${item.images?.length || 0})</button><button type="button" class="shareBtn">↗ Partager</button><button type="button" class="copyLinkBtn">🔗 Copier le lien</button>${item.phone?'<a class="contactBtn" target="_blank" rel="noopener">Contacter</a>':''}</div></div>`;
 const image=card.querySelector('img.mainphoto');
