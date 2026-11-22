@@ -3931,7 +3931,32 @@ box.appendChild(avatarBox);
 const heading=document.createElement('h3');
 heading.textContent='Mes annonces';
 box.appendChild(heading);
+const stats=document.createElement('div');
+stats.style.cssText='display:flex;flex-wrap:wrap;gap:10px;margin:14px 0 20px';
 
+const counts=[
+  {label:'Publiées',value:(data||[]).filter(x=>x.status==='published').length,color:'#08734d'},
+  {label:'Vendues',value:(data||[]).filter(x=>x.status==='sold').length,color:'#2563eb'},
+  {label:'En attente',value:(data||[]).filter(x=>x.status==='pending').length,color:'#d97706'}
+];
+
+counts.forEach(item=>{
+  const card=document.createElement('div');
+  card.style.cssText='flex:1 1 85px;text-align:center;padding:14px 8px;background:#f7faf8;border:1px solid #e1ebe4;border-radius:13px';
+
+  const number=document.createElement('div');
+  number.textContent=item.value;
+  number.style.cssText='font-size:24px;font-weight:900;color:'+item.color;
+
+  const label=document.createElement('div');
+  label.textContent=item.label;
+  label.style.cssText='font-size:12px;font-weight:700;color:#52665b;margin-top:5px';
+
+  card.append(number,label);
+  stats.appendChild(card);
+});
+
+box.appendChild(stats);
 if(!data?.length){
 const emptyMessage=document.createElement('p');
 emptyMessage.textContent='Vous n’avez pas encore publié d’annonce.';
