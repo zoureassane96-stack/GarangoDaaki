@@ -4142,6 +4142,7 @@ if(!threads.length){list.innerHTML='<p>Aucune conversation pour le moment.</p>';
 threads.forEach(t=>{
 const card=document.createElement('div');
 card.className='inbox-card';
+  card.style.cssText='padding:17px;margin:14px 0;background:#ffffff;border:1px solid #dcebe1;border-radius:16px;box-shadow:0 4px 14px rgba(6,75,53,.07);display:flex;flex-direction:column;gap:10px';
 const title=document.createElement('strong');
 title.textContent=titles[t.listingId]||'Annonce supprimée ou indisponible';
 const message=document.createElement('p');
