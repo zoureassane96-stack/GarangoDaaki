@@ -2075,7 +2075,17 @@ function closeDetails(){
   );
   restoreMeta('og:type', 'website');
   restoreMeta('og:url', homeUrl);  
-function closeMessageModal(){messageModal.classList.remove('open');activeConversation=null}
+function closeMessageModal(){
+  messageModal.classList.remove('open');
+
+  if(presenceChannel){
+    const channel=presenceChannel;
+    presenceChannel=null;
+    supabaseClient.removeChannel(channel);
+  }
+
+  activeConversation=null;
+}
 
 function resetPublishForm(){
   editingListingId=null;
