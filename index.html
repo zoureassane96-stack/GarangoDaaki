@@ -4145,6 +4145,7 @@ card.className='inbox-card';
   card.style.cssText='padding:17px;margin:14px 0;background:#ffffff;border:1px solid #dcebe1;border-radius:16px;box-shadow:0 4px 14px rgba(6,75,53,.07);display:flex;flex-direction:column;gap:10px';
 const title=document.createElement('strong');
 title.textContent=titles[t.listingId]||'Annonce supprimée ou indisponible';
+  title.style.cssText='font-size:16px;font-weight:900;color:#064b35';
 const message=document.createElement('p');
 message.textContent=t.lastContent;
 const date=document.createElement('small');
