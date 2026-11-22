@@ -4036,6 +4036,9 @@ if(
 }
 
 controls.append(edit,del);
+  controls.querySelectorAll('button').forEach(btn=>{
+  btn.style.cssText+=';border-radius:10px;padding:10px 12px;font-size:12px;font-weight:800;flex:1 1 130px';
+});
 row.append(info,controls);
 box.appendChild(row);
 });
