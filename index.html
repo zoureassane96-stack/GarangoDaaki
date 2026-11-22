@@ -4222,6 +4222,7 @@ document.getElementById('messageThread').innerHTML='<p>Chargement des messages..
 document.getElementById('messageStatus').textContent='';
 document.getElementById('messageInput').value='';
 messageModal.classList.add('open');
+startConversationPresence();
 await loadConversation()
 }
 
