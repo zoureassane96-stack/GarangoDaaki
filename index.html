@@ -1020,6 +1020,45 @@
     transition:none;
   }
 }
+  /* ===== ANIMATION D'APPARITION DES ANNONCES ===== */
+
+.listing{
+  animation:listingAppear .4s ease both;
+  transition:transform .25s ease, box-shadow .25s ease;
+}
+
+.listing:nth-child(2){animation-delay:.05s}
+.listing:nth-child(3){animation-delay:.10s}
+.listing:nth-child(4){animation-delay:.15s}
+.listing:nth-child(5){animation-delay:.20s}
+.listing:nth-child(6){animation-delay:.25s}
+.listing:nth-child(7){animation-delay:.30s}
+.listing:nth-child(8){animation-delay:.35s}
+
+@keyframes listingAppear{
+  from{
+    opacity:0;
+    transform:translateY(14px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+@media(hover:hover){
+  .listing:hover{
+    transform:translateY(-4px);
+    box-shadow:0 12px 26px #064b3520;
+  }
+}
+
+@media(prefers-reduced-motion:reduce){
+  .listing{
+    animation:none;
+    transition:none;
+  }
+}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
