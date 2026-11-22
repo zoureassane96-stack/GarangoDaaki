@@ -2542,6 +2542,30 @@ const newListingBadge = isNewListing
        ✨ Nouveau
      </span>`
   : '';
+  const listingDate = item.created_at
+  ? new Date(item.created_at)
+  : null;
+
+let listingAgeText = '';
+
+if(listingDate && !isNaN(listingDate.getTime())){
+  const now = new Date();
+  const yesterday = new Date();
+  yesterday.setDate(now.getDate() - 1);
+
+  if(listingDate.toDateString() === now.toDateString()){
+    listingAgeText = "Publié aujourd'hui";
+  }else if(listingDate.toDateString() === yesterday.toDateString()){
+    listingAgeText = "Publié hier";
+  }else{
+    const days = Math.floor(listingAge / 86400000);
+    listingAgeText = `Publié il y a ${days} jours`;
+  }
+}
+
+const listingAgeBadge = listingAgeText
+  ? `<span class="listing-age-badge">${listingAgeText}</span>`
+  : '';
 card.innerHTML=`${item.is_featured?'<span class="featured">★ À la une</span>':''}${newListingBadge}<button class="fav" type="button" aria-label="Ajouter aux favoris">${favoriteIds.has(item.id)?'♥':'♡'}</button><img class="mainphoto" alt="Photo de l’annonce" loading="lazy"><div class="listingbody"><h3></h3><div class="price"></div><div class="meta"><span class="city"></span><span class="category"></span></div><div class="listing-actions"><button type="button" class="detailsBtn">Détails</button><button type="button" class="galleryBtn">Voir les photos</button><button type="button" class="shareBtn">↗ Partager</button>
 <button type="button" class="copyLinkBtn">🔗 Copier le lien</button>${item.phone?'<a class="contactBtn" target="_blank" rel="noopener">Contacter</a>':''}</div></div>`;
 const image=card.querySelector('img.mainphoto');
