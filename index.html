@@ -3939,7 +3939,7 @@ box.appendChild(emptyMessage);
 data.forEach(item=>{
 const row=document.createElement('div');
 row.className='profile-row';
-
+row.style.cssText='display:flex;flex-direction:column;align-items:stretch;gap:12px;margin:14px 0;padding:16px;background:#ffffff;border:1px solid #e1ebe4;border-radius:15px;box-shadow:0 3px 10px rgba(6,75,53,.05)';
 const info=document.createElement('span');
 info.textContent=item.title+' — '+({pending:'En attente de validation',published:'Publiée',rejected:'Refusée',sold:'Vendue'}[item.status]||item.status);
 
