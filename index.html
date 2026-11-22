@@ -2585,6 +2585,10 @@ card.querySelector('h3').textContent=item.title;
 card.querySelector('.price').textContent=item.price!==null&&item.price!==''?Number(item.price).toLocaleString('fr-FR')+' FCFA':(item.negotiable?'Prix à discuter':'Prix non précisé');
 card.querySelector('.city').textContent='📍 '+item.city;
 card.querySelector('.category').textContent=item.category;
+  const descriptionPreview=document.createElement('p');
+descriptionPreview.className='description-preview';
+descriptionPreview.textContent=item.description||'Découvrez cette annonce.';
+card.querySelector('.listing-actions').before(descriptionPreview);
   const sellerInfo=document.createElement('div');
 sellerInfo.className='listing-seller';
 
