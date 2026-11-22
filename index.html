@@ -917,6 +917,27 @@
 .searchbox #clearSearchBtn:active{
   background:#dce9e0;
 }
+  @media(max-width:760px){
+  .search{
+    grid-template-columns:minmax(0,1fr)!important;
+  }
+  .searchbox,
+  .search select,
+  .search button{
+    grid-column:1!important;
+    width:100%!important;
+    min-width:0;
+  }
+  .searchbox{
+    display:flex;
+  }
+  .searchbox input{
+    flex:1 1 auto;
+    width:100%;
+    min-width:0;
+    grid-column:auto!important;
+  }
+}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
