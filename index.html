@@ -3808,8 +3808,8 @@ cityBtn.onclick=async()=>{
   }
 };
 
-const email=document.createElement('p');
-email.textContent=currentUser.email||'Compte connecté';
+email.textContent='✉️ '+(currentUser.email||'Compte connecté');
+email.style.cssText='font-size:13px;color:#52665b;background:#ffffff;padding:10px 14px;border-radius:10px;margin:14px 0;border:1px solid #e2ebe5;overflow-wrap:anywhere';
 
 const photoInput=document.createElement('input');
 photoInput.type='file';
