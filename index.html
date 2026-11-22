@@ -4155,6 +4155,7 @@ date.textContent=new Date(t.lastDate).toLocaleString('fr-FR');
 const button=document.createElement('button');
 button.className='btn btn-green';
 button.textContent='Ouvrir la conversation';
+  button.style.cssText='width:100%;padding:12px;border-radius:11px;font-weight:800;font-size:13px;margin-top:5px';
 button.onclick=()=>{profileModal.classList.remove('open');openConversation({user_id:t.otherUserId,ownerId:owners[t.listingId],id:t.listingId,title:titles[t.listingId]||'Annonce',seller:{full_name:'Utilisateur'}})};
 card.append(title,message,date);
 if(t.unread){
