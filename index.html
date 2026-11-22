@@ -4162,6 +4162,7 @@ if(t.unread){
 const badge=document.createElement('div');
 badge.className='unread-badge';
 badge.textContent=t.unread+' message(s) non lu(s)';
+  badge.style.cssText='align-self:flex-start;background:#e32636;color:#fff;padding:6px 11px;border-radius:20px;font-size:12px;font-weight:900';
 card.appendChild(badge)
 }
 card.appendChild(button);
