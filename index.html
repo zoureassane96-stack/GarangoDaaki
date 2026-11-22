@@ -3747,8 +3747,8 @@ avatar.onerror=()=>console.error('ÉCHEC DU CHARGEMENT DE LA PHOTO');
   avatar.style.display='none';
 }
 
-const name=document.createElement('h3');
 name.textContent=profile?.full_name||'Mon profil';
+name.style.cssText='font-size:22px;font-weight:900;color:#064b35;margin:12px 0 5px;letter-spacing:.2px';
 
 const city=document.createElement('p');
 city.textContent='📍 '+(profile?.city||'Localité non renseignée');
