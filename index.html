@@ -1386,7 +1386,7 @@ function updateCategoryCounters(){
     'Alimentation et boissons': ['Alimentation et autres', 'Alimentation']
   };
 
-  document.querySelectorAll('.categories-slider .cat').forEach(cat=>{
+  document.querySelectorAll('.categories .cat').forEach(cat=>{
     const category = cat.dataset.cat;
     const accepted = [category, ...(aliases[category] || [])];
 
