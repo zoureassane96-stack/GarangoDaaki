@@ -2511,6 +2511,21 @@ visibleListings.forEach(item=>{
 const card=document.createElement('article');
 card.className='listing';
 const img=item.images?.[0]||'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=700&q=80';
+  const listingAge = item.created_at
+  ? Date.now() - new Date(item.created_at).getTime()
+  : Infinity;
+
+const isNewListing =
+  Number.isFinite(listingAge) &&
+  listingAge >= 0 &&
+  listingAge <= 48 * 60 * 60 * 1000;
+
+const newListingBadge = isNewListing
+  ? `<span class="new-listing-badge"
+       style="top:${item.is_featured ? '43px' : '10px'}">
+       ✨ Nouveau
+     </span>`
+  : '';
 card.innerHTML=`${item.is_featured?'<span class="featured">★ À la une</span>':''}<button class="fav" type="button" aria-label="Ajouter aux favoris">${favoriteIds.has(item.id)?'♥':'♡'}</button><img class="mainphoto" alt="Photo de l’annonce" loading="lazy"><div class="listingbody"><h3></h3><div class="price"></div><div class="meta"><span class="city"></span><span class="category"></span></div><div class="listing-actions"><button type="button" class="detailsBtn">Détails</button><button type="button" class="galleryBtn">Voir les photos</button><button type="button" class="shareBtn">↗ Partager</button>
 <button type="button" class="copyLinkBtn">🔗 Copier le lien</button>${item.phone?'<a class="contactBtn" target="_blank" rel="noopener">Contacter</a>':''}</div></div>`;
 const image=card.querySelector('img.mainphoto');
