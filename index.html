@@ -3935,6 +3935,7 @@ const stats=document.createElement('div');
 stats.style.cssText='display:flex;flex-wrap:wrap;gap:10px;margin:14px 0 20px';
 
 const counts=[
+  {label:'Total',value:(data||[]).length,color:'#064b35'},
   {label:'Publiées',value:(data||[]).filter(x=>x.status==='published').length,color:'#08734d'},
   {label:'Vendues',value:(data||[]).filter(x=>x.status==='sold').length,color:'#2563eb'},
   {label:'En attente',value:(data||[]).filter(x=>x.status==='pending').length,color:'#d97706'}
