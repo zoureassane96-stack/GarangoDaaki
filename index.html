@@ -1270,7 +1270,42 @@ Profil
   <option>Sports, loisirs et enfants</option>
 </select> </div>
 <div class="field"><label for="price">Prix (FCFA)</label><input id="price" type="number" min="0" step="1" placeholder="Laisser vide si à discuter"></div>
-<div class="field"><label for="city">Ville / localité *</label><input id="city" required placeholder="Ex. Garango"></div>
+<div class="field">
+<label for="city">Commune / village / localité *</label>
+<input id="city" list="centreEstCommunes" required placeholder="Choisissez ou saisissez votre localité">
+<datalist id="centreEstCommunes">
+<option value="Bagré">
+<option value="Bané">
+<option value="Béguédo">
+<option value="Bissiga">
+<option value="Bittou">
+<option value="Boussouma">
+<option value="Garango">
+<option value="Komtoèga">
+<option value="Niaogho">
+<option value="Tenkodogo">
+<option value="Zabré">
+<option value="Zoaga">
+<option value="Zonsé">
+<option value="Comin-Yanga">
+<option value="Dourtenga">
+<option value="Lalgaye">
+<option value="Ouargaye">
+<option value="Sangha">
+<option value="Soudougui">
+<option value="Yargatenga">
+<option value="Yondé">
+<option value="Andemtenga">
+<option value="Baskouré">
+<option value="Dialgaye">
+<option value="Gounghin">
+<option value="Kando">
+<option value="Koupéla">
+<option value="Pouytenga">
+<option value="Tensobentenga">
+<option value="Yargo">
+</datalist>
+</div>
 <div class="field"><label for="phone">Téléphone / WhatsApp</label><input id="phone" type="tel" placeholder="+226 …"></div>
 <div class="field"><label class="checkrow"><input id="negotiable" type="checkbox"> Prix négociable</label>
 <div class="field full" id="productTypeField" style="display:none">
