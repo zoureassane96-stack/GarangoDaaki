@@ -958,6 +958,68 @@
   background:#f1f5f2!important;
   color:#52635a!important;
 }
+  /* ===== EFFET INTERACTIF DES CATÉGORIES ===== */
+
+.cat{
+  border:1px solid transparent;
+  transition:
+    transform .25s ease,
+    box-shadow .25s ease,
+    border-color .25s ease;
+}
+
+.cat img{
+  transition:transform .35s ease;
+}
+
+.cat::after{
+  content:"Explorer →";
+  position:absolute;
+  top:12px;
+  right:12px;
+  background:#f58216;
+  color:white;
+  padding:8px 12px;
+  border-radius:20px;
+  font-size:12px;
+  font-weight:900;
+  opacity:0;
+  transform:translateY(6px);
+  transition:all .25s ease;
+  pointer-events:none;
+}
+
+@media(hover:hover){
+  .cat:hover{
+    transform:translateY(-5px);
+    border-color:#08734d;
+    box-shadow:0 14px 30px #064b3530;
+  }
+
+  .cat:hover img{
+    transform:scale(1.07);
+  }
+
+  .cat:hover::after{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+.cat:active{
+  transform:scale(.97);
+}
+
+.cat:focus-visible{
+  outline:3px solid #f58216;
+  outline-offset:4px;
+}
+
+@media(prefers-reduced-motion:reduce){
+  .cat,.cat img,.cat::after{
+    transition:none;
+  }
+}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
