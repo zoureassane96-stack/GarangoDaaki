@@ -3974,8 +3974,10 @@ if(
   reminder.appendChild(confirmBtn);
   row.appendChild(reminder);
 }
-controls.style.cssText='display:flex;gap:6px;flex-wrap:wrap';
-
+  controls.style.cssText='display:flex;gap:9px;flex-wrap:wrap;align-items:center;width:100%';
+controls.querySelectorAll('button').forEach(btn=>{
+  btn.style.cssText+=';border-radius:10px;padding:10px 12px;font-size:12px;font-weight:800;flex:1 1 130px';
+});
 const edit=document.createElement('button');
 edit.type='button';
 edit.className='btn btn-green';
