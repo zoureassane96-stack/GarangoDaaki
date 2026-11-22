@@ -1059,6 +1059,34 @@
     transition:none;
   }
 }
+ /* ===== PHOTOS DES ANNONCES : EFFET PREMIUM ===== */
+
+.listing{
+  overflow:hidden;
+  border-radius:16px;
+}
+
+.listing img.mainphoto{
+  transition:transform .35s ease, filter .35s ease;
+  transform-origin:center;
+}
+
+@media(hover:hover){
+  .listing:hover img.mainphoto{
+    transform:scale(1.06);
+    filter:brightness(1.04);
+  }
+}
+
+.listing img.mainphoto:active{
+  transform:scale(1.03);
+}
+
+@media(prefers-reduced-motion:reduce){
+  .listing img.mainphoto{
+    transition:none;
+  }
+} 
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
