@@ -4148,6 +4148,7 @@ title.textContent=titles[t.listingId]||'Annonce supprimée ou indisponible';
   title.style.cssText='font-size:16px;font-weight:900;color:#064b35';
 const message=document.createElement('p');
 message.textContent=t.lastContent;
+  message.style.cssText='font-size:14px;color:#52665b;margin:0;line-height:1.5;overflow-wrap:anywhere';
 const date=document.createElement('small');
 date.textContent=new Date(t.lastDate).toLocaleString('fr-FR');
 const button=document.createElement('button');
