@@ -4170,7 +4170,47 @@ card.appendChild(button);
 list.appendChild(card)
 })
 }
+function startConversationPresence(){
+  if(!activeConversation||!currentUser)return;
 
+  if(presenceChannel){
+    supabaseClient.removeChannel(presenceChannel);
+    presenceChannel=null;
+  }
+
+  const {otherUserId,listingId}=activeConversation;
+  const users=[currentUser.id,otherUserId].sort();
+
+  const channel=supabaseClient.channel(
+    'conversation:'+listingId+':'+users.join(':'),
+    {config:{presence:{key:currentUser.id}}}
+  );
+
+  presenceChannel=channel;
+
+  const status=document.getElementById('conversationPresence');
+
+  channel.on('presence',{event:'sync'},()=>{
+    if(presenceChannel!==channel)return;
+
+    const online=Object.keys(channel.presenceState())
+      .includes(otherUserId);
+
+    status.textContent=online?'● Correspondant en ligne':'● Hors ligne';
+    status.style.color=online?'#08734d':'#84938a';
+  });
+
+  channel.subscribe(async state=>{
+    if(state==='SUBSCRIBED'){
+      await channel.track({
+        user_id:currentUser.id,
+        online_at:new Date().toISOString()
+      });
+    }else if(state==='CHANNEL_ERROR'||state==='TIMED_OUT'){
+      status.textContent='Présence momentanément indisponible';
+    }
+  });
+}
 async function openConversation(item){
 if(!currentUser){openAuth('login');return}
 const otherUserId=item.user_id;
