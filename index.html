@@ -1366,6 +1366,27 @@ Profil
 <div class="modal" id="messageModal" role="dialog" aria-modal="true" aria-label="Conversation privée"><div class="dialog" style="width:min(650px,100%)"><div class="dialoghead"><h2 id="messageTitle">Conversation privée</h2><button class="close" onclick="closeMessageModal()" aria-label="Fermer">×</button></div><div id="messageListingInfo"></div><div id="messageThread" style="height:320px;overflow:auto;border:1px solid var(--line);border-radius:12px;padding:12px;margin:12px 0"></div><form id="messageForm"><textarea id="messageInput" required maxlength="2000" placeholder="Écrivez votre message..." style="width:100%;min-height:80px;border:1px solid #d8e2dc;border-radius:10px;padding:11px"></textarea><button id="sendMessageBtn" class="btn btn-green" type="submit">Envoyer</button><div id="messageStatus" class="statusline" role="status"></div></form></div></div>
 
 <script>
+  window.addEventListener('error', function(e){
+  const box = document.getElementById('empty');
+  if(box){
+    box.style.display = 'block';
+    box.textContent =
+      'ERREUR JAVASCRIPT : ' +
+      e.message +
+      ' | Ligne : ' +
+      e.lineno;
+  }
+});
+
+window.addEventListener('unhandledrejection', function(e){
+  const box = document.getElementById('empty');
+  if(box){
+    box.style.display = 'block';
+    box.textContent =
+      'ERREUR ASYNCHRONE : ' +
+      (e.reason?.message || String(e.reason));
+  }
+});
   const SUPABASE_URL='https://uabhuviadsclbjiplgyn.supabase.co';
 const SUPABASE_KEY='sb_publishable_41TR7IoA2GmoO3GoN1Cayg_meKVO_qn';
 const supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
