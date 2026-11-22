@@ -3124,7 +3124,7 @@ detailsModal.classList.add('open');
 
 
 function filterListings(cat=''){window.selectedCategory=cat;renderListings()}
- document.getElementById('searchBtn').addEventListener('click',()=>{
+ document.getElementById('searchBtn')?.addEventListener('click',()=>{
   renderListings();
 
   document.getElementById('annonces')?.scrollIntoView({
