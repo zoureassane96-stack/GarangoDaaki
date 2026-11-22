@@ -1173,6 +1173,24 @@
   line-height:1.2;
   border-radius:15px;
 }
+  .listing-badges{
+  display:flex;
+  align-items:center;
+  flex-wrap:nowrap;
+  gap:4px;
+  width:100%;
+  overflow:hidden;
+}
+
+.listing-badges .availability-badge,
+.listing-badges .stock-badge{
+  margin:3px 0;
+  padding:4px 5px;
+  font-size:9px;
+  line-height:1.2;
+  white-space:nowrap;
+  flex-shrink:1;
+}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
