@@ -4128,6 +4128,7 @@ if(!conversations.has(key))conversations.set(key,{otherUserId:other,listingId:m.
 if(m.receiver_id===currentUser.id&&!m.is_read)conversations.get(key).unread++
 });
 const threads=[...conversations.values()];
+  const unreadTotal=threads.reduce((total,t)=>total+t.unread,0);
 const listingIds=[...new Set(threads.map(t=>t.listingId))];
 let titles={},owners={};
 if(listingIds.length){
