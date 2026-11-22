@@ -3550,7 +3550,7 @@ async function updateOwnListingAvailability(item,newStatus,button){
         : newStatus === 'unavailable'
           ? '⏸️ Annonce indisponible'
           : '✅ Annonce remise en vente';
-
+await openProfile();
   }catch(error){
     button.disabled = false;
     button.textContent = 'Réessayer';
