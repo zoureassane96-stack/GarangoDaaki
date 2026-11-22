@@ -3888,12 +3888,20 @@ async function initialize(){
     console.error('Erreur de session :', error);
   }
 
-  await loadListings();
-  await loadSiteReviews();
+  try{
+    await loadListings();
+  }catch(error){
+    console.error('Erreur chargement annonces :', error);
+  }
+
+  try{
+    await loadSiteReviews();
+  }catch(error){
+    console.error('Erreur chargement avis :', error);
+  }
 }
 
 initialize();
-
 
 if('serviceWorker'in navigator&&location.protocol.startsWith('http'))window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(err=>console.warn('Service worker non enregistré:',err)));
   
