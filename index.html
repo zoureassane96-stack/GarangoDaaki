@@ -2657,7 +2657,7 @@ if(item.listing_type === 'product' && item.product_type === 'stock'){
   const quantity = Number(item.stock_quantity || 0);
 
   stockBadge = quantity > 0
-    ? `<span class="stock-badge">📦 ${quantity} disponible(s)</span>`
+    ? `<span class="stock-badge">📦 ${quantity} article(s) disponible(s)</span>`
     : '<span class="stock-badge stock-empty">Rupture de stock</span>';
 }
 
