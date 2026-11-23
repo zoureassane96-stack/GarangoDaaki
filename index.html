@@ -1598,7 +1598,20 @@ Profil
 
 <div class="modal" id="messageModal" role="dialog" aria-modal="true" aria-label="Conversation privée"><div class="dialog" style="width:min(650px,100%)"><div class="dialoghead"><h2 id="messageTitle">Conversation privée</h2><button class="close" onclick="closeMessageModal()" aria-label="Fermer">×</button></div><div id="messageListingInfo"></div><div id="conversationPresence" style="font-size:12px;font-weight:800;color:#84938a;margin:6px 0 10px">● Vérification de la présence...</div>
   <div id="typingIndicator" style="display:none;font-size:12px;font-weight:700;color:#08734d;margin:0 0 10px;font-style:italic">✍️ Votre correspondant écrit…</div>
-<div id="messageThread" style="height:320px;overflow:auto;border:1px solid var(--line);border-radius:12px;padding:12px;margin:12px 0"></div><form id="messageForm"><textarea id="messageInput" required maxlength="2000" placeholder="Écrivez votre message..." style="width:100%;min-height:80px;border:1px solid #d8e2dc;border-radius:10px;padding:11px"></textarea><button id="sendMessageBtn" class="btn btn-green" type="submit">Envoyer</button><div id="messageStatus" class="statusline" role="status"></div></form></div></div>
+<div id="messageThread" style="height:320px;overflow:auto;border:1px solid var(--line);border-radius:12px;padding:12px;margin:12px 0"></div><form id="messageForm">
+  <textarea id="messageInput" maxlength="2000" placeholder="Écrivez votre message..." style="width:100%;min-height:80px;border:1px solid #d8e2dc;border-radius:10px;padding:11px"></textarea>
+
+  <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:10px 0">
+    <button type="button" onclick="document.getElementById('messageImageInput').click()" style="background:#eef7f1;color:#08734d;border:1px solid #cfe5d7;border-radius:10px;padding:11px 15px;font-weight:800">
+      📷 Ajouter une photo
+    </button>
+    <input id="messageImageInput" type="file" accept="image/jpeg,image/png,image/webp" style="display:none">
+    <span id="messageImageName" style="font-size:12px;color:#64756b"></span>
+  </div>
+
+  <button id="sendMessageBtn" class="btn btn-green" type="submit">Envoyer</button>
+  <div id="messageStatus" class="statusline" role="status"></div>
+</form></div></div>
 
 <script>
   window.addEventListener('error', function(e){
