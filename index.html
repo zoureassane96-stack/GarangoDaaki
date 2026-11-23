@@ -1650,6 +1650,46 @@
     font-size:12px;
   }
 }
+  /* ===== IDENTITE VENDEUR : FINITION PREMIUM ===== */
+.listing-seller{
+  display:flex;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:7px;
+  padding:9px;
+  margin-top:10px;
+  border:1px solid #e2eee6;
+  border-radius:12px;
+  background:#f7faf8;
+  cursor:pointer;
+  transition:background .2s,border-color .2s;
+}
+
+.listing-seller img,
+.listing-seller .seller-initial{
+  width:36px;
+  height:36px;
+  border:2px solid #fff;
+  box-shadow:0 1px 5px rgba(0,0,0,.12);
+}
+
+.listing-seller > span:not(.verified-badge){
+  font-weight:800;
+  color:#064b35;
+  overflow-wrap:anywhere;
+}
+
+.listing-seller:focus-visible{
+  outline:2px solid #08734d;
+  outline-offset:2px;
+}
+
+@media(hover:hover){
+  .listing-seller:hover{
+    background:#edf7f1;
+    border-color:#a9d9b8;
+  }
+}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
