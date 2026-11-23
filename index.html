@@ -1663,7 +1663,7 @@ function updateCategoryCounters(){
   });
 }
 const modal=document.getElementById('publishModal'),authModal=document.getElementById('authModal'),profileModal=document.getElementById('profileModal'),photoModal=document.getElementById('photoModal'),detailsModal=document.getElementById('detailsModal'),messageModal=document.getElementById('messageModal');
-let activeConversation=null,galleryPhotos=[],galleryIndex=0,touchStartX=0,presenceChannel=null;
+let activeConversation=null,galleryPhotos=[],galleryIndex=0,touchStartX=0,presenceChannel=null,typingTimer=null;
 
 function safeText(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
   /* ===== AVIS DE GARANGODAAKI ===== */
