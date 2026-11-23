@@ -1338,6 +1338,84 @@
     height:175px;
   }
 }
+  /* ===== FICHE ANNONCE : DESIGN PROFESSIONNEL ===== */
+.detail-page{
+  padding:8px 2px 22px;
+}
+
+.detail-gallery{
+  gap:12px;
+  padding:6px 0 14px;
+  scroll-snap-type:x mandatory;
+}
+
+.detail-gallery img{
+  width: min(72vw, 260px);
+  height:210px;
+  border-radius:15px;
+  scroll-snap-align:start;
+  box-shadow:0 3px 12px rgba(0,0,0,.08);
+}
+
+.detail-title{
+  font-size:23px;
+  line-height:1.3;
+  margin:10px 0;
+}
+
+.detail-price{
+  display:inline-block;
+  background:#fff4e8;
+  border:1px solid #f8dfc4;
+  border-radius:12px;
+  padding:10px 15px;
+  font-size:24px;
+  margin:10px 0;
+}
+
+.detail-meta{
+  gap:8px;
+  margin:12px 0 18px;
+}
+
+.detail-section{
+  border-radius:15px;
+  padding:16px;
+  margin:13px 0;
+  box-shadow:0 2px 9px rgba(0,0,0,.035);
+}
+
+.detail-section h3{
+  font-size:16px;
+}
+
+.detail-description{
+  line-height:1.65;
+  overflow-wrap:anywhere;
+}
+
+.detail-seller{
+  border-radius:15px;
+}
+
+@media(max-width:600px){
+  .detail-gallery img{
+    width:78vw;
+    height:190px;
+  }
+
+  .detail-title{
+    font-size:20px;
+  }
+
+  .detail-price{
+    font-size:21px;
+  }
+
+  .detail-section{
+    padding:13px;
+  }
+}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
