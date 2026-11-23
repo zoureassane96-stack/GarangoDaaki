@@ -1457,6 +1457,13 @@
     margin:0;
   }
 }
+  /* Flèche de retour : ne plus chevaucher la navigation mobile */
+@media(max-width:760px){
+  #backToTop{
+    bottom:calc(130px + env(safe-area-inset-bottom)) !important;
+    right:18px;
+  }
+}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
