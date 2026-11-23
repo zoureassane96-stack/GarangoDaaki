@@ -4307,23 +4307,77 @@ await loadConversation()
 }
 
 async function loadConversation(){
-if(!activeConversation||!currentUser)return;
-const {otherUserId,listingId}=activeConversation;
-const [a,b]=await Promise.all([
-supabaseClient.from('messages').select('id,sender_id,receiver_id,listing_id,content,created_at,is_read').eq('sender_id',currentUser.id).eq('receiver_id',otherUserId).eq('listing_id',listingId),
-supabaseClient.from('messages').select('id,sender_id,receiver_id,listing_id,content,created_at,is_read').eq('sender_id',otherUserId).eq('receiver_id',currentUser.id).eq('listing_id',listingId)
-]);
-const thread=document.getElementById('messageThread');
-if(a.error||b.error){thread.textContent='Impossible de charger les messages : '+(a.error||b.error).message;return}
-const messages=[...(a.data||[]),...(b.data||[])].sort((x,y)=>new Date(x.created_at)-new Date(y.created_at));
-thread.innerHTML=messages.length?messages.map(m=>{
-const mine=m.sender_id===currentUser.id;
-return `<div style="text-align:${mine?'right':'left'};margin:12px 0"><div style="display:inline-block;max-width:85%;padding:12px 15px;border-radius:14px;background:${mine?'#d9fbe8':'#fff0df'};border:1px solid ${mine?'#8bd5a8':'#f5bd83'};text-align:left"><strong style="display:block;font-size:12px;margin-bottom:5px;color:${mine?'#08734d':'#b45b0a'}">${mine?'Vous':'Correspondant'}</strong><div style="white-space:pre-wrap">${safeText(m.content)}<small style="display:block;margin-top:7px;color:#666">${new Date(m.created_at).toLocaleString('fr-FR',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'})}${mine?' · ✓ '+(m.is_read?'Lu':'Envoyé'):''}</small></div></div>`
-}).join(''):'<p>Aucun message pour le moment. Envoyez le premier message !</p>';
-thread.scrollTop=thread.scrollHeight;
-const {error:readError}=await supabaseClient.from('messages').update({is_read:true}).eq('sender_id',otherUserId).eq('receiver_id',currentUser.id).eq('listing_id',listingId).eq('is_read',false);
-if(readError)console.warn('Impossible de marquer les messages comme lus:',readError.message);
-await refreshUnreadCount()
+  if(!activeConversation||!currentUser)return;
+
+  const {otherUserId,listingId}=activeConversation;
+
+  const [a,b]=await Promise.all([
+    supabaseClient.from('messages')
+      .select('id,sender_id,receiver_id,listing_id,content,created_at,is_read,image_path')
+      .eq('sender_id',currentUser.id)
+      .eq('receiver_id',otherUserId)
+      .eq('listing_id',listingId),
+
+    supabaseClient.from('messages')
+      .select('id,sender_id,receiver_id,listing_id,content,created_at,is_read,image_path')
+      .eq('sender_id',otherUserId)
+      .eq('receiver_id',currentUser.id)
+      .eq('listing_id',listingId)
+  ]);
+
+  const thread=document.getElementById('messageThread');
+
+  if(a.error||b.error){
+    thread.textContent='Impossible de charger les messages : '+(a.error||b.error).message;
+    return;
+  }
+
+  const messages=[...(a.data||[]),...(b.data||[])]
+    .sort((x,y)=>new Date(x.created_at)-new Date(y.created_at));
+
+  const rendered=await Promise.all(messages.map(async m=>{
+    const mine=m.sender_id===currentUser.id;
+    let photo='';
+
+    if(m.image_path){
+      const {data,error}=await supabaseClient
+        .storage.from('chat-photos')
+        .createSignedUrl(m.image_path,3600);
+
+      if(!error&&data?.signedUrl){
+        photo=`<img src="${safeText(data.signedUrl)}" alt="Photo envoyée" style="display:block;max-width:100%;max-height:260px;object-fit:contain;border-radius:10px;margin-top:8px">`;
+      }else{
+        photo='<div style="margin-top:8px;font-size:12px;color:#a33">Photo indisponible</div>';
+      }
+    }
+
+    return `<div style="text-align:${mine?'right':'left'};margin:12px 0">
+      <div style="display:inline-block;max-width:85%;padding:12px 15px;border-radius:14px;background:${mine?'#d9fbe8':'#fff0df'};border:1px solid ${mine?'#8bd5a8':'#f5bd83'};text-align:left">
+        <strong style="display:block;font-size:12px;margin-bottom:5px;color:${mine?'#08734d':'#b45b0a'}">${mine?'Vous':'Correspondant'}</strong>
+        <div style="white-space:pre-wrap">${safeText(m.content)}</div>
+        ${photo}
+        <small style="display:block;margin-top:7px;color:#666">${new Date(m.created_at).toLocaleString('fr-FR',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'})}${mine?' · ✓ '+(m.is_read?'Lu':'Envoyé'):''}</small>
+      </div>
+    </div>`;
+  }));
+
+  thread.innerHTML=rendered.length
+    ?rendered.join('')
+    :'<p>Aucun message pour le moment. Envoyez le premier message !</p>';
+
+  thread.scrollTop=thread.scrollHeight;
+
+  const {error:readError}=await supabaseClient
+    .from('messages')
+    .update({is_read:true})
+    .eq('sender_id',otherUserId)
+    .eq('receiver_id',currentUser.id)
+    .eq('listing_id',listingId)
+    .eq('is_read',false);
+
+  if(readError)console.warn('Impossible de marquer les messages comme lus:',readError.message);
+
+  await refreshUnreadCount();
 }
 function channelTypingStop(){
   if(!presenceChannel||!activeConversation||!currentUser)return;
