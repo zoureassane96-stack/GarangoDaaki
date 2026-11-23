@@ -4392,29 +4392,111 @@ function channelTypingStop(){
   });
 }
 document.getElementById('messageForm').addEventListener('submit',async e=>{
-e.preventDefault();
-if(!activeConversation||!currentUser)return;
-const input=document.getElementById('messageInput'),button=document.getElementById('sendMessageBtn'),status=document.getElementById('messageStatus'),content=input.value.trim();
-if(!content)return;
-button.disabled=true;
-status.textContent='Envoi en cours…';
-const {data,error}=await supabaseClient.from('messages').insert({sender_id:currentUser.id,receiver_id:activeConversation.otherUserId,listing_id:activeConversation.listingId,content}).select('id').single();
-button.disabled=false;
-if(error){status.textContent='Erreur : '+error.message;return}
-input.value='';
+  e.preventDefault();
 
-clearTimeout(typingTimer);
+  if(!activeConversation||!currentUser)return;
 
-channelTypingStop();
+  const input=document.getElementById('messageInput');
+  const fileInput=document.getElementById('messageImageInput');
+  const button=document.getElementById('sendMessageBtn');
+  const status=document.getElementById('messageStatus');
 
-status.textContent='Message envoyé !';
-await loadConversation();
-try{
-const {error:pushError}=await supabaseClient.functions.invoke('send-push-notification',{body:{message_id:data.id}});
-if(pushError)console.warn('Notification non envoyée :',pushError.message)
-}catch(err){console.warn('Notification non envoyée :',err.message)}
+  const content=input.value.trim();
+  const file=fileInput.files[0];
+
+  if(!content&&!file){
+    status.textContent='Écrivez un message ou choisissez une photo.';
+    return;
+  }
+
+  if(file){
+    const allowed=['image/jpeg','image/png','image/webp'];
+
+    if(!allowed.includes(file.type)){
+      status.textContent='Format accepté : JPG, PNG ou WebP.';
+      return;
+    }
+
+    if(file.size>5*1024*1024){
+      status.textContent='La photo ne doit pas dépasser 5 Mo.';
+      return;
+    }
+  }
+
+  button.disabled=true;
+  status.textContent='Envoi en cours…';
+
+  try{
+    const {data,error}=await supabaseClient
+      .from('messages')
+      .insert({
+        sender_id:currentUser.id,
+        receiver_id:activeConversation.otherUserId,
+        listing_id:activeConversation.listingId,
+        content:content||'📷 Photo'
+      })
+      .select('id')
+      .single();
+
+    if(error)throw error;
+
+    if(file){
+      const extension=file.type==='image/png'
+        ?'png'
+        :file.type==='image/webp'?'webp':'jpg';
+
+      const path=data.id+'/'+currentUser.id+'/'+crypto.randomUUID()+'.'+extension;
+
+      const {error:uploadError}=await supabaseClient
+        .storage.from('chat-photos')
+        .upload(path,file,{
+          contentType:file.type,
+          upsert:false
+        });
+
+      if(uploadError)throw uploadError;
+
+      const {error:attachError}=await supabaseClient
+        .rpc('attach_chat_photo',{
+          p_message_id:data.id,
+          p_image_path:path
+        });
+
+      if(attachError){
+        await supabaseClient.storage.from('chat-photos').remove([path]);
+        throw attachError;
+      }
+    }
+
+    input.value='';
+    fileInput.value='';
+    document.getElementById('messageImageName').textContent='';
+
+    clearTimeout(typingTimer);
+    channelTypingStop();
+
+    status.textContent='Message envoyé !';
+
+    await loadConversation();
+
+    try{
+      const {error:pushError}=await supabaseClient.functions.invoke(
+        'send-push-notification',
+        {body:{message_id:data.id}}
+      );
+
+      if(pushError)console.warn('Notification non envoyée :',pushError.message);
+    }catch(err){
+      console.warn('Notification non envoyée :',err.message);
+    }
+
+  }catch(error){
+    console.error('Erreur envoi message/photo :',error);
+    status.textContent='Erreur : '+error.message;
+  }finally{
+    button.disabled=false;
+  }
 });
-
 function urlBase64ToUint8Array(base64String){
 const padding='='.repeat((4-base64String.length%4)%4);
 const base64=(base64String+padding).replace(/-/g,'+').replace(/_/g,'/');
