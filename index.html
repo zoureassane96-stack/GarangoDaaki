@@ -1563,6 +1563,49 @@
     font-size:14px;
   }
 }
+  /* ===== FINITION DES RÉSULTATS DE RECHERCHE ===== */
+
+#listingGrid .listing{
+  overflow:hidden;
+  border:1px solid #e5ece7;
+  box-shadow:0 3px 14px rgba(6,75,53,.07);
+  transition:box-shadow .2s ease,border-color .2s ease;
+}
+
+#listingGrid .listing img.mainphoto{
+  transition:transform .25s ease;
+}
+
+#listingGrid .listingbody{
+  background:#fff;
+}
+
+#listingGrid .listing h3{
+  color:#123f30;
+  overflow-wrap:anywhere;
+}
+
+#listingGrid .listing .meta{
+  align-items:center;
+  flex-wrap:wrap;
+}
+
+#listingGrid .listing-actions button:focus-visible,
+#listingGrid .listing-actions a:focus-visible{
+  outline:2px solid #08734d;
+  outline-offset:2px;
+}
+
+@media(hover:hover) and (min-width:761px){
+  #listingGrid .listing:hover{
+    border-color:#b9d9c6;
+    box-shadow:0 8px 24px rgba(6,75,53,.13);
+  }
+
+  #listingGrid .listing:hover img.mainphoto{
+    transform:scale(1.025);
+  }
+}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
