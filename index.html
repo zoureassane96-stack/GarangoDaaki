@@ -4324,6 +4324,11 @@ const {data,error}=await supabaseClient.from('messages').insert({sender_id:curre
 button.disabled=false;
 if(error){status.textContent='Erreur : '+error.message;return}
 input.value='';
+
+clearTimeout(typingTimer);
+
+channelTypingStop();
+
 status.textContent='Message envoyé !';
 await loadConversation();
 try{
