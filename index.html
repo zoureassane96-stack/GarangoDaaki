@@ -2078,7 +2078,10 @@ function closeDetails(){
   restoreMeta('og:url', homeUrl);  
 function closeMessageModal(){
   messageModal.classList.remove('open');
+clearTimeout(typingTimer);
+clearTimeout(remoteTypingTimer);
 
+document.getElementById('typingIndicator').style.display='none';
   if(presenceChannel){
     const channel=presenceChannel;
     presenceChannel=null;
