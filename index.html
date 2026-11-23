@@ -4240,6 +4240,35 @@ channel.on('broadcast',{event:'typing'},({payload})=>{
     }
   });
 }
+  document.getElementById('messageInput').addEventListener('input',()=>{
+  if(!presenceChannel||!activeConversation||!currentUser)return;
+
+  const channel=presenceChannel;
+
+  channel.send({
+    type:'broadcast',
+    event:'typing',
+    payload:{
+      user_id:currentUser.id,
+      typing:true
+    }
+  });
+
+  clearTimeout(typingTimer);
+
+  typingTimer=setTimeout(()=>{
+    if(presenceChannel!==channel)return;
+
+    channel.send({
+      type:'broadcast',
+      event:'typing',
+      payload:{
+        user_id:currentUser.id,
+        typing:false
+      }
+    });
+  },1500);
+});
 async function openConversation(item){
 if(!currentUser){openAuth('login');return}
 const otherUserId=item.user_id;
