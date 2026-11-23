@@ -3471,8 +3471,22 @@ if(seller.is_verified === true){
     city.textContent = '📍 ' + (seller.city || 'Localité non renseignée');
 
     const count = document.createElement('p');
-    count.textContent = items.length + ' annonce(s) publiée(s)';
-
+count.textContent = items.length + ' annonce(s) publiée(s)';
+count.style.cssText = `
+  display:inline-flex;
+  align-items:center;
+  width:fit-content;
+  max-width:100%;
+  box-sizing:border-box;
+  margin:8px 0 0;
+  padding:7px 11px;
+  border-radius:20px;
+  background:#eaf5ef;
+  border:1px solid #d5e9dd;
+  color:#07543c;
+  font-size:12px;
+  font-weight:800;
+`;
     heading.append(avatar,name,city,count);
     box.appendChild(heading);
 const contactBox = document.createElement('div');
