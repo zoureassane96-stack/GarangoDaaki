@@ -4312,7 +4312,18 @@ const {error:readError}=await supabaseClient.from('messages').update({is_read:tr
 if(readError)console.warn('Impossible de marquer les messages comme lus:',readError.message);
 await refreshUnreadCount()
 }
+function channelTypingStop(){
+  if(!presenceChannel||!activeConversation||!currentUser)return;
 
+  presenceChannel.send({
+    type:'broadcast',
+    event:'typing',
+    payload:{
+      user_id:currentUser.id,
+      typing:false
+    }
+  });
+}
 document.getElementById('messageForm').addEventListener('submit',async e=>{
 e.preventDefault();
 if(!activeConversation||!currentUser)return;
