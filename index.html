@@ -1282,6 +1282,62 @@
     padding:3px 5px;
   }
 } 
+  /* ===== CARTES ANNONCES PREMIUM : ORDINATEUR ===== */
+@media(min-width:761px){
+
+  .cards{
+    gap:18px;
+  }
+
+  .listing{
+    border-radius:17px;
+    box-shadow:0 4px 16px rgba(6,75,53,.08);
+    transition:transform .2s ease,box-shadow .2s ease;
+  }
+
+  .listing img.mainphoto{
+    height:195px;
+  }
+
+  .listingbody{
+    padding:14px;
+  }
+
+  .listing h3{
+    min-height:40px;
+    font-size:16px;
+    line-height:1.35;
+  }
+
+  .price{
+    font-size:19px;
+  }
+
+  .listing-actions{
+    gap:8px;
+    margin-top:12px;
+  }
+
+  .listing-actions a,
+  .listing-actions button{
+    min-height:42px;
+    padding:10px 8px;
+    font-size:12px;
+    border-radius:10px;
+  }
+
+  .listing-seller{
+    margin-top:12px;
+    padding-top:12px;
+  }
+}
+
+/* Tablettes : photos légèrement moins hautes */
+@media(min-width:761px) and (max-width:1200px){
+  .listing img.mainphoto{
+    height:175px;
+  }
+}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
