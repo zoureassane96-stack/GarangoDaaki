@@ -3235,7 +3235,10 @@ const sellerPhoto=item.seller?.avatarSignedUrl
 
 sellerInfo.innerHTML=`
   ${sellerPhoto}
-  <span>${safeText(item.seller?.full_name||'Vendeur')}</span>
+  <span class="seller-name-block">
+    <strong>${safeText(item.seller?.full_name||'Vendeur')}</strong>
+    <small>${item.seller?.is_verified === true ? '✓ Profil vérifié' : 'Voir le profil vendeur'}</small>
+  </span>
 `;
 if(item.seller?.is_verified === true){
   const verifiedBadge=document.createElement('span');
