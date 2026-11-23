@@ -1606,6 +1606,50 @@
     transform:scale(1.025);
   }
 }
+  /* ===== ZONE DES ANNONCES : FINITION PREMIUM ===== */
+
+#annonces .sectionhead{
+  align-items:center;
+  gap:12px;
+  margin-bottom:12px;
+}
+
+#annonces .sectionhead h2{
+  color:#064b35;
+  font-weight:900;
+  letter-spacing:-.3px;
+}
+
+#annonces .sectionhead .textlink{
+  color:#08734d;
+  font-weight:800;
+  text-decoration:none;
+}
+
+#listingCount{
+  display:flex;
+  align-items:center;
+  width:fit-content;
+  max-width:100%;
+  box-sizing:border-box;
+  padding:10px 15px;
+  border-radius:12px;
+  background:#f0f7f2;
+  border:1px solid #d8e9dd;
+  color:#07543c !important;
+  font-size:13px !important;
+  font-weight:800;
+}
+
+@media(max-width:480px){
+  #annonces .sectionhead h2{
+    font-size:18px;
+  }
+
+  #annonces .sectionhead .textlink{
+    font-size:12px;
+  }
+}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
