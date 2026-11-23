@@ -4279,6 +4279,12 @@ document.getElementById('messageListingInfo').textContent='Annonce : '+item.titl
 document.getElementById('messageThread').innerHTML='<p>Chargement des messages...</p>';
 document.getElementById('messageStatus').textContent='';
 document.getElementById('messageInput').value='';
+
+clearTimeout(typingTimer);
+clearTimeout(remoteTypingTimer);
+
+document.getElementById('typingIndicator').style.display='none';
+
 messageModal.classList.add('open');
 startConversationPresence();
 await loadConversation()
