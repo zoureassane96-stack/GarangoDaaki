@@ -4210,7 +4210,25 @@ function startConversationPresence(){
     status.textContent=online?'● Correspondant en ligne':'● Hors ligne';
     status.style.color=online?'#08734d':'#84938a';
   });
+channel.on('broadcast',{event:'typing'},({payload})=>{
+  if(presenceChannel!==channel)return;
 
+  const indicator=document.getElementById('typingIndicator');
+
+  if(!indicator||payload?.user_id!==otherUserId)return;
+
+  clearTimeout(remoteTypingTimer);
+
+  if(payload.typing){
+    indicator.style.display='block';
+
+    remoteTypingTimer=setTimeout(()=>{
+      indicator.style.display='none';
+    },2000);
+  }else{
+    indicator.style.display='none';
+  }
+});
   channel.subscribe(async state=>{
     if(state==='SUBSCRIBED'){
       await channel.track({
