@@ -500,10 +500,11 @@
   line-height:1.3;
   box-sizing:border-box;
 }
-/* Tablettes : 3 annonces par ligne */
-@media(min-width:761px) and (max-width:1050px){
+/* Tablettes et ordinateurs portables : 3 annonces par ligne */
+@media(min-width:761px) and (max-width:1200px){
   .cards{
     grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:18px;
   }
 }
   /* ===== CORRECTION AFFICHAGE MOBILE ===== */
