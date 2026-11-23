@@ -3256,7 +3256,7 @@ sellerInfo.innerHTML=`
   ${sellerPhoto}
   <span class="seller-name-block">
     <strong>${safeText(item.seller?.full_name||'Vendeur')}</strong>
-    <small>${item.seller?.is_verified === true ? '✓ Profil vérifié' : 'Voir le profil vendeur'}</small>
+    ${item.seller?.is_verified === true ? '' : '<small>Voir le profil vendeur</small>'}
   </span>
 `;
 if(item.seller?.is_verified === true){
