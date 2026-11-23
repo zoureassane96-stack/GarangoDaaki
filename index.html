@@ -3036,7 +3036,7 @@ maxPrice=document.getElementById('maxPrice')?.value||'';
 };
 const sortedListings = allListings.filter(item=>{
 const text=normalizeSearchText([item.title,item.description,item.category,item.city,item.listing_type].join(' '));
-const acceptedCategories = categoryAliases[selected] || [selected];
+const acceptedCategories = [selected, ...(categoryAliases[selected] || [])];
 
 const price=Number(item.price);
 const noPrice=item.price===null||item.price===''||!Number.isFinite(price);
