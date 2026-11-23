@@ -1512,6 +1512,57 @@
     font-size:14px;
   }
 }
+  /* ===== FILTRES DE RECHERCHE : DESIGN PREMIUM ===== */
+
+.price-filters{
+  border:1px solid #e2ebe5;
+  box-shadow:0 5px 18px rgba(6,75,53,.07);
+  gap:10px;
+}
+
+.price-filters input,
+#sortListings,
+#cityFilter{
+  border:1px solid #dce6df;
+  border-radius:11px;
+  background:#f8faf8;
+  color:#064b35;
+  font-weight:600;
+  transition:border-color .2s,box-shadow .2s;
+}
+
+.price-filters input:focus,
+#sortListings:focus,
+#cityFilter:focus{
+  border-color:#08734d;
+  box-shadow:0 0 0 3px rgba(8,115,77,.10);
+  outline:none;
+}
+
+#resetFiltersBtn{
+  border-radius:11px;
+  font-weight:800;
+  transition:background .2s,transform .2s;
+}
+
+#resetFiltersBtn:active{
+  transform:scale(.98);
+  background:#dcefe3;
+}
+
+@media(max-width:760px){
+  .price-filters{
+    padding:10px;
+    border-radius:13px;
+  }
+
+  .price-filters input,
+  #sortListings,
+  #cityFilter{
+    min-height:46px;
+    font-size:14px;
+  }
+}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
