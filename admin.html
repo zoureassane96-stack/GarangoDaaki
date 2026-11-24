@@ -365,6 +365,21 @@ nav button.active{background:var(--green);color:#fff}
       </button>
     </div>
 
+<div class="panel" style="margin:18px 0">
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
+    <h3 style="margin:0">✓ Demandes de vérification</h3>
+    <button type="button" class="secondary" id="verificationRefreshBtn">
+      Actualiser
+    </button>
+  </div>
+  <p class="muted">
+    Examine les demandes avant d'attribuer gratuitement le badge vendeur vérifié.
+  </p>
+  <div id="verificationRequestsList">
+    <div class="empty">Chargement des demandes…</div>
+  </div>
+</div>
+
     <div id="usersList">
       <div class="empty">Chargement des utilisateurs…</div>
     </div>
