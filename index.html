@@ -2089,6 +2089,23 @@
   font-weight:900;
   box-shadow:none;
 }
+  /* ===== TRANSITION DOUCE DE LA GALERIE ===== */
+.detail-gallery img:first-child{
+  transition:
+    opacity .22s ease,
+    transform .22s ease,
+    filter .22s ease;
+}
+
+.detail-gallery img:not(:first-child){
+  transition:
+    border-color .2s ease,
+    transform .2s ease;
+}
+
+.detail-gallery img:not(:first-child):active{
+  transform:scale(.96);
+}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
@@ -4333,7 +4350,12 @@ sellerProfileBtn.addEventListener('click',()=>{
       activeDetailPhoto =
         (index + photos.length) % photos.length;
 
-      mainImage.src = photos[activeDetailPhoto];
+      mainImage.style.opacity = '0.55';
+mainImage.src = photos[activeDetailPhoto];
+
+mainImage.onload = ()=>{
+  mainImage.style.opacity = '1';
+};
       mainImage.alt =
         'Photo ' + (activeDetailPhoto + 1) + ' de l’annonce';
 
