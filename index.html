@@ -4233,14 +4233,55 @@ sellerProfileBtn.addEventListener('click',()=>{
     });
   });
 
-  box.querySelectorAll('[data-detail-photo]').forEach(img=>{
+    const detailImages = [
+    ...box.querySelectorAll('[data-detail-photo]')
+  ];
+
+  const mainImage = detailImages[0];
+  let activeDetailPhoto = 0;
+  let detailTouchStartX = 0;
+
+  function selectDetailPhoto(index){
+    if(!detailImages.length) return;
+
+    activeDetailPhoto =
+      (index + detailImages.length) % detailImages.length;
+
+    mainImage.src = detailImages[activeDetailPhoto].src;
+    mainImage.alt = 'Photo ' + (activeDetailPhoto + 1) + ' de l’annonce';
+
+    detailImages.slice(1).forEach((img,i)=>{
+      img.style.border =
+        (i + 1) === activeDetailPhoto
+          ? '3px solid #08734d'
+          : '2px solid #e5eee8';
+    });
+  }
+
+  detailImages.slice(1).forEach(img=>{
     img.addEventListener('click',()=>{
-      galleryPhotos = photos;
-      galleryIndex = Number(img.dataset.detailPhoto);
-      updateGallery();
-      photoModal.classList.add('open');
+      selectDetailPhoto(Number(img.dataset.detailPhoto));
     });
   });
+
+  if(mainImage){
+    mainImage.style.cursor = 'default';
+
+    mainImage.addEventListener('touchstart',e=>{
+      detailTouchStartX = e.changedTouches[0].screenX;
+    },{passive:true});
+
+    mainImage.addEventListener('touchend',e=>{
+      const difference =
+        e.changedTouches[0].screenX - detailTouchStartX;
+
+      if(Math.abs(difference) > 45){
+        selectDetailPhoto(
+          activeDetailPhoto + (difference < 0 ? 1 : -1)
+        );
+      }
+    },{passive:true});
+  }
 
 
 document.getElementById('privateMessageBtn')
