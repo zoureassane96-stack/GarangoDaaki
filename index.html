@@ -4200,6 +4200,7 @@ if(item.product_type === 'variants'){
                 alt="Photo ${i+1} de l'annonce"
                 data-detail-photo="${i}"
                 loading="${i===0?'eager':'lazy'}"
+decoding="async"
               >
                         `).join('')
           : `<div class="detail-no-photo">
