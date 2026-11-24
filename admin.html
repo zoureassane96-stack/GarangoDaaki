@@ -809,6 +809,77 @@ async function reviewSellerRequest(request,approved,button){
   }
 }
 
+function renderUsers(){
+  const root=$('usersList');
+  const term=$('userSearch').value.trim().toLowerCase();
+
+  const filtered=allUsers.filter(u=>{
+    return [
+      u.full_name,u.email,u.phone,u.city
+    ].some(v=>String(v||'').toLowerCase().includes(term));
+  });
+
+  root.replaceChildren();
+
+  if(!filtered.length){
+    root.append(make('div','panel empty','Aucun utilisateur trouvé.'));
+    return;
+  }
+
+  filtered.forEach(u=>{
+    const card=make('article','user-card');
+
+    card.append(make('strong','',u.full_name||'Utilisateur sans nom'));
+    card.append(make('div','details','E-mail : '+(u.email||'Non renseigné')));
+    card.append(make('div','details','Téléphone : '+(u.phone||'Non renseigné')));
+    card.append(make('div','details','Ville : '+(u.city||'Non renseignée')));
+
+    card.append(make(
+      'div','details',
+      'Inscription : '+new Date(u.created_at).toLocaleDateString('fr-FR')
+    ));
+
+    card.append(make(
+      'div','details',
+      u.is_verified?'✓ Vendeur vérifié':'Vendeur non vérifié'
+    ));
+
+    const verifyBtn=make(
+      'button',
+      u.is_verified?'reject':'approve',
+      u.is_verified?'Retirer la vérification':'✓ Vérifier le vendeur'
+    );
+
+    verifyBtn.type='button';
+    verifyBtn.addEventListener('click',()=>{
+      setSellerVerification(u.id,!u.is_verified,verifyBtn);
+    });
+
+    card.append(verifyBtn);
+    root.append(card);
+  });
+}
+
+$('userSearch').addEventListener('input',renderUsers);
+
+$('usersRefreshBtn').addEventListener('click',async()=>{
+  try{
+    await loadUsers();
+    note('message','Liste des utilisateurs actualisée.');
+  }catch(err){
+    note('message','Erreur utilisateurs : '+err.message,true);
+  }
+});
+
+$('verificationRefreshBtn').addEventListener('click',async()=>{
+  try{
+    await loadUsers();
+    note('message','Demandes de vérification actualisées.');
+  }catch(err){
+    note('message','Erreur : '+err.message,true);
+  }
+});
+
   let historyRows=[];
 let historyListingNames={};
 let historyAdminEmails={};
