@@ -2141,6 +2141,15 @@
 .detail-safety li{
   color:#51412d !important;
 }
+  #reportToggle{
+  transition:all .2s ease;
+}
+
+#reportToggle[aria-expanded="true"]{
+  background:#fff8e8;
+  color:#985000;
+  border-color:#edcf91;
+}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
@@ -4439,18 +4448,26 @@ document.getElementById('privateMessageBtn')
   });
 
 // Ouvrir ou fermer le formulaire de signalement
-document.getElementById('reportToggle')
-  .addEventListener('click',()=>{
-    const form = document.getElementById('reportForm');
+const reportToggle = document.getElementById('reportToggle');
+const reportForm = document.getElementById('reportForm');
 
-    if(!currentUser){
-      alert('Connectez-vous pour signaler une annonce.');
-      openAuth('login');
-      return;
-    }
+reportToggle.setAttribute('aria-expanded','false');
 
-    form.classList.toggle('open');
-  });
+reportToggle.addEventListener('click',()=>{
+  if(!currentUser){
+    alert('Connectez-vous pour signaler une annonce.');
+    openAuth('login');
+    return;
+  }
+
+  const isOpen = reportForm.classList.toggle('open');
+
+  reportToggle.setAttribute('aria-expanded',String(isOpen));
+
+  reportToggle.textContent = isOpen
+    ? '✕ Fermer le formulaire'
+    : '⚑ Signaler cette annonce';
+});
 
 // Envoyer le signalement à Supabase
 document.getElementById('submitReport')
