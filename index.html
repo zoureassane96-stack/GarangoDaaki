@@ -3413,6 +3413,10 @@ sellerInfo.addEventListener('keydown',e=>{
 
 card.querySelector('.listingbody').appendChild(sellerInfo);
 card.querySelector('.fav').addEventListener('click',()=>toggleFavorite(item.id));
+  card.addEventListener('click',e=>{
+  if(e.target.closest('.fav,.listing-seller,.listing-actions'))return;
+  showDetails(item);
+});
 card.querySelector('.detailsBtn').addEventListener('click',()=>showDetails(item));
 card.querySelector('.galleryBtn').addEventListener('click',()=>item.images?.length?showPhoto(item.images):alert('Aucune photo disponible pour cette annonce.'));
   card.querySelector('.shareBtn').addEventListener('click',async()=>{
