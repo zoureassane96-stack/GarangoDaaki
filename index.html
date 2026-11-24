@@ -3366,7 +3366,7 @@ if(item.listing_type === 'product' && item.product_type === 'variants'){
   : '<span class="contact-placeholder" aria-hidden="true"></span>'}</div></div>`;
 const image=card.querySelector('img.mainphoto');
 image.src=img;
-image.addEventListener('click',()=>showPhoto(item.images?.length?item.images:[img]));
+image.style.cursor='pointer';
 card.querySelector('h3').textContent=item.title;
 card.querySelector('.price').textContent=item.price!==null&&item.price!==''?Number(item.price).toLocaleString('fr-FR')+' FCFA':(item.negotiable?'Prix à discuter':'Prix non précisé');
 card.querySelector('.city').textContent='📍 '+item.city;
