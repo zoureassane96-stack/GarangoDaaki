@@ -2055,6 +2055,40 @@
   box-shadow:0 2px 7px rgba(0,0,0,.16);
   pointer-events:none;
 }
+  /* ===== TITRE ET NOMBRE DE PHOTOS SUR UNE LIGNE ===== */
+#listingGrid .listing-title-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:5px;
+  min-width:0;
+  min-height:32px;
+  margin-bottom:5px;
+}
+
+#listingGrid .listing-title-row h3{
+  flex:1;
+  min-width:0;
+  min-height:0 !important;
+  margin:0 !important;
+  overflow-wrap:anywhere;
+}
+
+#listingGrid .photo-count-badge{
+  position:static !important;
+  flex:0 0 auto;
+  display:inline-flex;
+  align-items:center;
+  white-space:nowrap;
+  padding:5px 7px;
+  border-radius:10px;
+  background:#eaf5ef;
+  border:1px solid #d5e9dd;
+  color:#064b35;
+  font-size:9px;
+  font-weight:900;
+  box-shadow:none;
+}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
