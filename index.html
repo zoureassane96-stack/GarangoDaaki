@@ -5075,6 +5075,114 @@ avatarBox.append(
 );
 box.appendChild(avatarBox);
 
+// ===== DEMANDE DE VÉRIFICATION DU VENDEUR =====
+const verificationBox = document.createElement('div');
+verificationBox.style.cssText =
+  'padding:16px;margin:0 0 20px;background:#f0f8f3;border:1px solid #d7e9dd;border-radius:15px';
+
+const verificationTitle = document.createElement('h3');
+verificationTitle.textContent = '✓ Vérification du vendeur';
+verificationTitle.style.cssText =
+  'margin:0 0 8px;color:#064b35;font-size:17px';
+
+const verificationInfo = document.createElement('p');
+verificationInfo.textContent =
+  'La vérification est gratuite. Elle permet de renforcer la confiance des acheteurs.';
+verificationInfo.style.cssText =
+  'font-size:13px;color:#52665b;line-height:1.5;margin:0 0 12px';
+
+const verificationStatus = document.createElement('p');
+verificationStatus.style.cssText =
+  'font-size:13px;font-weight:700;margin:10px 0';
+
+const verificationBtn = document.createElement('button');
+verificationBtn.type = 'button';
+verificationBtn.className = 'btn btn-green';
+verificationBtn.textContent = 'Demander la vérification';
+verificationBtn.style.cssText =
+  'width:100%;padding:12px;border-radius:10px;font-weight:800';
+
+verificationBox.append(
+  verificationTitle,
+  verificationInfo,
+  verificationStatus,
+  verificationBtn
+);
+
+box.appendChild(verificationBox);
+
+try {
+  const {data:sellerData,error:sellerError} =
+    await supabaseClient.rpc('get_garangodaaki_seller',{
+      p_user_id:currentUser.id
+    });
+
+  if(sellerError) throw sellerError;
+
+  const seller = sellerData?.[0];
+
+  if(seller?.is_verified === true){
+    verificationStatus.textContent = '✓ Votre compte est déjà vérifié.';
+    verificationStatus.style.color = '#08734d';
+    verificationBtn.style.display = 'none';
+  } else {
+    const {data:request,error:requestError} =
+      await supabaseClient
+        .from('seller_verification_requests')
+        .select('id,status,submitted_at')
+        .eq('user_id',currentUser.id)
+        .order('submitted_at',{ascending:false})
+        .limit(1)
+        .maybeSingle();
+
+    if(requestError) throw requestError;
+
+    if(request?.status === 'pending'){
+      verificationStatus.textContent =
+        '⏳ Votre demande est en attente de vérification.';
+      verificationStatus.style.color = '#a16207';
+      verificationBtn.disabled = true;
+      verificationBtn.textContent = 'Demande déjà envoyée';
+    } else {
+      if(request?.status === 'rejected'){
+        verificationStatus.textContent =
+          'Votre précédente demande n’a pas été acceptée. Vous pouvez en envoyer une nouvelle.';
+        verificationStatus.style.color = '#b42318';
+      }
+
+      verificationBtn.onclick = async () => {
+        verificationBtn.disabled = true;
+        verificationBtn.textContent = 'Envoi en cours…';
+
+        try {
+          const {error} =
+            await supabaseClient.rpc('request_seller_verification');
+
+          if(error) throw error;
+
+          verificationStatus.textContent =
+            '✓ Votre demande a été envoyée. Elle sera examinée par l’administration.';
+          verificationStatus.style.color = '#08734d';
+          verificationBtn.textContent = 'Demande envoyée';
+
+        } catch(error) {
+          verificationStatus.textContent =
+            'Erreur : ' + error.message;
+          verificationStatus.style.color = '#b42318';
+          verificationBtn.disabled = false;
+          verificationBtn.textContent = 'Réessayer';
+        }
+      };
+    }
+  }
+} catch(error) {
+  console.error('Erreur vérification vendeur :',error);
+  verificationStatus.textContent =
+    'Impossible de charger la vérification : ' + error.message;
+  verificationStatus.style.color = '#b42318';
+  verificationBtn.style.display = 'none';
+}
+
 const heading=document.createElement('h3');
 heading.textContent='Mes annonces';
 box.appendChild(heading);
