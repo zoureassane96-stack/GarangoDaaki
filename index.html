@@ -1212,7 +1212,22 @@
   .listingbody{
     padding:8px !important;
   }
+/* Alignement régulier des cartes sur mobile */
+.listing{
+  display:flex;
+  flex-direction:column;
+  height:100%;
+}
 
+.listingbody{
+  display:flex;
+  flex:1;
+  flex-direction:column;
+}
+
+.listing-seller{
+  margin-top:auto !important;
+}
   .listing h3{
     font-size:13px;
     line-height:1.2;
