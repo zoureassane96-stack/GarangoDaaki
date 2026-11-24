@@ -1709,6 +1709,36 @@
   font-weight:600;
   color:#718078;
 }
+  /* Vendeur compact : photo et identité sur une ligne */
+.listing-seller{
+  flex-wrap:wrap;
+  align-items:center;
+  gap:6px;
+  padding:6px 8px;
+  margin-top:7px;
+}
+
+.listing-seller img,
+.listing-seller .seller-initial{
+  width:32px;
+  height:32px;
+  flex-shrink:0;
+}
+
+.seller-name-block{
+  flex:1;
+  gap:2px;
+}
+
+.seller-name-block strong{
+  font-size:11px;
+  line-height:1.2;
+}
+
+.seller-name-block small{
+  font-size:9px;
+  line-height:1.2;
+}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
