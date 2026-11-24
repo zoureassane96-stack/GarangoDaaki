@@ -4730,7 +4730,10 @@ const {data:listing,error}=await supabaseClient.from('listings').insert({...payl
 if(error)throw error;
 const imageErrors=[];
 for(let i=0;i<files.length;i++){
-const file=files[i],ext=file.type==='image/png'?'png':file.type==='image/webp'?'webp':'jpg',path=`${currentUser.id}/${listing.id}/${crypto.randomUUID()}.${ext}`;
+const originalFile=files[i];
+const file=await optimizeListingPhoto(originalFile);
+const ext=file.type==='image/png'?'png':file.type==='image/webp'?'webp':'jpg';
+const path=`${currentUser.id}/${listing.id}/${crypto.randomUUID()}.${ext}`;
 const {error:upErr}=await supabaseClient.storage.from('listing-photos').upload(path,file,{contentType:file.type,upsert:false});
 if(upErr){imageErrors.push(file.name+': '+upErr.message);continue}
 const {data:urlData}=supabaseClient.storage.from('listing-photos').getPublicUrl(path);
