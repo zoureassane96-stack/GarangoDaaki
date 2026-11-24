@@ -1837,6 +1837,72 @@
     margin-top:7px !important;
   }
 }
+  /* ===== NOUVELLES CARTES MARKETPLACE GARANGODAAKI ===== */
+@media(max-width:760px){
+
+  #listingGrid .listing{
+    cursor:pointer;
+    border-radius:15px;
+    overflow:hidden;
+    border:1px solid #e5ece7;
+    box-shadow:0 3px 12px rgba(6,75,53,.07);
+    transition:transform .18s ease;
+  }
+
+  #listingGrid .listing:active{
+    transform:scale(.985);
+  }
+
+  #listingGrid .listing img.mainphoto{
+    width:100%;
+    height:165px !important;
+    object-fit:cover;
+  }
+
+  #listingGrid .listingbody{
+    padding:10px !important;
+  }
+
+  #listingGrid .listing h3{
+    min-height:0;
+    font-size:14px;
+    line-height:1.3;
+    margin:2px 0 7px;
+  }
+
+  #listingGrid .price{
+    font-size:16px;
+    font-weight:900;
+    margin:0 0 7px;
+  }
+
+  #listingGrid .description-preview,
+  #listingGrid .listing-actions{
+    display:none !important;
+  }
+
+  #listingGrid .meta{
+    font-size:11px;
+    margin-bottom:5px;
+  }
+
+  #listingGrid .listing-seller{
+    margin-top:8px !important;
+  }
+
+  #listingGrid .listingbody::after{
+    content:"Voir les détails  →";
+    display:block;
+    margin-top:9px;
+    padding:9px 6px;
+    border-radius:9px;
+    background:#eaf5ef;
+    color:#07543c;
+    font-size:11px;
+    font-weight:900;
+    text-align:center;
+  }
+}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
