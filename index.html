@@ -2106,6 +2106,25 @@
 .detail-gallery img:not(:first-child):active{
   transform:scale(.96);
 }
+  /* ===== COMPTEUR DE PHOTOS DE LA FICHE ===== */
+.detail-gallery{
+  position:relative;
+}
+
+.detail-photo-counter{
+  position:absolute;
+  right:12px;
+  bottom:20px;
+  z-index:5;
+  padding:7px 12px;
+  border-radius:20px;
+  background:rgba(6,75,53,.90);
+  color:white;
+  font-size:12px;
+  font-weight:900;
+  box-shadow:0 2px 8px rgba(0,0,0,.2);
+  pointer-events:none;
+}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
