@@ -4598,7 +4598,45 @@ img.alt='Aperçu photo';
 preview.appendChild(img)
 }
 });
+async function optimizeListingPhoto(file){
+  if(file.type === 'image/png') return file;
 
+  try{
+    const bitmap = await createImageBitmap(file);
+
+    const maxSize = 1600;
+    const ratio = Math.min(
+      1,
+      maxSize / Math.max(bitmap.width, bitmap.height)
+    );
+
+    const canvas = document.createElement('canvas');
+    canvas.width = Math.round(bitmap.width * ratio);
+    canvas.height = Math.round(bitmap.height * ratio);
+
+    const ctx = canvas.getContext('2d');
+    if(!ctx) return file;
+
+    ctx.drawImage(bitmap,0,0,canvas.width,canvas.height);
+    bitmap.close();
+
+    const blob = await new Promise(resolve=>{
+      canvas.toBlob(resolve,'image/jpeg',0.82);
+    });
+
+    if(!blob || blob.size >= file.size) return file;
+
+    return new File(
+      [blob],
+      file.name.replace(/\.[^.]+$/,'')+'.jpg',
+      {type:'image/jpeg'}
+    );
+
+  }catch(error){
+    console.warn('Compression photo ignorée :',error);
+    return file;
+  }
+}
 document.getElementById('publishForm').addEventListener('submit',async e=>{
 e.preventDefault();
 if(!currentUser){closeModal();openAuth('login');return}
