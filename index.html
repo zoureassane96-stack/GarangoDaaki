@@ -4157,11 +4157,15 @@ if(item.product_type === 'variants'){
                 data-detail-photo="${i}"
                 loading="${i===0?'eager':'lazy'}"
               >
-            `).join('')
+                        `).join('')
           : `<div class="detail-no-photo">
                Aucune photo disponible
              </div>`
         }
+
+        ${photos.length
+          ? `<span class="detail-photo-counter">1 / ${photos.length}</span>`
+          : ''}
       </div>
 
       <span class="detail-category">
