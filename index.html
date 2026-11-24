@@ -1754,6 +1754,89 @@
   font-size:9px;
   line-height:1.2;
 }
+  /* ===== ALIGNEMENT UNIFORME DES CARTES ===== */
+@media(max-width:760px){
+
+  #listingGrid .listing{
+    display:flex;
+    flex-direction:column;
+    height:100%;
+  }
+
+  #listingGrid .listingbody{
+    display:flex;
+    flex:1;
+    flex-direction:column;
+    min-width:0;
+  }
+
+  #listingGrid .listing h3{
+    min-height:32px;
+  }
+
+  #listingGrid .price{
+    min-height:18px;
+  }
+
+  #listingGrid .meta{
+    min-height:26px;
+    flex-wrap:nowrap;
+  }
+
+  #listingGrid .meta span{
+    min-width:0;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+  }
+
+  #listingGrid .listing-badges{
+    min-height:24px;
+    align-items:flex-start;
+  }
+
+  #listingGrid .description-preview{
+    min-height:28px;
+    max-height:28px;
+    overflow:hidden;
+  }
+
+  #listingGrid .listing-actions{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    grid-auto-rows:38px;
+    margin-top:auto !important;
+    padding-top:8px;
+    gap:5px;
+  }
+
+  #listingGrid .listing-actions button,
+  #listingGrid .listing-actions a{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    width:100%;
+    height:38px;
+    min-height:38px;
+    box-sizing:border-box;
+  }
+
+  #listingGrid .listing-actions .contactBtn,
+  #listingGrid .listing-actions .contact-placeholder{
+    grid-column:1 / -1;
+  }
+
+  #listingGrid .listing-actions .contact-placeholder{
+    height:38px;
+    visibility:hidden;
+  }
+
+  #listingGrid .listing-seller{
+    min-height:44px;
+    box-sizing:border-box;
+    margin-top:7px !important;
+  }
+}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
