@@ -4233,39 +4233,50 @@ sellerProfileBtn.addEventListener('click',()=>{
     });
   });
 
-    const detailImages = [
-    ...box.querySelectorAll('[data-detail-photo]')
-  ];
+      const mainImage = box.querySelector('[data-detail-photo="0"]');
 
-  const mainImage = detailImages[0];
+  const originalThumbnails = [
+    ...box.querySelectorAll('[data-detail-photo]')
+  ].slice(1);
+
   let activeDetailPhoto = 0;
   let detailTouchStartX = 0;
 
-  function selectDetailPhoto(index){
-    if(!detailImages.length) return;
+  if(mainImage && photos.length > 1){
 
-    activeDetailPhoto =
-      (index + detailImages.length) % detailImages.length;
+    // Ajouter la photo principale dans les miniatures
+    const firstThumbnail = mainImage.cloneNode(false);
+    firstThumbnail.dataset.detailPhoto = '0';
+    firstThumbnail.alt = 'Miniature photo 1';
+    firstThumbnail.loading = 'lazy';
+    mainImage.after(firstThumbnail);
 
-    mainImage.src = detailImages[activeDetailPhoto].src;
-    mainImage.alt = 'Photo ' + (activeDetailPhoto + 1) + ' de l’annonce';
+    const thumbnails = [
+      firstThumbnail,
+      ...originalThumbnails
+    ];
 
-    detailImages.slice(1).forEach((img,i)=>{
-      img.style.border =
-        (i + 1) === activeDetailPhoto
-          ? '3px solid #08734d'
-          : '2px solid #e5eee8';
+    function selectDetailPhoto(index){
+      activeDetailPhoto =
+        (index + photos.length) % photos.length;
+
+      mainImage.src = photos[activeDetailPhoto];
+      mainImage.alt =
+        'Photo ' + (activeDetailPhoto + 1) + ' de l’annonce';
+
+      thumbnails.forEach((img,i)=>{
+        img.style.border =
+          i === activeDetailPhoto
+            ? '3px solid #08734d'
+            : '2px solid #e5eee8';
+      });
+    }
+
+    thumbnails.forEach((img,i)=>{
+      img.addEventListener('click',()=>{
+        selectDetailPhoto(i);
+      });
     });
-  }
-
-  detailImages.slice(1).forEach(img=>{
-    img.addEventListener('click',()=>{
-      selectDetailPhoto(Number(img.dataset.detailPhoto));
-    });
-  });
-
-  if(mainImage){
-    mainImage.style.cursor = 'default';
 
     mainImage.addEventListener('touchstart',e=>{
       detailTouchStartX = e.changedTouches[0].screenX;
