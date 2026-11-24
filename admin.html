@@ -673,6 +673,7 @@ async function setSellerVerification(userId,isVerified,button){
 
   }
 }
+
 async function loadUsers(){
   const root=$('usersList');
   root.replaceChildren(make('div','empty','Chargement des utilisateurs…'));
@@ -686,66 +687,128 @@ async function loadUsers(){
 
   allUsers=data||[];
   renderUsers();
+  await loadVerificationRequests();
 }
 
-function renderUsers(){
-  const root=$('usersList');
-  const term=$('userSearch').value.trim().toLowerCase();
+async function loadVerificationRequests(){
+  const root=$('verificationRequestsList');
+  root.replaceChildren(make('div','empty','Chargement des demandes…'));
 
-  const filtered=allUsers.filter(u=>{
-    return [
-      u.full_name,u.email,u.phone,u.city
-    ].some(v=>String(v||'').toLowerCase().includes(term));
-  });
+  const {data,error}=await db
+    .from('seller_verification_requests')
+    .select('id,user_id,status,submitted_at')
+    .eq('status','pending')
+    .order('submitted_at',{ascending:true});
+
+  if(error)throw error;
 
   root.replaceChildren();
 
-  if(!filtered.length){
-    root.append(make('div','panel empty','Aucun utilisateur trouvé.'));
+  if(!data || !data.length){
+    root.append(make('div','empty','Aucune demande en attente.'));
     return;
   }
 
-  filtered.forEach(u=>{
+  data.forEach(request=>{
+    const seller=allUsers.find(u=>u.id===request.user_id);
     const card=make('article','user-card');
-    card.append(make('strong','',u.full_name||'Utilisateur sans nom'));
-    card.append(make('div','details','E-mail : '+(u.email||'Non renseigné')));
-    card.append(make('div','details','Téléphone : '+(u.phone||'Non renseigné')));
-    card.append(make('div','details','Ville : '+(u.city||'Non renseignée')));
-    card.append(make('div','details',
-      'Inscription : '+new Date(u.created_at).toLocaleDateString('fr-FR')
-    ));
+
     card.append(make(
-  'div',
-  'details',
-  u.is_verified ? '✓ Vendeur vérifié' : 'Vendeur non vérifié'
-));
-   const verifyBtn=make(
-  'button',
-  u.is_verified?'reject':'approve',
-  u.is_verified?'Retirer la vérification':'✓ Vérifier le vendeur'
-);
+      'strong','',
+      seller?.full_name||'Vendeur sans nom'
+    ));
 
-verifyBtn.type='button';
+    card.append(make(
+      'div','details',
+      'Téléphone : '+(seller?.phone||'Non renseigné')
+    ));
 
-verifyBtn.addEventListener('click',()=>{
-  setSellerVerification(u.id,!u.is_verified,verifyBtn);
-});
+    card.append(make(
+      'div','details',
+      'Ville : '+(seller?.city||'Non renseignée')
+    ));
 
-card.append(verifyBtn); 
+    card.append(make(
+      'div','details',
+      'Demande envoyée le : '+
+      new Date(request.submitted_at).toLocaleString('fr-FR')
+    ));
+
+    const actions=make('div','');
+    actions.style.display='flex';
+    actions.style.gap='8px';
+    actions.style.flexWrap='wrap';
+    actions.style.marginTop='12px';
+
+    const approve=make('button','approve','✓ Accepter');
+    approve.type='button';
+    approve.addEventListener('click',()=>{
+      reviewSellerRequest(request,true,approve);
+    });
+
+    const reject=make('button','reject','Refuser');
+    reject.type='button';
+    reject.addEventListener('click',()=>{
+      reviewSellerRequest(request,false,reject);
+    });
+
+    actions.append(approve,reject);
+    card.append(actions);
     root.append(card);
   });
 }
 
-$('userSearch').addEventListener('input',renderUsers);
+async function reviewSellerRequest(request,approved,button){
+  const action=approved?'accepter':'refuser';
 
-$('usersRefreshBtn').addEventListener('click',async()=>{
+  if(!confirm('Confirmer : '+action+' cette demande ?'))return;
+
+  button.disabled=true;
+
   try{
+    if(approved){
+      const {error:verifyError}=await db.rpc(
+        'admin_set_seller_verified',
+        {
+          p_user_id:request.user_id,
+          p_is_verified:true
+        }
+      );
+
+      if(verifyError)throw verifyError;
+    }
+
+    const {error:updateError}=await db
+      .from('seller_verification_requests')
+      .update({
+        status:approved?'approved':'rejected',
+        reviewed_at:new Date().toISOString()
+      })
+      .eq('id',request.id);
+
+    if(updateError){
+      throw new Error(
+        approved
+          ? 'Le vendeur est vérifié, mais la demande n’a pas pu être clôturée : '+updateError.message
+          : updateError.message
+      );
+    }
+
+    note(
+      'message',
+      approved
+        ?'✓ Vendeur vérifié avec succès.'
+        :'Demande de vérification refusée.'
+    );
+
     await loadUsers();
-    note('message','Liste des utilisateurs actualisée.');
+
   }catch(err){
-    note('message','Erreur utilisateurs : '+err.message,true);
+    note('message','Erreur : '+err.message,true);
+    button.disabled=false;
   }
-});
+}
+
   let historyRows=[];
 let historyListingNames={};
 let historyAdminEmails={};
