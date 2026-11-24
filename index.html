@@ -4354,7 +4354,10 @@ sellerProfileBtn.addEventListener('click',()=>{
     function selectDetailPhoto(index){
       activeDetailPhoto =
         (index + photos.length) % photos.length;
-
+if(photoCounter){
+  photoCounter.textContent =
+    (activeDetailPhoto + 1) + ' / ' + photos.length;
+}
       mainImage.style.opacity = '0.55';
 mainImage.src = photos[activeDetailPhoto];
 
