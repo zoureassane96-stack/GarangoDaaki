@@ -3586,6 +3586,16 @@ const image=card.querySelector('img.mainphoto');
 image.src=img;
 image.style.cursor='pointer';
 card.querySelector('h3').textContent=item.title;
+  const listingTitle = card.querySelector('h3');
+const photoCount = card.querySelector('.photo-count-badge');
+
+if(photoCount && listingTitle){
+  const titleRow = document.createElement('div');
+  titleRow.className = 'listing-title-row';
+
+  listingTitle.parentNode.insertBefore(titleRow,listingTitle);
+  titleRow.append(listingTitle,photoCount);
+}
 card.querySelector('.price').textContent=item.price!==null&&item.price!==''?Number(item.price).toLocaleString('fr-FR')+' FCFA':(item.negotiable?'Prix à discuter':'Prix non précisé');
 card.querySelector('.city').textContent='📍 '+item.city;
 card.querySelector('.category').textContent=item.category;
