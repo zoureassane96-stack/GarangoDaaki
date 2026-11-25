@@ -5602,13 +5602,20 @@ if(
 
 controls.append(edit,del);
   controls.querySelectorAll('button').forEach(btn=>{
-  btn.style.flex='1 1 130px';
-  btn.style.minHeight='42px';
+  btn.style.width='100%';
+  btn.style.minWidth='0';
+  btn.style.minHeight='44px';
   btn.style.borderRadius='10px';
-  btn.style.padding='10px';
+  btn.style.padding='9px 6px';
   btn.style.fontSize='12px';
   btn.style.fontWeight='800';
+  btn.style.whiteSpace='normal';
 });
+
+const promoBox=controls.querySelector('div');
+if(promoBox){
+  promoBox.style.gridColumn='1 / -1';
+}
 row.append(header,controls);
 box.appendChild(row);
 });
