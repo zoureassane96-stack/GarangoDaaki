@@ -5015,8 +5015,14 @@ if(photosError)throw photosError;
 
 const currentPhotos=existingPhotos||[];
 
-if(currentPhotos.length+files.length>5){
-  throw new Error('Maximum 5 photos au total. Votre annonce possède déjà '+currentPhotos.length+' photo(s).');
+if(existingPhotoEdits.length!==currentPhotos.length){
+  throw new Error('Attendez le chargement des photos existantes avant de continuer.');
+}
+
+const remainingPhotos=existingPhotoEdits.filter(photo=>!photo.deleted).length;
+
+if(remainingPhotos+files.length>5){
+  throw new Error('Maximum 5 photos au total. Supprimez une photo ou choisissez-en moins.');
 }
 
 for(const f of files){
