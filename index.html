@@ -5068,8 +5068,11 @@ if(data?.length){
   if(!photosError){
     (photos||[]).forEach(photo=>{
       if(!listingPhotosById[photo.listing_id]){
-        listingPhotosById[photo.listing_id]=photo.image_url;
-      }
+  listingPhotosById[photo.listing_id]=photo.image_url;
+}
+
+listingPhotoCounts[photo.listing_id]=
+  (listingPhotoCounts[photo.listing_id]||0)+1;
     });
   }
 }
