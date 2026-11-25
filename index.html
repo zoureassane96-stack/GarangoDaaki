@@ -5056,6 +5056,7 @@ const {data,error}=await supabaseClient
 
 if(error)throw error;
 let listingPhotosById={};
+let listingPhotoCounts={};
 
 if(data?.length){
   const {data:photos,error:photosError}=await supabaseClient
