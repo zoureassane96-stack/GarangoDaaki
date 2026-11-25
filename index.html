@@ -3614,7 +3614,7 @@ const isNewListing =
 
 const newListingBadge = isNewListing
   ? `<span class="new-listing-badge"
-       style="top:${item.is_featured ? '43px' : '10px'}">
+       style="top:${isFeaturedActive ? '43px' : '10px'}"
        ✨ Nouveau
      </span>`
   : '';
