@@ -3286,7 +3286,7 @@ document.getElementById('existingPhotoManager').style.display='none';
 async function loadExistingPhotoManager(listingId){
   const manager=document.getElementById('existingPhotoManager');
   manager.innerHTML='';
-
+  existingPhotoEdits=[];
   const {data:photos,error}=await supabaseClient
     .from('listing_images')
     .select('image_url,position')
