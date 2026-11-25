@@ -3598,6 +3598,10 @@ listingCount.textContent = `${visibleListings.length} annonce(s) affichée(s) su
 visibleListings.forEach(item=>{
 const card=document.createElement('article');
 card.className='listing';
+  const isFeaturedActive =
+  item.is_featured === true &&
+  item.featured_until &&
+  new Date(item.featured_until).getTime() > Date.now();
 const img=item.images?.[0]||'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=700&q=80';
   const listingAge = item.created_at
   ? Date.now() - new Date(item.created_at).getTime()
