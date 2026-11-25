@@ -5106,8 +5106,9 @@ const {error}=await supabaseClient
 
 if(error)throw error;
 
-const imageErrors=[];
+await applyExistingPhotoEdits(id);
 
+const imageErrors=[];
 for(let i=0;i<files.length;i++){
   const file=await optimizeListingPhoto(files[i]);
   const ext=file.type==='image/png'?'png':file.type==='image/webp'?'webp':'jpg';
