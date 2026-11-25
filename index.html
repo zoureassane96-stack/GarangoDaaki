@@ -3213,6 +3213,16 @@ function resetPublishForm(){
 
   setStatus('publishStatus','');
 }
+  function getListingPhotoStoragePath(imageUrl){
+  const prefix=SUPABASE_URL+'/storage/v1/object/public/listing-photos/';
+  if(!imageUrl || !imageUrl.startsWith(prefix))return null;
+
+  try{
+    return decodeURIComponent(imageUrl.slice(prefix.length));
+  }catch(error){
+    return null;
+  }
+}
 async function loadExistingPhotoManager(listingId){
   const manager=document.getElementById('existingPhotoManager');
   manager.innerHTML='';
