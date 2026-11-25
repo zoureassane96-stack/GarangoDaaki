@@ -1311,15 +1311,16 @@ $('adminNav').addEventListener('click',e=>{
     b.classList.toggle('active',b===btn);
   });
 
-   [
+  [
   'overview',
   'users',
   'allListings',
+  'featured',
   'pending',
   'reports',
   'reviews',
   'history'
-].forEach(page=>{
+] .forEach(page=>{
     show(page+'Page',page===btn.dataset.page);
   });
 
