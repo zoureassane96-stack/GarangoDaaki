@@ -1335,7 +1335,11 @@ $('adminNav').addEventListener('click',e=>{
     note('message','Erreur des avis : '+err.message,true);
   });
 }
-
+if(btn.dataset.page==='featured'){
+  loadFeaturedRequests().catch(err=>{
+    note('message','Erreur des demandes de mise en avant : '+err.message,true);
+  });
+}
 if(btn.dataset.page==='history'){
   loadHistory().catch(err=>{
     note('message','Erreur historique : '+err.message,true);
