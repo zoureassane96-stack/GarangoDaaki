@@ -4231,25 +4231,19 @@ decoding="async"
 
       <div class="detail-price">${price}</div>
 
-      </div>
+<div class="detail-meta">
+  <span>📍 ${safeText(item.city || 'Localité non renseignée')}</span>
+  ${dateText ? `<span>📅 ${safeText(dateText)}</span>` : ''}
+  ${item.negotiable ? '<span>🤝 Prix négociable</span>' : ''}
+</div>
 
-<div style="display:flex;gap:10px;margin:18px 0;flex-wrap:wrap">
-  <button
-    type="button"
-    id="detailShareBtn"
-    class="btn btn-green"
-    style="flex:1;min-width:130px"
-  >
-    ↗ Partager
+<div class="detail-share-actions">
+  <button type="button" id="detailShareBtn">
+    <span>↗</span> Partager
   </button>
 
-  <button
-    type="button"
-    id="detailCopyBtn"
-    class="btn btn-outline"
-    style="flex:1;min-width:130px"
-  >
-    🔗 Copier le lien
+  <button type="button" id="detailCopyBtn">
+    <span>🔗</span> Copier le lien
   </button>
 </div>
 
