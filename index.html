@@ -3363,7 +3363,7 @@ async function loadExistingPhotoManager(listingId){
     manager.appendChild(row);
   });
 }
- function openEditListing(item){
+ async function openEditListing(item){
   if(!currentUser || item.user_id!==currentUser.id){
     alert('Vous ne pouvez modifier que vos propres annonces.');
     return;
