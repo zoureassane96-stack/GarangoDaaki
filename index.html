@@ -5460,7 +5460,7 @@ statusBadge.style.cssText='padding:7px 10px;border-radius:20px;font-size:11px;fo
 header.append(info,statusBadge);
 
 const controls=document.createElement('div');
-controls.style.cssText='display:flex;flex-wrap:wrap;gap:9px;width:100%;align-items:center';
+controls.style.cssText='display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;width:100%;align-items:stretch';
 
 
 const edit=document.createElement('button');
