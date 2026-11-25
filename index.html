@@ -3260,8 +3260,12 @@ function resetPublishForm(){
   updateProductFields();
 
   document.getElementById('photos').value='';
-  document.getElementById('photos').disabled=true;
-  document.getElementById('photoField').style.display='none';
+document.getElementById('photos').disabled=false;
+document.getElementById('photoField').style.display='';
+document.getElementById('preview').innerHTML='';
+
+document.getElementById('photoHint').textContent=
+  'Ajoutez des photos si nécessaire. Les photos existantes seront conservées. Maximum 5 photos au total, 2 Mo chacune.';
 
   document.getElementById('formTitle').textContent='Modifier mon annonce';
   document.getElementById('publishSubmit').textContent='Enregistrer les modifications';
