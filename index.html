@@ -5086,8 +5086,11 @@ if(photosError)throw photosError;
 
 const currentPhotos=existingPhotos||[];
 
-if(existingPhotoEdits.length!==currentPhotos.length){
-  throw new Error('Attendez le chargement des photos existantes avant de continuer.');
+if(
+  existingPhotoEdits.length!==currentPhotos.length ||
+  existingPhotoEdits.some((photo,index)=>photo.image_url!==currentPhotos[index].image_url)
+){
+  throw new Error('Les photos n’ont pas fini de charger. Fermez puis rouvrez la modification.');
 }
 
 const remainingPhotos=existingPhotoEdits.filter(photo=>!photo.deleted).length;
