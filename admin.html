@@ -918,7 +918,7 @@ async function loadFeaturedRequests(){
 
   const {data:listings,error:listError}=await db
     .from('listings')
-    .select('id,title,city')
+    .select('id,title,city,phone')
     .in('id',listingIds);
 
   if(listError)throw listError;
