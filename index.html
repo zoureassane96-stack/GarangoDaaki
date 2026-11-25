@@ -3263,16 +3263,29 @@ document.getElementById('existingPhotoManager').style.display='none';
         .from('listing-photos')
         .getPublicUrl(path);
 
-      const {error:updateError}=await supabaseClient
-        .from('listing_images')
-        .update({image_url:urlData.publicUrl})
-        .eq('listing_id',listingId)
-        .eq('image_url',photo.image_url);
+      const {error:insertError}=await supabaseClient
+  .from('listing_images')
+  .insert({
+    listing_id:listingId,
+    image_url:urlData.publicUrl,
+    position:photo.position
+  });
 
-      if(updateError){
-        await supabaseClient.storage.from('listing-photos').remove([path]);
-        throw updateError;
-      }
+if(insertError){
+  await supabaseClient.storage.from('listing-photos').remove([path]);
+  throw insertError;
+}
+
+const {error:deleteError}=await supabaseClient
+  .from('listing_images')
+  .delete()
+  .eq('listing_id',listingId)
+  .eq('image_url',photo.image_url);
+
+if(deleteError){
+  await supabaseClient.storage.from('listing-photos').remove([path]);
+  throw deleteError;
+}
 
       const oldPath=getListingPhotoStoragePath(photo.image_url);
       if(oldPath){
