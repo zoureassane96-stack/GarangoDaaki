@@ -3228,25 +3228,71 @@ async function loadExistingPhotoManager(listingId){
     return;
   }
 
-  if(!photos || photos.length===0){
+  existingPhotoEdits=(photos||[]).map(photo=>({
+    image_url:photo.image_url,
+    position:photo.position,
+    replacement:null,
+    deleted:false
+  }));
+
+  if(existingPhotoEdits.length===0){
     manager.textContent='Aucune photo existante.';
     return;
   }
 
-  photos.forEach((photo,index)=>{
+  existingPhotoEdits.forEach((photo,index)=>{
     const row=document.createElement('div');
-    row.style.cssText='display:flex;align-items:center;gap:10px;margin:6px 0;padding:5px;border:1px solid #e5e5e5;border-radius:8px;';
+    row.style.cssText='display:flex;align-items:center;gap:8px;margin:6px 0;padding:5px;border:1px solid #e5e5e5;border-radius:8px;';
 
     const img=document.createElement('img');
     img.src=photo.image_url;
-    img.alt='Photo '+(index+1);
     img.style.cssText='width:50px;height:50px;object-fit:cover;border-radius:6px;';
 
     const label=document.createElement('span');
     label.textContent='Photo '+(index+1);
-    label.style.cssText='font-size:13px;font-weight:600;';
+    label.style.cssText='font-size:12px;font-weight:600;flex:1;';
 
-    row.append(img,label);
+    const fileInput=document.createElement('input');
+    fileInput.type='file';
+    fileInput.accept='image/jpeg,image/png,image/webp';
+    fileInput.style.display='none';
+
+    const editBtn=document.createElement('button');
+    editBtn.type='button';
+    editBtn.textContent='Modifier';
+    editBtn.style.cssText='font-size:11px;padding:6px 8px;border:0;border-radius:5px;background:#08734d;color:white;';
+    editBtn.onclick=()=>fileInput.click();
+
+    fileInput.onchange=()=>{
+      const file=fileInput.files[0];
+      if(!file)return;
+
+      if(!['image/jpeg','image/png','image/webp'].includes(file.type)||file.size>2*1024*1024){
+        alert('Choisissez une image JPG, PNG ou WebP de 2 Mo maximum.');
+        fileInput.value='';
+        return;
+      }
+
+      existingPhotoEdits[index].replacement=file;
+      existingPhotoEdits[index].deleted=false;
+      img.src=URL.createObjectURL(file);
+      label.textContent='Photo '+(index+1)+' • Nouvelle photo';
+      row.style.opacity='1';
+    };
+
+    const deleteBtn=document.createElement('button');
+    deleteBtn.type='button';
+    deleteBtn.textContent='Supprimer';
+    deleteBtn.style.cssText='font-size:11px;padding:6px 8px;border:0;border-radius:5px;background:#b42318;color:white;';
+
+    deleteBtn.onclick=()=>{
+      const edit=existingPhotoEdits[index];
+      edit.deleted=!edit.deleted;
+      row.style.opacity=edit.deleted?'0.4':'1';
+      deleteBtn.textContent=edit.deleted?'Annuler':'Supprimer';
+    };
+
+    row.append(img,label,editBtn,deleteBtn,fileInput);
     manager.appendChild(row);
   });
 }
