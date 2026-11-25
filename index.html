@@ -4917,13 +4917,78 @@ const payload = {
 if(!title||!category||!city||!listing_type||!description)throw new Error('Veuillez remplir tous les champs obligatoires.');
 if(editingListingId){
 const id=editingListingId;
-const {error}=await supabaseClient.from('listings').update(payload).eq('id',id).eq('user_id',currentUser.id);
+const files=[...document.getElementById('photos').files];
+
+const {data:existingPhotos,error:photosError}=await supabaseClient
+  .from('listing_images')
+  .select('image_url,position')
+  .eq('listing_id',id)
+  .order('position',{ascending:true});
+
+if(photosError)throw photosError;
+
+const currentPhotos=existingPhotos||[];
+
+if(currentPhotos.length+files.length>5){
+  throw new Error('Maximum 5 photos au total. Votre annonce possède déjà '+currentPhotos.length+' photo(s).');
+}
+
+for(const f of files){
+  if(!['image/jpeg','image/png','image/webp'].includes(f.type)||f.size>2*1024*1024){
+    throw new Error('Chaque photo doit être JPG, PNG ou WebP et ne pas dépasser 2 Mo.');
+  }
+}
+
+const {error}=await supabaseClient
+  .from('listings')
+  .update(payload)
+  .eq('id',id)
+  .eq('user_id',currentUser.id);
+
 if(error)throw error;
-alert('Votre annonce a été modifiée. Son statut de validation et ses photos sont conservés.');
+
+const imageErrors=[];
+
+for(let i=0;i<files.length;i++){
+  const file=await optimizeListingPhoto(files[i]);
+  const ext=file.type==='image/png'?'png':file.type==='image/webp'?'webp':'jpg';
+  const path=`${currentUser.id}/${id}/${crypto.randomUUID()}.${ext}`;
+
+  const {error:upErr}=await supabaseClient.storage
+    .from('listing-photos')
+    .upload(path,file,{contentType:file.type,upsert:false});
+
+  if(upErr){
+    imageErrors.push(files[i].name);
+    continue;
+  }
+
+  const {data:urlData}=supabaseClient.storage
+    .from('listing-photos')
+    .getPublicUrl(path);
+
+  const {error:rowErr}=await supabaseClient
+    .from('listing_images')
+    .insert({
+      listing_id:id,
+      image_url:urlData.publicUrl,
+      position:currentPhotos.length+i
+    });
+
+  if(rowErr)imageErrors.push(files[i].name);
+}
+
+if(imageErrors.length){
+  alert('Les informations sont modifiées, mais certaines photos n’ont pas été ajoutées. Réessayez.');
+}else{
+  alert('Annonce modifiée avec succès. Les anciennes photos sont conservées et les nouvelles sont ajoutées.');
+}
+
 closeModal();
 resetPublishForm();
 await loadListings();
-await openProfile()
+await openProfile();
+
 }else{
 const files=[...document.getElementById('photos').files];
 if(files.length>5)throw new Error('Maximum 5 photos.');
