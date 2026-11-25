@@ -5492,7 +5492,16 @@ const cityText=document.createElement('span');
 cityText.textContent='📍 '+(item.city||'Localité non renseignée');
 cityText.style.cssText='font-size:12px;color:#68776e;font-weight:600';
 
-info.append(titleText,priceText,cityText);
+const photoCountText=document.createElement('span');
+const photoCount=listingPhotoCounts[item.id]||0;
+
+photoCountText.textContent=photoCount>0
+  ? '📷 '+photoCount+' photo'+(photoCount>1?'s':'')
+  : '📷 Aucune photo';
+
+photoCountText.style.cssText='font-size:11px;color:#08734d;font-weight:800';
+
+info.append(titleText,priceText,cityText,photoCountText);
 
 titleArea.append(thumb,info);
 
