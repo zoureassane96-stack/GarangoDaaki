@@ -5472,8 +5472,23 @@ if(photoUrl){
 }
 
 const info=document.createElement('div');
-info.textContent=item.title;
-info.style.cssText='flex:1;min-width:0;font-size:15px;font-weight:900;color:#064b35;line-height:1.4;overflow-wrap:anywhere';
+info.style.cssText='flex:1;min-width:0;display:flex;flex-direction:column;gap:5px';
+
+const titleText=document.createElement('strong');
+titleText.textContent=item.title;
+titleText.style.cssText='font-size:15px;font-weight:900;color:#064b35;line-height:1.4;overflow-wrap:anywhere';
+
+const priceText=document.createElement('span');
+priceText.textContent=item.price!==null&&item.price!==''
+  ? Number(item.price).toLocaleString('fr-FR')+' FCFA'
+  : (item.negotiable?'Prix à discuter':'Prix non précisé');
+priceText.style.cssText='font-size:13px;font-weight:800;color:#e87916';
+
+const cityText=document.createElement('span');
+cityText.textContent='📍 '+(item.city||'Localité non renseignée');
+cityText.style.cssText='font-size:12px;color:#68776e;font-weight:600';
+
+info.append(titleText,priceText,cityText);
 
 titleArea.append(thumb,info);
 
