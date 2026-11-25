@@ -2725,6 +2725,7 @@ const SUPABASE_KEY='sb_publishable_41TR7IoA2GmoO3GoN1Cayg_meKVO_qn';
 const supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 let currentUser=null,favoriteIds=new Set(),allListings=[],authMode='login',editingListingId=null;
+let existingPhotoEdits=[];
 let unreadCount=0;
 function updateCategoryCounters(){
   const aliases = {
