@@ -4395,7 +4395,52 @@ sellerProfileBtn.addEventListener('click',()=>{
       behavior:'smooth'
     });
   });
+// Partager l'annonce depuis les détails
+document.getElementById('detailShareBtn')
+  .addEventListener('click', async()=>{
+    const shareUrl = window.location.origin +
+      '/api/share?id=' + encodeURIComponent(item.id);
 
+    const shareData = {
+      title: item.title,
+      text: 'Découvrez cette annonce sur GarangoDaaki : ' + item.title,
+      url: shareUrl
+    };
+
+    if(navigator.share){
+      try{
+        await navigator.share(shareData);
+      }catch(error){
+        if(error.name !== 'AbortError') console.error(error);
+      }
+    }else{
+      window.open(
+        'https://wa.me/?text=' +
+        encodeURIComponent(shareData.text + ' ' + shareUrl),
+        '_blank'
+      );
+    }
+});
+
+// Copier le lien depuis les détails
+document.getElementById('detailCopyBtn')
+  .addEventListener('click', async()=>{
+    const shareUrl = window.location.origin +
+      '/api/share?id=' + encodeURIComponent(item.id);
+
+    try{
+      await navigator.clipboard.writeText(shareUrl);
+      alert('✅ Lien de l’annonce copié avec succès !');
+    }catch(error){
+      const temp = document.createElement('textarea');
+      temp.value = shareUrl;
+      document.body.appendChild(temp);
+      temp.select();
+      document.execCommand('copy');
+      temp.remove();
+      alert('✅ Lien de l’annonce copié !');
+    }
+});
       const mainImage = box.querySelector('[data-detail-photo="0"]');
 
   const originalThumbnails = [
