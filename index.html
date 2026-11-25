@@ -3212,7 +3212,43 @@ function resetPublishForm(){
 
   setStatus('publishStatus','');
 }
+async function loadExistingPhotoManager(listingId){
+  const manager=document.getElementById('existingPhotoManager');
+  manager.innerHTML='';
 
+  const {data:photos,error}=await supabaseClient
+    .from('listing_images')
+    .select('image_url,position')
+    .eq('listing_id',listingId)
+    .order('position',{ascending:true});
+
+  if(error){
+    manager.textContent='Impossible de charger les photos.';
+    return;
+  }
+
+  if(!photos || photos.length===0){
+    manager.textContent='Aucune photo existante.';
+    return;
+  }
+
+  photos.forEach((photo,index)=>{
+    const row=document.createElement('div');
+    row.style.cssText='display:flex;align-items:center;gap:10px;margin:6px 0;padding:5px;border:1px solid #e5e5e5;border-radius:8px;';
+
+    const img=document.createElement('img');
+    img.src=photo.image_url;
+    img.alt='Photo '+(index+1);
+    img.style.cssText='width:50px;height:50px;object-fit:cover;border-radius:6px;';
+
+    const label=document.createElement('span');
+    label.textContent='Photo '+(index+1);
+    label.style.cssText='font-size:13px;font-weight:600;';
+
+    row.append(img,label);
+    manager.appendChild(row);
+  });
+}
  function openEditListing(item){
   if(!currentUser || item.user_id!==currentUser.id){
     alert('Vous ne pouvez modifier que vos propres annonces.');
