@@ -895,7 +895,134 @@ $('verificationRefreshBtn').addEventListener('click',async()=>{
     note('message','Erreur : '+err.message,true);
   }
 });
+async function loadFeaturedRequests(){
+  const root=$('featuredRequestsList');
+  root.replaceChildren(make('div','empty','Chargement des demandes…'));
 
+  const {data,error}=await db
+    .from('featured_listing_requests')
+    .select('id,listing_id,user_id,duration_days,amount_fcfa,submitted_at')
+    .eq('status','pending')
+    .order('submitted_at',{ascending:true});
+
+  if(error)throw error;
+
+  root.replaceChildren();
+
+  if(!data || !data.length){
+    root.append(make('div','empty','Aucune demande de mise en avant en attente.'));
+    return;
+  }
+
+  const listingIds=[...new Set(data.map(r=>r.listing_id))];
+
+  const {data:listings,error:listError}=await db
+    .from('listings')
+    .select('id,title,city')
+    .in('id',listingIds);
+
+  if(listError)throw listError;
+
+  const listingMap={};
+  (listings||[]).forEach(item=>{
+    listingMap[item.id]=item;
+  });
+
+  data.forEach(request=>{
+    const seller=allUsers.find(u=>u.id===request.user_id);
+    const listing=listingMap[request.listing_id];
+
+    const card=make('article','user-card');
+
+    card.append(make('strong','',
+      listing?.title||'Annonce introuvable'
+    ));
+
+    card.append(make('div','details',
+      'Vendeur : '+(seller?.full_name||'Nom non renseigné')
+    ));
+
+    card.append(make('div','details',
+      'Téléphone : '+(seller?.phone||'Non renseigné')
+    ));
+
+    card.append(make('div','details',
+      'Ville : '+(listing?.city||seller?.city||'Non renseignée')
+    ));
+
+    card.append(make('div','details',
+      'Durée : '+request.duration_days+' jours'
+    ));
+
+    card.append(make('div','details',
+      'Montant à recevoir : '+Number(request.amount_fcfa).toLocaleString('fr-FR')+' FCFA'
+    ));
+
+    card.append(make('div','details',
+      'Demandée le : '+new Date(request.submitted_at).toLocaleString('fr-FR')
+    ));
+
+    const actions=make('div','');
+    actions.style.cssText='display:flex;gap:8px;flex-wrap:wrap;margin-top:12px';
+
+    const approve=make('button','approve','✓ Valider après paiement');
+    approve.type='button';
+    approve.addEventListener('click',()=>{
+      reviewFeaturedRequest(request,true,approve);
+    });
+
+    const reject=make('button','reject','Refuser');
+    reject.type='button';
+    reject.addEventListener('click',()=>{
+      reviewFeaturedRequest(request,false,reject);
+    });
+
+    actions.append(approve,reject);
+    card.append(actions);
+    root.append(card);
+  });
+}
+
+async function reviewFeaturedRequest(request,approved,button){
+  const action=approved?'valider':'refuser';
+
+  const message=approved
+    ?'As-tu vérifié et reçu le paiement de '+Number(request.amount_fcfa).toLocaleString('fr-FR')+' FCFA ?'
+    :'Confirmer le refus de cette demande ?';
+
+  if(!confirm(message))return;
+
+  button.disabled=true;
+
+  try{
+    const {error}=await db.rpc('admin_review_featured_request',{
+      p_request_id:request.id,
+      p_approve:approved
+    });
+
+    if(error)throw error;
+
+    note('message',approved
+      ?'⭐ Mise en avant activée avec succès.'
+      :'Demande de mise en avant refusée.'
+    );
+
+    await loadFeaturedRequests();
+
+  }catch(err){
+    note('message','Erreur : '+err.message,true);
+    button.disabled=false;
+  }
+}
+
+$('featuredRefreshBtn').addEventListener('click',async()=>{
+  try{
+    await loadFeaturedRequests();
+    note('message','Demandes de mise en avant actualisées.');
+  }catch(err){
+    note('message','Erreur : '+err.message,true);
+  }
+});
   let historyRows=[];
 let historyListingNames={};
 let historyAdminEmails={};
