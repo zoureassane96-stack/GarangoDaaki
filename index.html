@@ -206,7 +206,44 @@
     padding:13px;
   }
 }
+.detail-share-actions{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin:12px 0 20px;
+}
 
+.detail-share-actions button{
+  min-height:54px;
+  border:1px solid #08734d;
+  border-radius:13px;
+  background:#064b35;
+  color:#fff;
+  font-size:15px;
+  font-weight:800;
+  padding:12px 8px;
+  cursor:pointer;
+  box-shadow:0 3px 8px #064b3518;
+}
+
+.detail-share-actions button:last-child{
+  background:#fff;
+  color:#064b35;
+}
+
+.detail-share-actions button:active{
+  transform:scale(.98);
+}
+
+@media(max-width:380px){
+  .detail-share-actions{
+    gap:8px;
+  }
+  .detail-share-actions button{
+    font-size:13px;
+    padding:10px 5px;
+  }
+}
 /* ===== SIGNALEMENT D'ANNONCE ===== */
 .detail-report{
   background:#fff;
