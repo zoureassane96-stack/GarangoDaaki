@@ -4045,7 +4045,8 @@ if(seller.is_verified === true){
   name.appendChild(verifiedBadge);
 }
     const city = document.createElement('p');
-    city.textContent = '📍 ' + (seller.city || 'Localité non renseignée');
+    const sellerCity = seller.city || items.find(item=>item.city)?.city || 'Localité non renseignée';
+city.textContent = '📍 ' + sellerCity;
 
     const count = document.createElement('p');
 count.textContent = items.length + ' annonce(s) publiée(s)';
