@@ -943,8 +943,8 @@ async function loadFeaturedRequests(){
     ));
 
     card.append(make('div','details',
-      'Téléphone : '+(seller?.phone||'Non renseigné')
-    ));
+  'Téléphone : '+(listing?.phone||seller?.phone||'Non renseigné')
+));
 
     card.append(make('div','details',
       'Ville : '+(listing?.city||seller?.city||'Non renseignée')
