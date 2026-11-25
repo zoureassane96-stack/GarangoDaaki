@@ -942,10 +942,33 @@ async function loadFeaturedRequests(){
       'Vendeur : '+(seller?.full_name||'Nom non renseigné')
     ));
 
-    card.append(make('div','details',
-  'Téléphone : '+(listing?.phone||seller?.phone||'Non renseigné')
-));
+    const sellerPhone=String(
+  listing?.phone||seller?.phone||''
+).replace(/\D/g,'');
 
+const phoneRow=make('div','details',
+  'Téléphone : '+(sellerPhone||'Non renseigné')
+);
+
+card.append(phoneRow);
+
+if(sellerPhone){
+  const whatsappNumber=sellerPhone.startsWith('226')
+    ? sellerPhone
+    : '226'+sellerPhone;
+
+  const whatsappLink=make('a','',
+    '🟢 Contacter sur WhatsApp'
+  );
+
+  whatsappLink.href='https://wa.me/'+whatsappNumber;
+  whatsappLink.target='_blank';
+  whatsappLink.rel='noopener noreferrer';
+  whatsappLink.style.cssText=
+    'display:inline-block;margin:8px 0;padding:9px 13px;background:#e8f7ed;color:#08734d;border-radius:9px;font-weight:800;text-decoration:none';
+
+  card.append(whatsappLink);
+}
     card.append(make('div','details',
       'Ville : '+(listing?.city||seller?.city||'Non renseignée')
     ));
