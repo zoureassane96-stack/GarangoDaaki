@@ -5337,6 +5337,84 @@ if(
   controls.appendChild(stockBtn);
 }
 
+if(
+  item.status === 'published' &&
+  item.availability_status === 'available'
+){
+  const promoBox = document.createElement('div');
+  promoBox.style.cssText =
+    'width:100%;padding:12px;background:#fff8ed;border:1px solid #f4d5a8;border-radius:12px;margin:8px 0';
+
+  const promoTitle = document.createElement('strong');
+  promoTitle.textContent = '⭐ Mettre mon annonce à la une';
+  promoTitle.style.cssText = 'display:block;color:#985000;margin-bottom:8px';
+
+  const promoSelect = document.createElement('select');
+  promoSelect.style.cssText =
+    'width:100%;padding:11px;border:1px solid #e5c99f;border-radius:9px;margin-bottom:9px';
+
+  [
+    {days:3,price:500},
+    {days:7,price:1000},
+    {days:15,price:2000},
+    {days:30,price:3500}
+  ].forEach(option=>{
+    const opt=document.createElement('option');
+    opt.value=option.days;
+    opt.textContent=option.days+' jours — '+option.price.toLocaleString('fr-FR')+' FCFA';
+    promoSelect.appendChild(opt);
+  });
+
+  const promoStatus = document.createElement('p');
+  promoStatus.style.cssText =
+    'font-size:12px;margin:5px 0;color:#52665b';
+
+  const promoBtn = document.createElement('button');
+  promoBtn.type='button';
+  promoBtn.className='btn btn-orange';
+  promoBtn.textContent='Demander la mise en avant';
+  promoBtn.style.cssText='width:100%;padding:11px;border-radius:9px;font-weight:800';
+
+  if(item.is_featured && item.featured_until &&
+     new Date(item.featured_until)>new Date()){
+    promoStatus.textContent =
+      '⭐ Votre annonce est actuellement à la une jusqu’au '+new Date(item.featured_until).toLocaleDateString('fr-FR');
+    promoBtn.disabled=true;
+    promoBtn.textContent='Déjà mise en avant';
+  }
+
+  promoBtn.onclick=async()=>{
+    promoBtn.disabled=true;
+    promoBtn.textContent='Envoi en cours…';
+
+    try{
+      const {data,error}=await supabaseClient.rpc(
+        'request_featured_listing',
+        {
+          p_listing_id:item.id,
+          p_duration_days:Number(promoSelect.value)
+        }
+      );
+
+      if(error)throw error;
+
+      promoStatus.textContent =
+        '✓ Demande envoyée ! Elle sera examinée par l’administration. Aucun paiement automatique.';
+      promoStatus.style.color='#08734d';
+      promoBtn.textContent='Demande envoyée';
+
+    }catch(error){
+      promoStatus.textContent='Erreur : '+error.message;
+      promoStatus.style.color='#b42318';
+      promoBtn.disabled=false;
+      promoBtn.textContent='Réessayer';
+    }
+  };
+
+  promoBox.append(promoTitle,promoSelect,promoBtn,promoStatus);
+  controls.appendChild(promoBox);
+}
+
 controls.append(edit,del);
   controls.querySelectorAll('button').forEach(btn=>{
   btn.style.flex='1 1 130px';
