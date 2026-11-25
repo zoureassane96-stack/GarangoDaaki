@@ -3191,6 +3191,9 @@ document.getElementById('typingIndicator').style.display='none';
 }
 
 function resetPublishForm(){
+  existingPhotoEdits=[];
+document.getElementById('existingPhotoManager').innerHTML='';
+document.getElementById('existingPhotoManager').style.display='none';
   editingListingId=null;
 
   document.getElementById('publishForm').reset();
