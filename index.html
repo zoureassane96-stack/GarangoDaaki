@@ -4291,44 +4291,66 @@ decoding="async"
         }</div>
       </section>
       ${productAvailabilityHtml}
-      <section class="detail-section detail-seller">
-        <h3>Informations sur le vendeur</h3>
+     <section class="detail-section detail-seller">
+  <h3>Informations sur le vendeur</h3>
 
-        <div class="detail-seller-name">
-          ${safeText(sellerName)}
-        </div>
+  <div class="detail-seller-header">
+    <div class="detail-seller-avatar">
+      ${safeText(sellerName.charAt(0).toUpperCase())}
+    </div>
 
-        <p>📍 Localité : ${safeText(sellerCity)}</p>
-        <button type="button" class="btn btn-outline" id="viewSellerProfileBtn">
-  Voir le profil du vendeur
-</button>
-        <p style="font-size:12px;color:#65736b">
-          Consultez les informations et échangez avec le vendeur
-          avant toute transaction.
-        </p>
+    <div class="detail-seller-identity">
+      <div class="detail-seller-name">
+        ${safeText(sellerName)}
+      </div>
 
-        <div class="detail-contact">
-          <button
-            type="button"
-            class="btn btn-green"
-            id="privateMessageBtn"
-          >
-            Envoyer un message privé
-          </button>
+      ${
+        item.seller?.is_verified === true
+        ? '<span class="detail-verified">✓ Vendeur vérifié</span>'
+        : '<span class="detail-unverified">Vendeur non vérifié</span>'
+      }
+    </div>
+  </div>
 
-          ${
-            phone
-            ? `<a
-                class="btn"
-                style="background:#168b4c;color:white"
-                target="_blank"
-                rel="noopener noreferrer"
-                href="https://wa.me/${phone}"
-              >
-                Contacter sur WhatsApp
-              </a>`
-            : `<p>Le vendeur n'a pas renseigné de numéro WhatsApp.</p>`
-          }
+  <div class="detail-seller-location">
+    📍 Localité : <strong>${safeText(sellerCity)}</strong>
+  </div>
+
+  <button
+    type="button"
+    class="btn btn-outline"
+    id="viewSellerProfileBtn"
+  >
+    Voir le profil du vendeur →
+  </button>
+
+  <p class="detail-seller-hint">
+    Consultez le profil du vendeur et échangez avec lui
+    avant toute transaction.
+  </p>
+
+  <div class="detail-contact">
+    <button
+      type="button"
+      class="btn btn-green"
+      id="privateMessageBtn"
+    >
+      ✉ Envoyer un message privé
+    </button>
+
+    ${
+      phone
+      ? `<a
+          class="btn"
+          style="background:#168b4c;color:white"
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://wa.me/${phone}"
+        >
+          Contacter sur WhatsApp
+        </a>`
+      : `<p>Le vendeur n'a pas renseigné de numéro WhatsApp.</p>`
+    } 
         </div>
       </section>
 
