@@ -5055,7 +5055,23 @@ const {data,error}=await supabaseClient
 .order('created_at',{ascending:false});
 
 if(error)throw error;
+let listingPhotosById={};
 
+if(data?.length){
+  const {data:photos,error:photosError}=await supabaseClient
+    .from('listing_images')
+    .select('listing_id,image_url,position')
+    .in('listing_id',data.map(item=>item.id))
+    .order('position',{ascending:true});
+
+  if(!photosError){
+    (photos||[]).forEach(photo=>{
+      if(!listingPhotosById[photo.listing_id]){
+        listingPhotosById[photo.listing_id]=photo.image_url;
+      }
+    });
+  }
+}
 box.innerHTML='';
 
 const avatarBox=document.createElement('div');
