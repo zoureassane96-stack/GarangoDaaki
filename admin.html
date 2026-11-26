@@ -1032,7 +1032,7 @@ async function reviewFeaturedRequest(request,approved,button){
     );
 
     await loadFeaturedRequests();
-
+await refreshNavBadges();
   }catch(err){
     note('message','Erreur : '+err.message,true);
     button.disabled=false;
