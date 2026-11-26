@@ -818,8 +818,9 @@ async function reviewSellerRequest(request,approved,button){
     );
 
     await loadUsers();
+await refreshNavBadges();
 
-  }catch(err){
+}catch(err){
     note('message','Erreur : '+err.message,true);
     button.disabled=false;
   }
