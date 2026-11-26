@@ -1295,6 +1295,55 @@ $('historyFilterReset').addEventListener('click',()=>{
   }
 
 });
+let navBadgeTimer=null;
+
+async function refreshNavBadges(){
+  const checks=[
+    ['users','seller_verification_requests'],
+    ['allListings','listings'],
+    ['featured','featured_listing_requests'],
+    ['pending','listings'],
+    ['reports','listing_reports'],
+    ['reviews','site_reviews']
+  ];
+
+  for(const [page,table] of checks){
+    try{
+      const {count,error}=await db
+        .from(table)
+        .select('id',{count:'exact',head:true})
+        .eq('status','pending');
+
+      if(error)throw error;
+
+      const btn=document.querySelector(
+        '#adminNav button[data-page="'+page+'"]'
+      );
+
+      if(!btn)continue;
+
+      let badge=btn.querySelector('.nav-count');
+
+      if(!badge){
+        badge=document.createElement('span');
+        badge.className='nav-count';
+        badge.style.cssText=
+          'display:inline-flex;align-items:center;justify-content:center;'+
+          'min-width:21px;height:21px;padding:0 6px;margin-left:6px;'+
+          'border-radius:20px;background:#f58216;color:white;'+
+          'font-size:12px;font-weight:900;vertical-align:middle';
+        btn.appendChild(badge);
+      }
+
+      badge.textContent=count||0;
+      badge.style.display=count>0?'inline-flex':'none';
+
+    }catch(err){
+      console.warn('Compteur '+page,err);
+    }
+  }
+}
+
 async function refreshEverything(){
   clearNote('message');
 
@@ -1304,7 +1353,8 @@ async function refreshEverything(){
     ['Toutes les annonces',loadAllListings],
     ['Annonces en attente',loadPending],
     ['Signalements',loadReports],
-    ['Avis',loadSiteReviews]
+    ['Avis',loadSiteReviews],
+    ['Mises en avant',loadFeaturedRequests]
   ];
 
   for(const [name,task] of tasks){
@@ -1314,6 +1364,12 @@ async function refreshEverything(){
       console.error('Erreur '+name+':',err);
       note('message','Erreur '+name+' : '+err.message,true);
     }
+  }
+
+  await refreshNavBadges();
+
+  if(!navBadgeTimer){
+    navBadgeTimer=setInterval(refreshNavBadges,30000);
   }
 }
 $('refreshBtn').addEventListener('click',refreshEverything);
