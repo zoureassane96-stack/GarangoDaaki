@@ -2350,7 +2350,7 @@ async function updateSiteReview(id,status,reply,button){
     );
 
     await loadSiteReviews();
-
+await refreshNavBadges();
   }catch(err){
     note('message','Erreur de traitement de l’avis : '+err.message,true);
     button.disabled=false;
