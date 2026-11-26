@@ -1299,20 +1299,25 @@ let navBadgeTimer=null;
 
 async function refreshNavBadges(){
   const checks=[
-    ['users','seller_verification_requests'],
-    ['allListings','listings'],
-    ['featured','featured_listing_requests'],
-    ['pending','listings'],
-    ['reports','listing_reports'],
-    ['reviews','site_reviews']
+    ['users','seller_verification_requests','pending'],
+    ['allListings','listings',null],
+    ['featured','featured_listing_requests','pending'],
+    ['pending','listings','pending'],
+    ['reports','listing_reports','pending'],
+    ['reviews','site_reviews','pending']
   ];
 
-  for(const [page,table] of checks){
+  for(const [page,table,status] of checks){
     try{
-      const {count,error}=await db
+      let request=db
         .from(table)
-        .select('id',{count:'exact',head:true})
-        .eq('status','pending');
+        .select('id',{count:'exact',head:true});
+
+      if(status){
+        request=request.eq('status',status);
+      }
+
+      const {count,error}=await request;
 
       if(error)throw error;
 
