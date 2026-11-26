@@ -2053,7 +2053,7 @@ async function updateReportStatus(id,status,...buttons){
     );
 
     await loadReports();
-
+await refreshNavBadges();
   }catch(err){
     note('message','Erreur de traitement : '+err.message,true);
     buttons.forEach(button=>button.disabled=false);
