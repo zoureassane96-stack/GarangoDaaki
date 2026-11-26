@@ -77,31 +77,45 @@ export default async function handler(req, res) {
       listing.description || 'Découvrez cette annonce sur GarangoDaaki.'
     ].join(' · ').slice(0, 300);
 
+        const isProduct = listing.listing_type === 'product';
+
     const schema = {
       '@context': 'https://schema.org',
       '@type': 'WebPage',
+      '@id': `${pageUrl}#webpage`,
       name: title,
       description,
       url: pageUrl,
+      inLanguage: 'fr',
+      datePublished: listing.created_at,
       primaryImageOfPage: {
         '@type': 'ImageObject',
         url: image
       },
       mainEntity: {
-        '@type': listing.listing_type === 'product'
-          ? 'Product'
-          : 'Service',
+        '@type': isProduct ? 'Product' : 'Service',
+        '@id': `${pageUrl}#${isProduct ? 'product' : 'service'}`,
         name: listing.title,
         description: listing.description || '',
         image,
+        url: appUrl,
         category: listing.category || '',
+        ...( !isProduct && listing.city ? {
+          areaServed: {
+            '@type': 'City',
+            name: listing.city
+          }
+        } : {}),
         offers: {
           '@type': 'Offer',
-          price: listing.price == null
-            ? undefined
-            : Number(listing.price),
-          priceCurrency: 'XOF',
-          availability: 'https://schema.org/InStock'
+          url: appUrl,
+          ...(listing.price != null ? {
+            price: Number(listing.price),
+            priceCurrency: 'XOF'
+          } : {}),
+          ...(isProduct ? {
+            availability: 'https://schema.org/InStock'
+          } : {})
         }
       }
     };
