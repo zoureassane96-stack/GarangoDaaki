@@ -6817,6 +6817,11 @@ async function initialize(){
   }catch(error){
     console.error('Erreur chargement avis :', error);
   }
+    try{
+    await loadProfessionalDirectory();
+  }catch(error){
+    console.error('Erreur chargement professionnels :', error);
+  }
 }
 
 initialize();
