@@ -6210,7 +6210,109 @@ try {
   verificationBtn.style.display = 'none';
 }
 
+// ===== MES FAVORIS =====
+const favoritesSection = document.createElement('div');
+favoritesSection.style.cssText =
+  'margin:20px 0;padding:16px;background:#f4faf6;border:1px solid #dcebe1;border-radius:14px;';
 
+const favoritesTitle = document.createElement('h3');
+favoritesTitle.textContent = '❤️ Mes favoris';
+favoritesTitle.style.cssText =
+  'margin:0 0 12px;color:#064b35;font-size:18px;';
+
+favoritesSection.appendChild(favoritesTitle);
+
+const favoritesList = document.createElement('div');
+favoritesList.textContent = 'Chargement de vos favoris…';
+favoritesSection.appendChild(favoritesList);
+
+box.appendChild(favoritesSection);
+
+try {
+  const {data: favoriteRows, error: favoriteError} =
+    await supabaseClient
+      .from('favorites')
+      .select('listing_id')
+      .eq('user_id', currentUser.id);
+
+  if (favoriteError) throw favoriteError;
+
+  const favoriteListingIds =
+    (favoriteRows || []).map(x => x.listing_id);
+
+  if (!favoriteListingIds.length) {
+    favoritesList.textContent =
+      'Vous n’avez pas encore enregistré de favoris.';
+  } else {
+    const {data: favoriteListings, error: listingsError} =
+      await supabaseClient
+        .from('listings')
+        .select('id,title,price,city,category,status')
+        .in('id', favoriteListingIds);
+
+    if (listingsError) throw listingsError;
+
+    favoritesList.innerHTML = '';
+
+    if (!favoriteListings?.length) {
+      favoritesList.textContent =
+        'Vos annonces favorites ne sont plus disponibles.';
+    } else {
+      favoriteListings.forEach(item => {
+        const card = document.createElement('div');
+        card.style.cssText =
+          'padding:13px;margin:10px 0;background:white;border:1px solid #e1ebe5;border-radius:11px;';
+
+        const title = document.createElement('strong');
+        title.textContent = item.title;
+        title.style.cssText =
+          'display:block;color:#064b35;font-size:15px;margin-bottom:6px;';
+
+        const info = document.createElement('p');
+        info.textContent =
+          (item.price != null
+            ? Number(item.price).toLocaleString('fr-FR') + ' FCFA'
+            : 'Prix à négocier') +
+          ' · ' + (item.city || 'Ville non précisée');
+        info.style.cssText =
+          'margin:0 0 10px;color:#52665b;font-size:13px;';
+
+        const actions = document.createElement('div');
+        actions.style.cssText =
+          'display:flex;gap:8px;flex-wrap:wrap;';
+
+        const viewBtn = document.createElement('button');
+        viewBtn.type = 'button';
+        viewBtn.textContent = 'Voir l’annonce';
+        viewBtn.style.cssText =
+          'flex:1;padding:10px;border:0;border-radius:8px;background:#08734d;color:white;font-weight:800;';
+        viewBtn.onclick = () => {
+          window.location.href =
+            '/?annonce=' + encodeURIComponent(item.id);
+        };
+
+        const removeBtn = document.createElement('button');
+        removeBtn.type = 'button';
+        removeBtn.textContent = '♥ Retirer';
+        removeBtn.style.cssText =
+          'flex:1;padding:10px;border:1px solid #e5caca;border-radius:8px;background:#fff;color:#b42318;font-weight:800;';
+        removeBtn.onclick = async () => {
+          await toggleFavorite(item.id);
+          await openProfile();
+        };
+
+        actions.append(viewBtn, removeBtn);
+        card.append(title, info, actions);
+        favoritesList.appendChild(card);
+      });
+    }
+  }
+} catch (favoriteErr) {
+  console.error('Erreur de chargement des favoris :', favoriteErr);
+  favoritesList.textContent =
+    'Impossible de charger vos favoris : ' + favoriteErr.message;
+}
+// ===== FIN MES FAVORIS =====
 const heading=document.createElement('h3');
 heading.textContent='Mes annonces';
 box.appendChild(heading);
