@@ -5697,6 +5697,186 @@ personalForm.append(
 
 personalBox.append(personalBtn,personalForm);
 box.appendChild(personalBox);
+  
+// ===== PROFIL PROFESSIONNEL =====
+let professionalProfile = null;
+let professionalLoadError = null;
+
+try {
+  const {data,error} = await supabaseClient
+    .from('professional_profiles')
+    .select('id,user_id,business_name,profession,description,phone,city,status')
+    .eq('user_id',currentUser.id)
+    .maybeSingle();
+
+  if(error) throw error;
+  professionalProfile = data || null;
+} catch(error) {
+  professionalLoadError = error;
+}
+
+const professionalBox = document.createElement('div');
+professionalBox.style.cssText = 'padding:16px;margin:0 0 20px;background:#fff;border:1px solid #dcebe1;border-radius:15px';
+
+const professionalTitle = document.createElement('h3');
+professionalTitle.textContent = '🏢 Mon profil professionnel';
+professionalTitle.style.cssText = 'margin:0 0 8px;font-size:18px;color:#064b35';
+
+const professionalIntro = document.createElement('p');
+professionalIntro.textContent = 'Présentez votre entreprise, votre métier ou votre activité aux clients.';
+professionalIntro.style.cssText = 'font-size:13px;color:#66736b;line-height:1.5;margin:0 0 12px';
+
+const professionalForm = document.createElement('div');
+
+function professionalInput(placeholder,value,type='text') {
+  const field = document.createElement('input');
+  field.type = type;
+  field.placeholder = placeholder;
+  field.value = value || '';
+  field.maxLength = 200;
+  field.style.cssText = 'display:block;width:100%;padding:12px;margin:10px 0;border:1px solid #d8e2dc;border-radius:10px;box-sizing:border-box';
+  return field;
+}
+
+const professionalBusiness = professionalInput(
+  'Nom de votre entreprise ou activité',
+  professionalProfile?.business_name
+);
+
+const professionalJob = professionalInput(
+  'Votre métier ou profession',
+  professionalProfile?.profession
+);
+
+const professionalDescription = document.createElement('textarea');
+professionalDescription.placeholder = 'Décrivez vos services et votre activité...';
+professionalDescription.value = professionalProfile?.description || '';
+professionalDescription.maxLength = 1500;
+professionalDescription.rows = 4;
+professionalDescription.style.cssText = 'display:block;width:100%;padding:12px;margin:10px 0;border:1px solid #d8e2dc;border-radius:10px;box-sizing:border-box;resize:vertical';
+
+const professionalPhone = professionalInput(
+  'Téléphone professionnel',
+  professionalProfile?.phone || profile?.phone,
+  'tel'
+);
+
+const professionalCity = professionalInput(
+  'Ville où vous exercez',
+  professionalProfile?.city || profile?.city
+);
+
+const professionalSave = document.createElement('button');
+professionalSave.type = 'button';
+professionalSave.className = 'btn btn-green';
+professionalSave.textContent = professionalProfile
+  ? 'Enregistrer mon profil professionnel'
+  : 'Créer mon profil professionnel';
+professionalSave.style.cssText = 'width:100%;padding:12px;border-radius:10px;font-weight:800';
+
+const professionalStatus = document.createElement('p');
+professionalStatus.style.cssText = 'font-size:13px;line-height:1.5;margin-top:12px';
+
+function updateProfessionalStatus(status) {
+  if(status === 'active') {
+    professionalStatus.textContent = '✓ Profil professionnel validé et visible publiquement.';
+    professionalStatus.style.color = '#08734d';
+  } else if(status === 'pending') {
+    professionalStatus.textContent = '⏳ Votre profil est en attente de validation par l’administration.';
+    professionalStatus.style.color = '#946200';
+  } else if(status === 'rejected') {
+    professionalStatus.textContent = '❌ Profil refusé. Vous pouvez corriger vos informations, mais une nouvelle validation par l’administration sera nécessaire.';
+    professionalStatus.style.color = '#b42318';
+  } else {
+    professionalStatus.textContent = 'Présentez votre activité. Votre profil sera soumis à validation.';
+    professionalStatus.style.color = '#66736b';
+  }
+}
+
+if(professionalLoadError) {
+  professionalStatus.textContent = 'Impossible de charger votre profil professionnel : ' + professionalLoadError.message;
+  professionalStatus.style.color = '#b42318';
+  professionalSave.disabled = true;
+} else {
+  updateProfessionalStatus(professionalProfile?.status);
+}
+
+professionalSave.onclick = async () => {
+  const businessName = professionalBusiness.value.trim();
+
+  if(!businessName) {
+    professionalStatus.textContent = 'Veuillez saisir le nom de votre entreprise ou activité.';
+    professionalStatus.style.color = '#b42318';
+    return;
+  }
+
+  const payload = {
+    business_name: businessName,
+    profession: professionalJob.value.trim() || null,
+    description: professionalDescription.value.trim() || null,
+    phone: professionalPhone.value.trim() || null,
+    city: professionalCity.value.trim() || null
+  };
+
+  professionalSave.disabled = true;
+  professionalStatus.textContent = 'Enregistrement en cours...';
+  professionalStatus.style.color = '#66736b';
+
+  try {
+    let result;
+
+    if(professionalProfile) {
+      result = await supabaseClient
+        .from('professional_profiles')
+        .update(payload)
+        .eq('user_id',currentUser.id)
+        .select('id,user_id,business_name,profession,description,phone,city,status')
+        .maybeSingle();
+    } else {
+      result = await supabaseClient
+        .from('professional_profiles')
+        .insert({
+          ...payload,
+          user_id: currentUser.id
+        })
+        .select('id,user_id,business_name,profession,description,phone,city,status')
+        .maybeSingle();
+    }
+
+    if(result.error) throw result.error;
+    if(!result.data) throw new Error('Aucune donnée retournée après l’enregistrement.');
+
+    professionalProfile = result.data;
+    professionalSave.textContent = 'Enregistrer mon profil professionnel';
+    updateProfessionalStatus(professionalProfile.status);
+
+  } catch(error) {
+    professionalStatus.textContent = 'Erreur : ' + error.message;
+    professionalStatus.style.color = '#b42318';
+  } finally {
+    professionalSave.disabled = false;
+  }
+};
+
+professionalForm.append(
+  professionalBusiness,
+  professionalJob,
+  professionalDescription,
+  professionalPhone,
+  professionalCity,
+  professionalSave,
+  professionalStatus
+);
+
+professionalBox.append(
+  professionalTitle,
+  professionalIntro,
+  professionalForm
+);
+
+box.appendChild(professionalBox);
+// ===== FIN PROFIL PROFESSIONNEL =====
+
 // ===== DEMANDE DE VÉRIFICATION DU VENDEUR =====
 const verificationBox = document.createElement('div');
 verificationBox.style.cssText =
