@@ -2721,13 +2721,33 @@ Administration
   ↑
 </button>
 <nav class="mobilebar">
-<a href="#"><span>⌂</span>Accueil</a>
-<a href="#annonces"><span>📢</span>Annonce</a>
-<button onclick="openModal()"><span>⊕</span>Publier</button>
-<button onclick="openProfile(event)">
-<span class="mobile-profile-icon">♟<b id="mobileUnreadBadge" class="mobile-unread-badge" hidden>0</b></span>
-Profil
-</button>
+  <a href="#">
+    <span>⌂</span>
+    Accueil
+  </a>
+
+  <a href="#annonces">
+    <span>📢</span>
+    Annonces
+  </a>
+
+  <button class="mobile-publish-btn" onclick="openModal()">
+    <span>⊕</span>
+    Publier
+  </button>
+
+  <button onclick="openInbox()">
+    <span class="mobile-profile-icon">
+      ✉️
+      <b id="mobileUnreadBadge" class="mobile-unread-badge" hidden>0</b>
+    </span>
+    Messages
+  </button>
+
+  <button onclick="openProfile(event)">
+    <span>♟</span>
+    Profil
+  </button>
 </nav>
 <div class="modal" id="reviewModal" role="dialog"
   aria-modal="true" aria-labelledby="reviewTitle">
