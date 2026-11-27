@@ -3135,35 +3135,51 @@ async function loadProfessionalDirectory(){
     root.textContent='Aucun professionnel validé pour le moment.';
     return;
   }
+
   const cards=[];
-    data.forEach(profile=>{
+
+  data.forEach(profile=>{
     const card=document.createElement('article');
 
     card.style.cssText=
-      'background:#fff;border:1px solid #dce9e1;border-radius:15px;padding:16px;box-shadow:0 3px 12px rgba(0,0,0,.05);';
+      'background:linear-gradient(145deg,#ffffff,#f5faf7);border:1px solid #dcebe2;border-radius:18px;padding:18px;box-shadow:0 5px 18px rgba(6,75,53,.08);display:flex;flex-direction:column;min-width:0;';
+
+    const top=document.createElement('div');
+    top.style.cssText=
+      'display:flex;align-items:flex-start;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-bottom:12px;';
 
     const name=document.createElement('h3');
     name.textContent=profile.business_name||'Professionnel';
-    name.style.cssText='margin:0 0 8px;color:#064b35;font-size:18px;';
-
-    const profession=document.createElement('strong');
-    profession.textContent=profile.profession||'Activité professionnelle';
-    profession.style.cssText='display:block;color:#08734d;margin-bottom:8px;';
-
-    const description=document.createElement('p');
-    description.textContent=profile.description||'';
-    description.style.cssText='margin:8px 0;color:#53665c;line-height:1.5;overflow-wrap:anywhere;';
-
-    const city=document.createElement('p');
-    city.textContent='📍 '+(profile.city||'Centre-Est');
-    city.style.cssText='margin:8px 0;color:#53665c;font-size:13px;';
+    name.style.cssText=
+      'margin:0;color:#064b35;font-size:19px;font-weight:900;overflow-wrap:anywhere;';
 
     const verified=document.createElement('span');
-verified.textContent='✓ Professionnel vérifié';
-verified.style.cssText=
-  'display:inline-block;margin:0 0 10px;padding:5px 9px;background:#e5f6ec;color:#08734d;border:1px solid #b9e5ca;border-radius:20px;font-size:11px;font-weight:800;';
+    verified.textContent='✓ Vérifié';
+    verified.style.cssText=
+      'display:inline-block;padding:5px 9px;background:#e5f6ec;color:#08734d;border:1px solid #b9e5ca;border-radius:20px;font-size:11px;font-weight:900;white-space:nowrap;';
 
-card.append(name,verified,profession,description,city);
+    top.append(name,verified);
+
+    const profession=document.createElement('div');
+    profession.textContent=profile.profession||'Activité professionnelle';
+    profession.style.cssText=
+      'color:#08734d;font-size:14px;font-weight:800;margin-bottom:8px;';
+
+    const separator=document.createElement('div');
+    separator.style.cssText=
+      'height:1px;background:#e5eee8;margin:4px 0 10px;';
+
+    const description=document.createElement('p');
+    description.textContent=profile.description||'Découvrez les services de ce professionnel.';
+    description.style.cssText=
+      'margin:0 0 12px;color:#53665c;font-size:13px;line-height:1.6;overflow-wrap:anywhere;';
+
+    const city=document.createElement('div');
+    city.textContent='📍 '+(profile.city||'Centre-Est');
+    city.style.cssText=
+      'color:#53665c;font-size:13px;font-weight:700;margin-top:auto;padding-top:8px;';
+
+    card.append(top,profession,separator,description,city);
 
     const phone=String(profile.phone||'').replace(/\D/g,'');
 
@@ -3178,14 +3194,15 @@ card.append(name,verified,profession,description,city);
       contact.target='_blank';
       contact.rel='noopener noreferrer';
       contact.style.cssText=
-        'display:inline-block;margin-top:10px;padding:10px 14px;background:#08734d;color:white;border-radius:9px;text-decoration:none;font-weight:800;font-size:13px;';
+        'display:block;text-align:center;margin-top:14px;padding:12px 10px;background:#08734d;color:white;border-radius:11px;text-decoration:none;font-weight:900;font-size:13px;box-shadow:0 3px 9px rgba(8,115,77,.16);';
 
       card.appendChild(contact);
     }
 
-        cards.push(card);
+    cards.push(card);
   });
-    let expanded=false;
+
+  let expanded=false;
 
   function renderProfessionalCards(){
     root.replaceChildren();
@@ -3207,7 +3224,7 @@ card.append(name,verified,profession,description,city);
         : 'Voir tous les professionnels ('+cards.length+')';
 
       toggle.style.cssText=
-        'grid-column:1/-1;width:100%;padding:13px;background:#064b35;color:white;border:0;border-radius:10px;font-weight:800;font-size:14px;cursor:pointer;margin-top:8px;';
+        'grid-column:1/-1;width:100%;padding:13px;background:#064b35;color:white;border:0;border-radius:11px;font-weight:900;font-size:14px;cursor:pointer;margin-top:8px;';
 
       toggle.addEventListener('click',()=>{
         expanded=!expanded;
@@ -3220,6 +3237,9 @@ card.append(name,verified,profession,description,city);
 
   renderProfessionalCards();
 }
+
+
+
 document.getElementById('reviewForm').addEventListener('submit', async e=>{
   e.preventDefault();
 
