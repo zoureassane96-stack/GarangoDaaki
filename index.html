@@ -2420,6 +2420,35 @@ padding:10px 0;
   }
 
 }
+  /* CORRECTION DU TEXTE VENDEUR SUR MOBILE */
+@media(max-width:760px){
+  #listingGrid .listing-seller{
+    display:flex !important;
+    flex-wrap:wrap !important;
+    align-items:center !important;
+    width:100% !important;
+    box-sizing:border-box !important;
+  }
+
+  #listingGrid .seller-name-block{
+    flex:1 1 130px !important;
+    min-width:130px !important;
+    width:auto !important;
+  }
+
+  #listingGrid .seller-name-block strong,
+  #listingGrid .seller-name-block small{
+    display:block !important;
+    white-space:normal !important;
+    word-break:normal !important;
+    overflow-wrap:break-word !important;
+    writing-mode:horizontal-tb !important;
+  }
+
+  #listingGrid .verified-badge{
+    flex-shrink:0 !important;
+  }
+}
 </style>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
