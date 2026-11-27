@@ -2318,7 +2318,122 @@ function renderSiteReviews(){
     root.append(card);
   });
 }
+async function loadProfessionalProfiles(){
+  const root=$('professionalsList');
+  const count=$('professionalsCount');
 
+  root.replaceChildren(
+    make('div','empty','Chargement des profils professionnels…')
+  );
+
+  const {data,error}=await db.rpc(
+    'admin_list_professional_profiles'
+  );
+
+  if(error)throw error;
+
+  root.replaceChildren();
+
+  const profiles=data||[];
+  count.textContent=profiles.length+' profil(s)';
+
+  if(!profiles.length){
+    root.append(
+      make('div','empty','Aucun profil professionnel enregistré.')
+    );
+    return;
+  }
+
+  profiles.forEach(profile=>{
+    const card=make('article','user-card');
+
+    card.append(make('strong','',
+      profile.business_name||'Entreprise sans nom'
+    ));
+
+    card.append(make('div','details',
+      'Profession : '+(profile.profession||'Non renseignée')
+    ));
+
+    card.append(make('div','details',
+      'Description : '+(profile.description||'Non renseignée')
+    ));
+
+    card.append(make('div','details',
+      'Téléphone : '+(profile.phone||'Non renseigné')
+    ));
+
+    card.append(make('div','details',
+      'Ville : '+(profile.city||'Non renseignée')
+    ));
+
+    card.append(make('div','details',
+      'Date : '+new Date(profile.created_at).toLocaleString('fr-FR')
+    ));
+
+    const statusLabels={
+      pending:'⏳ En attente',
+      active:'✓ Validé',
+      rejected:'✕ Rejeté'
+    };
+
+    card.append(make('div','details',
+      'Statut : '+(statusLabels[profile.status]||profile.status)
+    ));
+
+    if(profile.status==='pending'){
+      const actions=make('div','');
+      actions.style.cssText=
+        'display:flex;gap:8px;flex-wrap:wrap;margin-top:12px';
+
+      const approve=make('button','approve','✓ Valider');
+      approve.type='button';
+      approve.addEventListener('click',()=>{
+        reviewProfessionalProfile(profile.id,'active',approve);
+      });
+
+      const reject=make('button','reject','✕ Rejeter');
+      reject.type='button';
+      reject.addEventListener('click',()=>{
+        reviewProfessionalProfile(profile.id,'rejected',reject);
+      });
+
+      actions.append(approve,reject);
+      card.append(actions);
+    }
+
+    root.append(card);
+  });
+}
+
+
+async function reviewProfessionalProfile(profileId,status,button){
+  const label=status==='active'?'valider':'rejeter';
+
+  if(!confirm('Confirmer : '+label+' ce profil professionnel ?')){
+    return;
+  }
+
+  button.disabled=true;
+
+  try{
+    const {error}=await db.rpc(
+      'admin_review_professional_profile',
+      {
+        p_profile_id:profileId,
+        p_status:status
+      }
+    );
+
+    if(error)throw error;
+
+    await loadProfessionalProfiles();
+
+  }catch(error){
+    alert('Erreur : '+error.message);
+    button.disabled=false;
+  }
+}
 async function updateSiteReview(id,status,reply,button){
   const cleanReply=String(reply||'').trim();
 
