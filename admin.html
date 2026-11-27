@@ -1418,7 +1418,11 @@ $('adminNav').addEventListener('click',e=>{
       note('message','Erreur des signalements : '+err.message,true);
     });
   }
-
+if(btn.dataset.page==='professionals'){
+  loadProfessionalProfiles().catch(err=>{
+    note('message','Erreur des profils professionnels : '+err.message,true);
+  });
+}
   if(btn.dataset.page==='reviews'){
   loadSiteReviews().catch(err=>{
     note('message','Erreur des avis : '+err.message,true);
