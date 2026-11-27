@@ -5357,7 +5357,7 @@ profileModal.classList.add('open');
 try{
 const {data:profile,error:profileError}=await supabaseClient
 .from('profiles')
-.select('full_name,city,avatar_url')
+.select('full_name,phone,city,avatar_url')
 .eq('id',currentUser.id)
 .maybeSingle();
 
