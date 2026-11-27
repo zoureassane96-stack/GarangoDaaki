@@ -4345,27 +4345,7 @@ const sellerPhoto=item.seller?.avatarSignedUrl
   ? `<img src="${item.seller.avatarSignedUrl}" alt="Photo du vendeur">`
   : `<span class="seller-initial">${(item.seller?.full_name||'V').charAt(0).toUpperCase()}</span>`;
 
-sellerInfo.innerHTML=`
-  ${sellerPhoto}
-  <span class="seller-name-block">
-    <strong>${safeText(item.seller?.full_name||'Vendeur')}</strong>
-    <small>Voir le profil vendeur</small>
-  </span>
-`;
-if(item.seller?.is_verified === true){
-  const verifiedBadge=document.createElement('span');
-  verifiedBadge.className='verified-badge';
-  verifiedBadge.textContent='✓ Vendeur vérifié';
-  sellerInfo.appendChild(verifiedBadge);
-}
-sellerInfo.style.cursor='pointer';
-sellerInfo.title='Voir le profil du vendeur';
-sellerInfo.setAttribute('role','button');
-sellerInfo.setAttribute('tabindex','0');
-
-sellerInfo.addEventListener('click',()=>{
-  openSellerProfile(item.user_id);
-});
+sellerInfo.hidden = true;
 
 sellerInfo.addEventListener('keydown',e=>{
   if(e.key==='Enter' || e.key===' '){
