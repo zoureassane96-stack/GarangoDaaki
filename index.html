@@ -6968,5 +6968,95 @@ document.getElementById('addProductVariant')
   });
 
 </script>
+  
+<script>
+(function(){
+  let installPrompt = null;
+
+  const installed =
+    window.matchMedia('(display-mode: standalone)').matches ||
+    window.navigator.standalone === true;
+
+  if(installed) return;
+
+  const style = document.createElement('style');
+  style.textContent = `
+    #gdInstallBanner{
+      position:fixed;
+      z-index:15;
+      left:12px;
+      right:12px;
+      bottom:calc(75px + env(safe-area-inset-bottom));
+      max-width:520px;
+      margin:auto;
+      padding:13px;
+      background:#064b35;
+      color:white;
+      border-radius:15px;
+      box-shadow:0 5px 22px #0004;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-family:inherit;
+    }
+    #gdInstallBanner[hidden]{display:none!important}
+    #gdInstallBanner .gdInstallText{flex:1;min-width:0}
+    #gdInstallBanner strong{display:block;font-size:14px}
+    #gdInstallBanner small{display:block;font-size:11px;margin-top:4px;color:#d8eee3}
+    #gdInstallBtn{
+      border:0;border-radius:10px;padding:11px 13px;
+      background:#f58216;color:white;font-weight:900;
+      white-space:nowrap;
+    }
+    #gdInstallClose{
+      border:0;background:transparent;color:white;
+      font-size:21px;padding:3px;
+    }
+    @media(min-width:761px){
+      #gdInstallBanner{left:auto;bottom:18px;right:18px}
+    }
+  `;
+  document.head.appendChild(style);
+
+  const banner = document.createElement('div');
+  banner.id = 'gdInstallBanner';
+  banner.hidden = true;
+  banner.innerHTML = `
+    <span style="font-size:25px">📲</span>
+    <div class="gdInstallText">
+      <strong>Installez GarangoDaaki gratuitement !</strong>
+      <small>Retrouvez facilement toutes les opportunités du Centre-Est.</small>
+    </div>
+    <button id="gdInstallBtn" type="button">Installer</button>
+    <button id="gdInstallClose" type="button" aria-label="Fermer">×</button>
+  `;
+  document.body.appendChild(banner);
+
+  window.addEventListener('beforeinstallprompt',function(event){
+    event.preventDefault();
+    installPrompt = event;
+    banner.hidden = false;
+  });
+
+  document.getElementById('gdInstallBtn').addEventListener('click',async function(){
+    if(!installPrompt) return;
+
+    installPrompt.prompt();
+    const result = await installPrompt.userChoice;
+    installPrompt = null;
+    banner.hidden = true;
+  });
+
+  document.getElementById('gdInstallClose').addEventListener('click',function(){
+    banner.hidden = true;
+  });
+
+  window.addEventListener('appinstalled',function(){
+    banner.hidden = true;
+    installPrompt = null;
+  });
+})();
+</script>
+
 </body>
 </html>
