@@ -3100,7 +3100,78 @@ if(reviewCards.length > 3){
 }
 }
 
+async function loadProfessionalDirectory(){
+  const root=document.getElementById('professionalDirectory');
+  if(!root)return;
 
+  root.replaceChildren(
+    document.createTextNode('Chargement des professionnels…')
+  );
+
+  const {data,error}=await supabaseClient
+    .from('professional_profiles')
+    .select('id,business_name,profession,description,phone,city')
+    .eq('status','active')
+    .order('created_at',{ascending:false});
+
+  root.replaceChildren();
+
+  if(error){
+    console.error('Erreur professionnels :',error);
+    root.textContent='Impossible de charger les professionnels pour le moment.';
+    return;
+  }
+
+  if(!data || !data.length){
+    root.textContent='Aucun professionnel validé pour le moment.';
+    return;
+  }
+
+  data.forEach(profile=>{
+    const card=document.createElement('article');
+
+    card.style.cssText=
+      'background:#fff;border:1px solid #dce9e1;border-radius:15px;padding:16px;box-shadow:0 3px 12px rgba(0,0,0,.05);';
+
+    const name=document.createElement('h3');
+    name.textContent=profile.business_name||'Professionnel';
+    name.style.cssText='margin:0 0 8px;color:#064b35;font-size:18px;';
+
+    const profession=document.createElement('strong');
+    profession.textContent=profile.profession||'Activité professionnelle';
+    profession.style.cssText='display:block;color:#08734d;margin-bottom:8px;';
+
+    const description=document.createElement('p');
+    description.textContent=profile.description||'';
+    description.style.cssText='margin:8px 0;color:#53665c;line-height:1.5;overflow-wrap:anywhere;';
+
+    const city=document.createElement('p');
+    city.textContent='📍 '+(profile.city||'Centre-Est');
+    city.style.cssText='margin:8px 0;color:#53665c;font-size:13px;';
+
+    card.append(name,profession,description,city);
+
+    const phone=String(profile.phone||'').replace(/\D/g,'');
+
+    if(phone){
+      const whatsappNumber=phone.startsWith('226')
+        ? phone
+        : '226'+phone;
+
+      const contact=document.createElement('a');
+      contact.textContent='🟢 Contacter sur WhatsApp';
+      contact.href='https://wa.me/'+whatsappNumber;
+      contact.target='_blank';
+      contact.rel='noopener noreferrer';
+      contact.style.cssText=
+        'display:inline-block;margin-top:10px;padding:10px 14px;background:#08734d;color:white;border-radius:9px;text-decoration:none;font-weight:800;font-size:13px;';
+
+      card.appendChild(contact);
+    }
+
+    root.appendChild(card);
+  });
+}
 document.getElementById('reviewForm').addEventListener('submit', async e=>{
   e.preventDefault();
 
