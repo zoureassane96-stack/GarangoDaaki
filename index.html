@@ -3126,7 +3126,7 @@ async function loadProfessionalDirectory(){
     root.textContent='Aucun professionnel validé pour le moment.';
     return;
   }
-
+  const cards=[];
   data.forEach(profile=>{
     const card=document.createElement('article');
 
