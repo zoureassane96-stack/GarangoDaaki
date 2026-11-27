@@ -3149,7 +3149,12 @@ async function loadProfessionalDirectory(){
     city.textContent='📍 '+(profile.city||'Centre-Est');
     city.style.cssText='margin:8px 0;color:#53665c;font-size:13px;';
 
-    card.append(name,profession,description,city);
+    const verified=document.createElement('span');
+verified.textContent='✓ Professionnel vérifié';
+verified.style.cssText=
+  'display:inline-block;margin:0 0 10px;padding:5px 9px;background:#e5f6ec;color:#08734d;border:1px solid #b9e5ca;border-radius:20px;font-size:11px;font-weight:800;';
+
+card.append(name,verified,profession,description,city);
 
     const phone=String(profile.phone||'').replace(/\D/g,'');
 
