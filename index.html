@@ -6062,15 +6062,26 @@ professionalForm.append(
 
 professionalForm.style.display = 'none';
 
+const professionalToggle = document.createElement('button');
+professionalToggle.type = 'button';
+professionalToggle.textContent = 'Créer mon profil professionnel';
+professionalToggle.style.cssText =
+  'width:100%;padding:13px;border:0;border-radius:10px;background:#08734d;color:white;font-weight:800;cursor:pointer;';
+
+professionalToggle.onclick = () => {
+  const isHidden = professionalForm.style.display === 'none';
+  professionalForm.style.display = isHidden ? 'block' : 'none';
+  professionalToggle.textContent = isHidden
+    ? 'Fermer le formulaire'
+    : 'Créer mon profil professionnel';
+};
+
 professionalBox.append(
   professionalTitle,
   professionalIntro,
-  professionalSave,
+  professionalToggle,
   professionalForm
 );
-
-professionalSave.textContent = 'Créer mon profil professionnel';
-professionalSave.type = 'button';
 
 
 
