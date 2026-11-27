@@ -5603,7 +5603,100 @@ avatarBox.append(
   photoStatus
 );
 box.appendChild(avatarBox);
+// ===== MODIFICATION DU PROFIL PERSONNEL =====
+const personalBox=document.createElement('div');
+personalBox.style.cssText='padding:16px;margin:0 0 20px;background:#fff;border:1px solid #dcebe1;border-radius:15px';
 
+const personalBtn=document.createElement('button');
+personalBtn.type='button';
+personalBtn.className='btn btn-outline';
+personalBtn.textContent='✏️ Modifier mon nom et mon téléphone';
+personalBtn.style.cssText='width:100%;padding:12px;border-radius:10px;font-weight:800';
+
+const personalForm=document.createElement('div');
+personalForm.style.cssText='display:none;margin-top:15px';
+
+const personalName=document.createElement('input');
+personalName.type='text';
+personalName.value=profile?.full_name||'';
+personalName.placeholder='Votre nom complet';
+personalName.maxLength=100;
+personalName.style.cssText='display:block;width:100%;padding:12px;margin:10px 0;border:1px solid #d8e2dc;border-radius:10px;box-sizing:border-box';
+
+const personalPhone=document.createElement('input');
+personalPhone.type='tel';
+personalPhone.value=profile?.phone||'';
+personalPhone.placeholder='Votre numéro de téléphone';
+personalPhone.maxLength=30;
+personalPhone.style.cssText='display:block;width:100%;padding:12px;margin:10px 0;border:1px solid #d8e2dc;border-radius:10px;box-sizing:border-box';
+
+const personalSave=document.createElement('button');
+personalSave.type='button';
+personalSave.className='btn btn-green';
+personalSave.textContent='Enregistrer mes informations';
+personalSave.style.cssText='width:100%;padding:12px;border-radius:10px;font-weight:800';
+
+const personalStatus=document.createElement('p');
+personalStatus.style.cssText='font-size:13px;margin-top:10px';
+
+personalBtn.onclick=()=>{
+  personalForm.style.display=
+    personalForm.style.display==='none'?'block':'none';
+};
+
+personalSave.onclick=async()=>{
+  const newName=personalName.value.trim();
+  const newPhone=personalPhone.value.trim();
+
+  if(!newName){
+    personalStatus.textContent='Veuillez saisir votre nom.';
+    personalStatus.style.color='#b42318';
+    return;
+  }
+
+  personalSave.disabled=true;
+  personalStatus.textContent='Enregistrement en cours…';
+
+  try{
+    const {data,error}=await supabaseClient
+      .from('profiles')
+      .update({
+        full_name:newName,
+        phone:newPhone||null
+      })
+      .eq('id',currentUser.id)
+      .select('full_name,phone')
+      .maybeSingle();
+
+    if(error)throw error;
+    if(!data)throw new Error('Aucune modification enregistrée.');
+
+    profile.full_name=data.full_name;
+    profile.phone=data.phone;
+
+    name.textContent=data.full_name||'Mon profil';
+
+    personalStatus.textContent='✓ Vos informations ont été mises à jour.';
+    personalStatus.style.color='#08734d';
+
+  }catch(error){
+    personalStatus.textContent='Erreur : '+error.message;
+    personalStatus.style.color='#b42318';
+
+  }finally{
+    personalSave.disabled=false;
+  }
+};
+
+personalForm.append(
+  personalName,
+  personalPhone,
+  personalSave,
+  personalStatus
+);
+
+personalBox.append(personalBtn,personalForm);
+box.appendChild(personalBox);
 // ===== DEMANDE DE VÉRIFICATION DU VENDEUR =====
 const verificationBox = document.createElement('div');
 verificationBox.style.cssText =
