@@ -6733,8 +6733,12 @@ await openProfile()
 }
 
 async function openInbox(){
-if(!currentUser)return;
+if(!currentUser){
+  openAuth('login');
+  return;
+}
 const box=document.getElementById('profileContent');
+profileModal.classList.add('open');
 box.innerHTML='<p>Chargement de vos messages...</p>';
 const [received,sent]=await Promise.all([
 supabaseClient.from('messages').select('sender_id,receiver_id,listing_id,content,created_at,is_read').eq('receiver_id',currentUser.id).order('created_at',{ascending:false}),
