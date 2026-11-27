@@ -3176,6 +3176,40 @@ card.append(name,verified,profession,description,city);
 
         cards.push(card);
   });
+    let expanded=false;
+
+  function renderProfessionalCards(){
+    root.replaceChildren();
+
+    const visibleCards=expanded
+      ? cards
+      : cards.slice(0,3);
+
+    visibleCards.forEach(card=>{
+      root.appendChild(card);
+    });
+
+    if(cards.length>3){
+      const toggle=document.createElement('button');
+      toggle.type='button';
+
+      toggle.textContent=expanded
+        ? 'Voir moins'
+        : 'Voir tous les professionnels ('+cards.length+')';
+
+      toggle.style.cssText=
+        'grid-column:1/-1;width:100%;padding:13px;background:#064b35;color:white;border:0;border-radius:10px;font-weight:800;font-size:14px;cursor:pointer;margin-top:8px;';
+
+      toggle.addEventListener('click',()=>{
+        expanded=!expanded;
+        renderProfessionalCards();
+      });
+
+      root.appendChild(toggle);
+    }
+  }
+
+  renderProfessionalCards();
 }
 document.getElementById('reviewForm').addEventListener('submit', async e=>{
   e.preventDefault();
